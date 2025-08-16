@@ -7,6 +7,12 @@ export {
   WideAuthLayout 
 } from './AuthLayoutVariants';
 export { LoginForm } from './LoginForm';
+export { RegisterForm } from './RegisterForm';
+export { ForgotPasswordForm } from './ForgotPasswordForm';
+export { ResetPasswordForm } from './ResetPasswordForm';
+export { ForgotPasswordForm } from './ForgotPasswordForm';
+export { ResetPasswordForm } from './ResetPasswordForm';
+export { AuthFormsShowcase } from './AuthFormsShowcase';
 export { LoginForm } from './LoginForm';
 export { LoginFormDemo } from './LoginFormDemo';
 export { LoginFormStatus } from './LoginFormStatus';

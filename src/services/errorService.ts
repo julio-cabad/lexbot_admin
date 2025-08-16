@@ -2,7 +2,7 @@ import { AuthErrorCode } from '../types';
 
 // Error logging service
 class ErrorService {
-  private isDevelopment = process.env.NODE_ENV === 'development';
+  private isDevelopment = import.meta.env.DEV;
 
   // Log error to console in development
   logError(error: Error, context?: string): void {

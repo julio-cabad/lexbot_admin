@@ -1,2 +1,58 @@
 @import "tailwindcss";
 @import "./styles/animations.css";
+
+/* Optimizaciones críticas para evitar parpadeo */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: linear-gradient(to bottom right, #581c87, #1e3a8a, #312e81);
+  min-height: 100vh;
+}
+
+/* Preload crítico del gradiente */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, #581c87, #1e3a8a, #312e81);
+  z-index: -1;
+}
+
+/* Evitar flash de contenido sin estilo */
+#root {
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* Optimización para transiciones */
+.transition-all,
+.transition-opacity,
+.transition-colors {
+  will-change: auto;
+}
+
+/* Evitar layout shift */
+.min-h-screen {
+  min-height: 100vh;
+  min-height: 100dvh; /* Para dispositivos móviles */
+}
+
+/* Optimización para backdrop-blur */
+.backdrop-blur-md {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* Preload de glassmorphism */
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}

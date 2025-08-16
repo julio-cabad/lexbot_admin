@@ -13,7 +13,7 @@ interface AuthLayoutProps {
  * Layout común para páginas de autenticación
  * Incluye gradiente de fondo, efectos glassmorphism y animaciones
  */
-export const AuthLayout: React.FC<AuthLayoutProps> = ({
+export const AuthLayout: React.FC<AuthLayoutProps> = React.memo(({
   children,
   title,
   subtitle,
@@ -21,7 +21,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
   className
 }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-transparent flex items-center justify-center p-4">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -35,10 +35,10 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
         className
       )}>
         {/* Glass card container */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/10 animate-fade-in">
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/10">
           {/* Logo section */}
           {showLogo && (
-            <div className="text-center mb-8 animate-slide-up">
+            <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-4 shadow-lg">
                 <svg
                   className="w-8 h-8 text-white"
@@ -64,7 +64,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
           )}
 
           {/* Header section */}
-          <div className="text-center mb-8 animate-slide-up animation-delay-200">
+          <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-white mb-2">
               {title}
             </h2>
@@ -76,12 +76,12 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
           </div>
 
           {/* Content section */}
-          <div className="animate-slide-up animation-delay-400">
+          <div>
             {children}
           </div>
 
           {/* Footer section */}
-          <div className="mt-8 pt-6 border-t border-white/10 text-center animate-fade-in animation-delay-600">
+          <div className="mt-8 pt-6 border-t border-white/10 text-center">
             <p className="text-gray-400 text-sm">
               © 2024 LexBot Admin. Todos los derechos reservados.
             </p>
@@ -96,4 +96,4 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
       </div>
     </div>
   );
-};
+});

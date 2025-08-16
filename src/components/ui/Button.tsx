@@ -1,13 +1,13 @@
-import React, { forwardRef } from 'react';
-import { cn } from '../../utils/classNames';
-import { ButtonVariant, ButtonSize } from '../../types';
+import React, { forwardRef } from "react";
+import { cn } from "../../utils/classNames";
+import { ButtonVariant, ButtonSize } from "../../types";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
   icon?: React.ReactNode;
-  iconPosition?: 'left' | 'right';
+  iconPosition?: "left" | "right";
   fullWidth?: boolean;
   children: React.ReactNode;
 }
@@ -18,11 +18,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant = 'primary',
-      size = 'md',
+      variant = "primary",
+      size = "md",
       loading = false,
       icon,
-      iconPosition = 'left',
+      iconPosition = "left",
       fullWidth = false,
       disabled,
       className,
@@ -32,25 +32,30 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     // Estilos base
-    const baseStyles = 'inline-flex items-center justify-center rounded-full font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden';
+    const baseStyles =
+      "inline-flex items-center justify-center rounded-full font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden";
 
     // Estilos por variante
     const variantStyles = {
-      primary: 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 focus:ring-purple-500',
-      secondary: 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 focus:ring-white/50',
-      ghost: 'text-cyan-400 hover:text-cyan-300 hover:bg-white/5 focus:ring-cyan-400',
-      danger: 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg hover:shadow-xl focus:ring-red-500'
+      primary:
+        "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 focus:ring-purple-500",
+      secondary:
+        "bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 focus:ring-white/50",
+      ghost:
+        "text-cyan-400 hover:text-cyan-300 hover:bg-white/5 focus:ring-cyan-400",
+      danger:
+        "bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg hover:shadow-xl focus:ring-red-500",
     };
 
     // Estilos por tamaño
     const sizeStyles = {
-      sm: 'px-4 py-2 text-sm',
-      md: 'px-6 py-3 text-base',
-      lg: 'px-8 py-4 text-lg'
+      sm: "px-4 py-2 text-sm",
+      md: "px-6 py-3 text-base",
+      lg: "px-8 py-4 text-lg",
     };
 
     // Estilos de ancho completo
-    const widthStyles = fullWidth ? 'w-full' : '';
+    const widthStyles = fullWidth ? "w-full" : "";
 
     // Combinar todas las clases
     const buttonClasses = cn(
@@ -97,7 +102,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       }
 
       if (icon) {
-        return iconPosition === 'left' ? (
+        return iconPosition === "left" ? (
           <>
             <span className="mr-2">{icon}</span>
             {children}
@@ -126,4 +131,4 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-Button.displayName = 'Button';
+Button.displayName = "Button";

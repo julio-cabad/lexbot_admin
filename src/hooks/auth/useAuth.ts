@@ -61,51 +61,45 @@ export const useAuth = () => {
   const registerSuccess = useAppSelector(selectRegisterSuccess);
   const logoutSuccess = useAppSelector(selectLogoutSuccess);
 
-  // Funciones de autenticación
+  // Funciones de autenticación memoizadas
   const login = useCallback(async (credentials: LoginCredentials) => {
-    const result = await dispatch(loginUser(credentials));
-    return result;
+    return await dispatch(loginUser(credentials));
   }, [dispatch]);
 
   const register = useCallback(async (userData: RegisterData) => {
-    const result = await dispatch(registerUser(userData));
-    return result;
+    return await dispatch(registerUser(userData));
   }, [dispatch]);
 
   const logout = useCallback(async () => {
-    const result = await dispatch(logoutUser());
-    return result;
+    return await dispatch(logoutUser());
   }, [dispatch]);
 
   const sendPasswordReset = useCallback(async (data: PasswordResetData) => {
-    const result = await dispatch(sendPasswordResetEmail(data));
-    return result;
+    return await dispatch(sendPasswordResetEmail(data));
   }, [dispatch]);
 
   const confirmPasswordResetAction = useCallback(async (data: NewPasswordData) => {
-    const result = await dispatch(confirmPasswordReset(data));
-    return result;
+    return await dispatch(confirmPasswordReset(data));
   }, [dispatch]);
 
   const updateProfile = useCallback(async (updates: { displayName?: string; photoURL?: string }) => {
-    const result = await dispatch(updateUserProfile(updates));
-    return result;
+    return await dispatch(updateUserProfile(updates));
   }, [dispatch]);
 
   const sendVerificationEmail = useCallback(async () => {
-    const result = await dispatch(sendEmailVerification());
-    return result;
+    return await dispatch(sendEmailVerification());
   }, [dispatch]);
 
   const refreshUser = useCallback(async () => {
-    const result = await dispatch(refreshUserData());
-    return result;
+    return await dispatch(refreshUserData());
   }, [dispatch]);
 
   const checkAuth = useCallback(async () => {
-    const result = await dispatch(checkAuthStatus());
-    return result;
-  }, [dispatch]);
+    // Solo ejecutar si no está inicializado
+    if (!isInitialized) {
+      return await dispatch(checkAuthStatus());
+    }
+  }, [dispatch, isInitialized]);
 
   // Funciones de limpieza
   const clearLoginError = useCallback(() => {

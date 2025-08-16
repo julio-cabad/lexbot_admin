@@ -55,14 +55,14 @@
   - Integrar con useAuth hook y manejar estados de loading
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6_
 
-- [ ] 10. Desarrollar componente RegisterForm
+- [x] 10. Desarrollar componente RegisterForm
   - Crear formulario de registro con todos los campos requeridos
   - Implementar validación de contraseñas coincidentes y fuerza de contraseña
   - Añadir componente PasswordStrengthMeter para indicar seguridad de contraseña
   - Integrar validación de términos y condiciones
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
 
-- [ ] 11. Desarrollar componente ForgotPasswordForm
+- [x] 11. Desarrollar componente ForgotPasswordForm
   - Crear formulario simple con campo de email para recuperación
   - Implementar validación de email y manejo de estados
   - Mostrar mensaje de confirmación cuando el email es enviado
