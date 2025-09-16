@@ -70,6 +70,13 @@ const authSlice = createSlice({
     
     // Reset auth state (for testing or complete reset)
     resetAuthState: () => initialAuthState,
+
+    // Set user and authentication state directly
+    setAuth: (state, action: PayloadAction<User | null>) => {
+      state.user = action.payload;
+      state.isAuthenticated = !!action.payload;
+      state.isInitialized = true;
+    },
   },
   
   extraReducers: (builder) => {
@@ -268,6 +275,7 @@ export const {
   updateSessionActivity,
   setGeneralError,
   resetAuthState,
+  setAuth,
 } = authSlice.actions;
 
 export default authSlice.reducer;

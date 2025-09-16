@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { toast, ToastOptions, Id } from "react-toastify";
 import { ToastType, ToastMessage } from "../../types";
 

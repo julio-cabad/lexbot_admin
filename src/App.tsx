@@ -1,25 +1,28 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { store } from './store';
+import { store, setAuth } from './store';
 import { useAuth } from './hooks/auth';
 import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from './pages/auth';
 import { Dashboard } from './pages/Dashboard';
 import { LoadingScreen } from './components/ui/LoadingScreen';
 import { ROUTES } from './utils/constants';
+import { authService } from './services';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Componente para manejar la autenticación
 const AuthWrapper: React.FC<{ children: React.ReactNode }> = React.memo(({ children }) => {
-  const { checkAuth, isInitialized } = useAuth();
+  const { isInitialized } = useAuth();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Solo verificar auth una vez al cargar la app
-    if (!isInitialized) {
-      checkAuth();
-    }
-  }, [checkAuth, isInitialized]);
+    const unsubscribe = authService.onAuthStateChange((user) => {
+      dispatch(setAuth(user));
+    });
+
+    return () => unsubscribe();
+  }, [dispatch]);
 
   // Mostrar loading mientras se verifica la autenticación
   if (!isInitialized) {

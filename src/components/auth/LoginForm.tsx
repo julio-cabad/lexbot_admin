@@ -7,6 +7,7 @@ import { ROUTES } from '../../utils/constants';
 
 interface LoginFormProps {
   onSuccess?: () => void;
+  onError?: (error: string | null) => void;
   showRememberMe?: boolean;
   showForgotPassword?: boolean;
   showRegisterLink?: boolean;
@@ -17,6 +18,7 @@ interface LoginFormProps {
  */
 export const LoginForm: React.FC<LoginFormProps> = ({
   onSuccess,
+  onError,
   showRememberMe = true,
   showForgotPassword = true,
   showRegisterLink = true
@@ -32,6 +34,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     handleSubmit,
     clearFormError
   } = useLoginForm(onSuccess);
+
+  // Notificar error al padre (LoginPage) para mostrar toast
+  React.useEffect(() => {
+    if (typeof onError === 'function') {
+      onError(formError || null);
+    }
+  }, [formError, onError]);
 
   // Limpiar errores cuando el usuario empiece a escribir
   const handleInputChange = (field: keyof typeof values) => (value: any) => {

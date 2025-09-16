@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useAuth } from "./useAuth";
 import { useForm } from "../forms";
-import { authService } from "../../services";
 import {
   LoginCredentials,
   RegisterData,
@@ -31,8 +31,8 @@ export const useAuthForm = <
   initialValues: T,
   onSuccess?: () => void
 ) => {
+  const auth = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
 
   // Configurar validación según el tipo de formulario
   const validateForm = useCallback(
@@ -72,56 +72,130 @@ export const useAuthForm = <
       if (isSubmitting) return;
 
       setIsSubmitting(true);
-      setFormError(null);
 
       try {
+        let result;
+
         switch (formType) {
           case "login":
-            await authService.login(values as LoginCredentials);
+            result = await auth.login(values as LoginCredentials);
             break;
           case "register":
-            await authService.register(values as RegisterData);
+            result = await auth.register(values as RegisterData);
             break;
           case "forgot-password":
-            await authService.sendPasswordResetEmail(
-              values as PasswordResetData
-            );
+            result = await auth.sendPasswordReset(values as PasswordResetData);
             break;
           case "reset-password":
-            await authService.confirmPasswordReset(values as NewPasswordData);
+            result = await auth.confirmPasswordReset(values as NewPasswordData);
             break;
           default:
             throw new Error(`Tipo de formulario no soportado: ${formType}`);
         }
 
-        if (onSuccess) {
+        // Si la operación fue exitosa, llamar callback de éxito
+        if (result.meta.requestStatus === "fulfilled" && onSuccess) {
           onSuccess();
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error(`Error en ${formType}:`, error);
-        setFormError(error.message || "Ocurrió un error inesperado.");
       } finally {
         setIsSubmitting(false);
       }
     },
-    [formType, isSubmitting, onSuccess]
+    [formType, auth, isSubmitting, onSuccess]
   );
 
-  const clearFormError = () => {
-    setFormError(null);
-  };
+  // Obtener error específico del tipo de formulario
+  const getFormError = useCallback(() => {
+    switch (formType) {
+      case "login":
+        return auth.loginError;
+      case "register":
+        return auth.registerError;
+      case "forgot-password":
+        return null; // Los errores de forgot password se manejan en el componente
+      case "reset-password":
+        return null; // Los errores de reset password se manejan en el componente
+      default:
+        return null;
+    }
+  }, [formType, auth]);
+
+  // Obtener estado de loading específico del tipo de formulario
+  const getFormLoading = useCallback(() => {
+    switch (formType) {
+      case "login":
+        return auth.isLoginLoading;
+      case "register":
+        return auth.isRegisterLoading;
+      case "forgot-password":
+        return false; // Se maneja localmente
+      case "reset-password":
+        return false; // Se maneja localmente
+      default:
+        return false;
+    }
+  }, [formType, auth]);
+
+  // Obtener estado de éxito específico del tipo de formulario
+  const getFormSuccess = useCallback(() => {
+    switch (formType) {
+      case "login":
+        return auth.loginSuccess;
+      case "register":
+        return auth.registerSuccess;
+      case "forgot-password":
+        return false; // Se maneja localmente
+      case "reset-password":
+        return false; // Se maneja localmente
+      default:
+        return false;
+    }
+  }, [formType, auth]);
+
+  // Limpiar errores cuando el componente se desmonta o cambia el tipo
+  useEffect(() => {
+    return () => {
+      switch (formType) {
+        case "login":
+          auth.clearLoginError();
+          break;
+        case "register":
+          auth.clearRegisterError();
+          break;
+      }
+    };
+  }, [formType, auth]);
+
+  // Función para limpiar errores manualmente
+  const clearFormError = useCallback(() => {
+    switch (formType) {
+      case "login":
+        auth.clearLoginError();
+        break;
+      case "register":
+        auth.clearRegisterError();
+        break;
+    }
+  }, [formType, auth]);
 
   return {
     // Propiedades del formulario
     ...form,
 
     // Estados específicos del formulario de auth
-    isSubmitting,
-    formError,
+    isSubmitting: isSubmitting || getFormLoading(),
+    formError: getFormError(),
+    formSuccess: getFormSuccess(),
 
     // Funciones
     handleSubmit: form.handleSubmit(handleSubmit),
     clearFormError,
+
+    // Datos del usuario (útil para formularios que necesitan mostrar info del usuario)
+    user: auth.user,
+    isAuthenticated: auth.isAuthenticated,
   };
 };
 
