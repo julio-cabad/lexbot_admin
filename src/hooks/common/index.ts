@@ -1,4 +1,5 @@
 // Export all common hooks
+export { useAccessibility, useFormAccessibility } from './useAccessibility';
 export { useAppDispatch, useAppSelector } from './useRedux';
 export { useDebounce } from './useDebounce';
 export { useLocalStorage } from './useLocalStorage';

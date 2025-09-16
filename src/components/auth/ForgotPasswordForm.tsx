@@ -153,13 +153,39 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleFormSubmit} className="space-y-6">
-      {/* Descripción */}
-      <div className="text-center space-y-2 mb-6">
-        <p className="text-gray-300 text-sm">
-          Ingresa tu email y te enviaremos un enlace para restablecer tu
-          contraseña.
-        </p>
+    <form
+      onSubmit={handleFormSubmit}
+      className="space-y-6 sm:space-y-7 md:space-y-8"
+      role="form"
+      aria-label="Formulario de recuperación de contraseña"
+    >
+      {/* Descripción - accesibilidad mejorada */}
+      <div className="text-center space-y-3 mb-6 sm:mb-8">
+        <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 bg-cyan-500/20 rounded-full flex items-center justify-center">
+          <svg
+            className="w-6 h-6 sm:w-8 sm:h-8 text-cyan-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
+          </svg>
+        </div>
+        <div>
+          <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">
+            Recuperar contraseña
+          </h2>
+          <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
+            Ingresa tu dirección de correo electrónico y te enviaremos un enlace
+            seguro para restablecer tu contraseña.
+          </p>
+        </div>
       </div>
 
       {/* Error general */}
@@ -184,22 +210,29 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         </div>
       )}
 
-      {/* Campo Email */}
+      {/* Campo Email - accesibilidad mejorada */}
       <Input
-        label="Email"
+        label="Dirección de correo electrónico"
         inputType="email"
-        placeholder="tu@email.com"
+        placeholder="ejemplo@correo.com"
         value={values.email}
         onChange={(e) => handleChange("email")(e.target.value)}
         onBlur={handleBlur("email")}
         error={touched.email ? errors.email : undefined}
         disabled={isLoading}
+        required
+        autoComplete="email"
+        aria-describedby={
+          touched.email && errors.email ? "email-error" : "email-help"
+        }
+        helperText="Ingresa el email asociado a tu cuenta"
         leftIcon={
           <svg
             className="w-5 h-5"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -223,18 +256,19 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         {isLoading ? "Enviando..." : "Enviar Email de Recuperación"}
       </Button>
 
-      {/* Link para volver al login */}
+      {/* Link para volver al login - accesibilidad mejorada */}
       {showBackToLogin && (
-        <div className="text-center pt-4 border-t border-white/10">
-          <span className="text-gray-400 text-sm">
+        <div className="text-center pt-6 sm:pt-4 border-t border-white/10">
+          <p className="text-gray-400 text-sm sm:text-base">
             ¿Recordaste tu contraseña?{" "}
-          </span>
-          <Link
-            to={ROUTES.LOGIN}
-            className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium"
-          >
-            Volver al login
-          </Link>
+            <Link
+              to={ROUTES.LOGIN}
+              className="text-cyan-400 hover:text-cyan-300 focus:text-cyan-300 transition-colors font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1 py-1"
+              aria-label="Volver a la página de inicio de sesión"
+            >
+              Volver al login
+            </Link>
+          </p>
         </div>
       )}
     </form>

@@ -12,6 +12,7 @@ interface AuthLayoutProps {
 /**
  * Layout común para páginas de autenticación
  * Incluye gradiente de fondo, efectos glassmorphism y animaciones
+ * Optimizado para responsive design y accesibilidad
  */
 export const AuthLayout: React.FC<AuthLayoutProps> = React.memo(({
   children,
@@ -21,7 +22,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = React.memo(({
   className
 }) => {
   return (
-    <div className="min-h-screen bg-transparent flex items-center justify-center p-4">
+    <div className="min-h-screen bg-transparent flex items-center justify-center p-3 sm:p-4 md:p-6" role="main">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -31,20 +32,21 @@ export const AuthLayout: React.FC<AuthLayoutProps> = React.memo(({
 
       {/* Main content container */}
       <div className={cn(
-        "relative w-full max-w-md mx-auto",
+        "relative w-full max-w-sm sm:max-w-md mx-auto",
         className
       )}>
         {/* Glass card container */}
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/10">
+        <div className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-6 sm:p-8 shadow-2xl border border-white/10" role="dialog" aria-labelledby="auth-title">
           {/* Logo section */}
           {showLogo && (
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-4 shadow-lg">
+            <div className="text-center mb-6 sm:mb-8">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-3 sm:mb-4 shadow-lg">
                 <svg
-                  className="w-8 h-8 text-white"
+                  className="w-6 h-6 sm:w-8 sm:h-8 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
+                  aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
@@ -54,10 +56,10 @@ export const AuthLayout: React.FC<AuthLayoutProps> = React.memo(({
                   />
                 </svg>
               </div>
-              <h1 className="text-2xl font-bold text-white mb-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">
                 LexBot Admin
               </h1>
-              <p className="text-gray-300 text-sm">
+              <p className="text-gray-300 text-xs sm:text-sm">
                 Sistema de Administración
               </p>
             </div>

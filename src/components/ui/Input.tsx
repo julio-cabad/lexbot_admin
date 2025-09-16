@@ -14,7 +14,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 /**
- * Componente Input reutilizable con estilos glassmorphism
+ * Componente Input reutilizable con estilos glassmorphism y accesibilidad optimizada
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -29,12 +29,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       fullWidth = true,
       className,
       disabled,
+      id,
       ...props
     },
     ref
   ) => {
     const [showPassword, setShowPassword] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
+    
+    // Generar ID único si no se proporciona
+    const inputId = id || `input-${Math.random().toString(36).substring(2, 11)}`;
+    const errorId = `${inputId}-error`;
+    const helperId = `${inputId}-helper`;
 
     // Determinar el tipo de input
     const type = inputType === "password" && showPassword ? "text" : inputType;
@@ -51,12 +57,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       ? "bg-white/10 backdrop-blur-md border-red-400 text-white focus:border-red-400 focus:ring-red-400/20"
       : "bg-white/10 backdrop-blur-md border-white/20 text-white focus:border-cyan-400 focus:ring-cyan-400/20";
 
-    // Estilos de padding considerando iconos
+    // Estilos de padding considerando iconos - responsive mejorado
     const paddingStyles = cn(
-      "px-4 py-3",
-      leftIcon ? "pl-12" : "",
+      "px-3 py-3 sm:px-4 sm:py-3 md:px-5 md:py-4", // Padding escalado para diferentes pantallas
+      leftIcon ? "pl-10 sm:pl-12 md:pl-14" : "",
       rightIcon || (inputType === "password" && showPasswordToggle)
-        ? "pr-12"
+        ? "pr-10 sm:pr-12 md:pr-14"
         : ""
     );
 
@@ -69,19 +75,23 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       className
     );
 
-    // Estilos del label
+    // Estilos del label - responsive y accesible mejorado
     const labelStyles = cn(
-      "block text-sm font-medium mb-2 transition-colors duration-200",
-      error ? "text-red-400" : isFocused ? "text-cyan-400" : "text-gray-200"
+      "block text-sm sm:text-base md:text-lg font-medium mb-2 sm:mb-2 md:mb-3 transition-colors duration-200",
+      error ? "text-red-400" : isFocused ? "text-cyan-400" : "text-gray-200",
+      disabled && "opacity-50"
     );
 
-    // Icono de toggle de contraseña
+    // Icono de toggle de contraseña - accesibilidad mejorada
     const PasswordToggleIcon = () => (
       <button
         type="button"
-        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+        className="absolute right-2 sm:right-3 md:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white focus:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-md p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-white/10 focus:bg-white/10"
         onClick={() => setShowPassword(!showPassword)}
-        tabIndex={-1}
+        aria-label={showPassword ? "Ocultar contraseña. Actualmente visible." : "Mostrar contraseña. Actualmente oculta."}
+        aria-pressed={showPassword}
+        tabIndex={0}
+        title={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
       >
         {showPassword ? (
           <svg
@@ -124,32 +134,47 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={containerStyles}>
         {/* Label */}
-        {label && <label className={labelStyles}>{label}</label>}
+        {label && (
+          <label htmlFor={inputId} className={labelStyles}>
+            {label}
+            {props.required && <span className="text-red-400 ml-1" aria-label="requerido">*</span>}
+          </label>
+        )}
 
         {/* Input Container */}
         <div className="relative">
           {/* Left Icon */}
           {leftIcon && (
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-              {leftIcon}
+            <div className="absolute left-2 sm:left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" aria-hidden="true">
+              <div className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center">
+                {leftIcon}
+              </div>
             </div>
           )}
 
           {/* Input */}
           <input
             ref={ref}
+            id={inputId}
             type={type}
             className={inputStyles}
             disabled={disabled}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            aria-invalid={error ? 'true' : 'false'}
+            aria-describedby={cn(
+              error && errorId,
+              helperText && helperId
+            ).trim() || undefined}
             {...props}
           />
 
           {/* Right Icon */}
           {rightIcon && !showPasswordToggle && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-              {rightIcon}
+            <div className="absolute right-2 sm:right-3 md:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" aria-hidden="true">
+              <div className="w-5 h-5 sm:w-5 sm:h-5 md:w-6 md:h-6 flex items-center justify-center">
+                {rightIcon}
+              </div>
             </div>
           )}
 
@@ -159,15 +184,29 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
 
-        {/* Helper Text or Error */}
-        {(error || helperText) && (
+        {/* Helper Text or Error - responsive mejorado */}
+        {error && (
           <p
-            className={cn(
-              "text-sm mt-1",
-              error ? "text-red-400" : "text-gray-400"
-            )}
+            id={errorId}
+            className="text-sm sm:text-base md:text-base mt-2 text-red-400 flex items-start gap-2"
+            role="alert"
+            aria-live="polite"
           >
-            {error || helperText}
+            <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{error}</span>
+          </p>
+        )}
+        {helperText && !error && (
+          <p
+            id={helperId}
+            className="text-xs sm:text-sm md:text-base mt-2 text-gray-400 flex items-start gap-2"
+          >
+            <svg className="w-4 h-4 mt-0.5 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{helperText}</span>
           </p>
         )}
       </div>
