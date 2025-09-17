@@ -45,7 +45,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="space-y-6 sm:space-y-7 md:space-y-8"
+      className="space-y-6 sm:space-y-7 md:space-y-8 auth-form"
       role="form"
       aria-label="Formulario de registro de nueva cuenta"
     >
@@ -159,38 +159,43 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       {/* Checkbox Términos y Condiciones - accesibilidad mejorada */}
       <div className="space-y-4">
         <fieldset className="border border-white/10 rounded-lg p-4 sm:p-5">
-          <legend className="text-sm sm:text-base font-medium text-gray-200 px-2">
+          <legend className="text-base font-medium text-white px-2">
             Términos y condiciones
           </legend>
-          <label className="flex items-start cursor-pointer group focus-within:ring-2 focus-within:ring-cyan-400 focus-within:ring-offset-2 focus-within:ring-offset-transparent rounded-md p-2 -m-2">
-            <div className="relative mt-1">
-              <input
-                type="checkbox"
-                checked={values.acceptTerms}
-                onChange={(e) => handleChange('acceptTerms')(e.target.checked)}
-                disabled={isSubmitting}
-                required
-                className="sr-only"
-                aria-describedby="terms-description terms-error"
-              />
-              <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded border-2 transition-all duration-200 ${
-                values.acceptTerms 
-                  ? 'bg-purple-500 border-purple-500' 
-                  : 'bg-white/10 border-white/20 group-hover:border-white/40 group-focus-within:border-cyan-400'
-              }`}>
-                {values.acceptTerms && (
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white absolute top-0.5 left-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-              </div>
+          <div className="flex flex-row items center">
+            {/* Checkbox en su propio contenedor */}
+            <div className="flex justify-center">
+              <label className="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={values.acceptTerms}
+                  onChange={(e) => handleChange('acceptTerms')(e.target.checked)}
+                  disabled={isSubmitting}
+                  required
+                  className="sr-only"
+                  aria-describedby="terms-description terms-error"
+                />
+                <div className={`w-5 h-5 rounded border transition-all duration-200 ${
+                  values.acceptTerms 
+                    ? 'bg-purple-500 border-purple-500' 
+                    : 'bg-white/10 border-white/20 hover:border-white/40'
+                }`}>
+                  {values.acceptTerms && (
+                    <svg className="w-3 h-3 text-white absolute top-1 left-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </div>
+              </label>
             </div>
-            <div className="ml-3 sm:ml-4">
-              <span id="terms-description" className="text-sm sm:text-base text-gray-300 group-hover:text-white transition-colors">
+            
+            {/* Texto en su propio contenedor */}
+            <div className="ml-2">
+              <span id="terms-description" className="text-base text-white">
                 Acepto los{' '}
                 <button
                   type="button"
-                  className="text-cyan-400 hover:text-cyan-300 focus:text-cyan-300 transition-colors font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1"
+                  className="text-cyan-400 hover:text-cyan-300 focus:text-cyan-300 transition-colors underline hover:no-underline"
                   aria-label="Abrir términos y condiciones en nueva ventana"
                 >
                   términos y condiciones
@@ -198,22 +203,21 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 {' '}y la{' '}
                 <button
                   type="button"
-                  className="text-cyan-400 hover:text-cyan-300 focus:text-cyan-300 transition-colors font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1"
+                  className="text-cyan-400 hover:text-cyan-300 focus:text-cyan-300 transition-colors underline hover:no-underline"
                   aria-label="Abrir política de privacidad en nueva ventana"
                 >
                   política de privacidad
                 </button>
               </span>
-              {touched.acceptTerms && errors.acceptTerms && (
-                <p id="terms-error" className="text-red-400 text-xs sm:text-sm mt-2 flex items-start gap-2" role="alert">
-                  <svg className="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>{errors.acceptTerms}</span>
-                </p>
-              )}
             </div>
-          </label>
+            
+            {/* Mensaje de error */}
+            {touched.acceptTerms && errors.acceptTerms && (
+              <p id="terms-error" className="text-red-400 text-xs text-center mt-1" role="alert">
+                {errors.acceptTerms}
+              </p>
+            )}
+          </div>
         </fieldset>
       </div>
 

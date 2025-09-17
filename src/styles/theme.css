@@ -1,0 +1,266 @@
+/**
+ * Estilos base para el sistema de temas
+ * Este archivo define las variables CSS y estilos base para todos los temas
+ */
+
+:root {
+  /* Variables por defecto que serán sobrescritas por el ThemeProvider */
+  --color-primary: #3b82f6;
+  --color-secondary: #6366f1;
+  --color-accent: #8b5cf6;
+  
+  --color-textPrimary: #f8fafc;
+  --color-textSecondary: #cbd5e1;
+  --color-textMuted: #94a3b8;
+  --color-textInverted: #0f172a;
+  
+  --color-background: rgba(15, 23, 42, 0.6);
+  --color-backgroundAlt: rgba(30, 41, 59, 0.6);
+  --color-backgroundInverted: rgba(248, 250, 252, 0.8);
+  
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #06b6d4;
+  
+  --color-border: rgba(255, 255, 255, 0.2);
+  --color-borderLight: rgba(255, 255, 255, 0.1);
+  --color-borderFocus: rgba(59, 130, 246, 0.5);
+  
+  --color-shadow: rgba(0, 0, 0, 0.25);
+  --color-shadowLight: rgba(0, 0, 0, 0.1);
+  
+  --typography-fontFamily: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --typography-fontFamilyMono: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, Consolas, monospace;
+  --typography-baseFontSize: 16px;
+  --typography-baseLineHeight: 1.5;
+  --typography-fontWeightLight: 300;
+  --typography-fontWeightRegular: 400;
+  --typography-fontWeightMedium: 500;
+  --typography-fontWeightBold: 700;
+  --typography-h1: 2.5rem;
+  --typography-h2: 2rem;
+  --typography-h3: 1.75rem;
+  --typography-h4: 1.5rem;
+  --typography-h5: 1.25rem;
+  --typography-h6: 1rem;
+  --typography-body: 1rem;
+  --typography-small: 0.875rem;
+  --typography-smaller: 0.75rem;
+  
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+  
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-full: 9999px;
+  
+  --transition-fast: all 0.15s ease-in-out;
+  --transition-normal: all 0.3s ease-in-out;
+  --transition-slow: all 0.5s ease-in-out;
+}
+
+/* Estilos base para el cuerpo del documento - solo aplicar cuando se active el tema */
+body.theme-enabled {
+  font-family: var(--typography-fontFamily);
+  font-size: var(--typography-baseFontSize);
+  line-height: var(--typography-baseLineHeight);
+  color: var(--color-textPrimary);
+  background-color: var(--color-background);
+  transition: var(--transition-normal);
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilos para encabezados */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-md);
+  font-weight: var(--typography-fontWeightBold);
+  line-height: 1.2;
+}
+
+h1 { font-size: var(--typography-h1); }
+h2 { font-size: var(--typography-h2); }
+h3 { font-size: var(--typography-h3); }
+h4 { font-size: var(--typography-h4); }
+h5 { font-size: var(--typography-h5); }
+h6 { font-size: var(--typography-h6); }
+
+/* Estilos para enlaces - solo para nuevos componentes */
+.theme-link,
+a.theme-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.theme-link:hover,
+a.theme-link:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* Estilos para botones - solo para nuevos componentes */
+.theme-button,
+button.theme-button {
+  font-family: var(--typography-fontFamily);
+  font-size: var(--typography-body);
+  font-weight: var(--typography-fontWeightMedium);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-backgroundAlt);
+  color: var(--color-textPrimary);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.theme-button:hover,
+button.theme-button:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.theme-button:focus,
+button.theme-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-borderFocus);
+}
+
+/* Estilos para inputs - solo para nuevos componentes */
+.theme-input input, 
+.theme-input select, 
+.theme-input textarea {
+  font-family: var(--typography-fontFamily);
+  font-size: var(--typography-body);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-backgroundAlt);
+  color: var(--color-textPrimary);
+  transition: var(--transition-fast);
+}
+
+.theme-input input:focus, 
+.theme-input select:focus, 
+.theme-input textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-borderFocus);
+}
+
+/* Estilos para el cambiador de temas */
+.theme-switcher {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.theme-switcher--dropdown select {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-backgroundAlt);
+  color: var(--color-textPrimary);
+  border: 1px solid var(--color-border);
+}
+
+.theme-switcher--buttons .theme-switcher__buttons {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.theme-switcher--buttons .theme-button {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--typography-small);
+}
+
+.theme-switcher--buttons .theme-button.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.theme-switcher--toggle .theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: transparent;
+  border: none;
+  color: var(--color-textPrimary);
+}
+
+.dark-mode-toggle {
+  background-color: transparent;
+  border: none;
+  color: var(--color-textPrimary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-full);
+  transition: var(--transition-fast);
+}
+
+.dark-mode-toggle:hover {
+  background-color: var(--color-backgroundAlt);
+}
+
+/* Estilos específicos para el tema glassmorphism */
+html.glassmorphism {
+  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+html.glassmorphism body {
+  background-color: transparent;
+}
+
+html.glassmorphism .glass {
+  background: var(--color-backgroundAlt);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 32px 0 var(--color-shadow);
+}
+
+/* Estilos específicos para el tema corporate */
+html.corporate {
+  background-color: #f8fafc;
+}
+
+html.corporate .card {
+  background-color: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 3px 0 var(--color-shadowLight), 0 1px 2px 0 var(--color-shadowLight);
+}
+
+/* Estilos específicos para el tema dark */
+html.dark {
+  background-color: #0f172a;
+}
+
+html.dark .card {
+  background-color: var(--color-backgroundAlt);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+/* Estilos específicos para el tema light */
+html.light {
+  background-color: #f8fafc;
+}
+
+html.light .card {
+  background-color: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 3px 0 var(--color-shadowLight);
+}

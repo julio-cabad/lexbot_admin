@@ -1,0 +1,211 @@
+/**
+ * Estilos específicos para los formularios de autenticación
+ * Estos estilos aseguran que los formularios de login y registro
+ * mantengan su apariencia original
+ */
+
+/* Contenedor del formulario */
+.auth-form-container {
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Campos de formulario */
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.auth-form input:focus {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+  outline: none;
+}
+
+.auth-form input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Etiquetas de formulario */
+.auth-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: white;
+  font-size: 1.125rem;
+}
+
+.auth-form label .required {
+  color: #f87171;
+  margin-left: 0.25rem;
+}
+
+/* Contenedor de iconos */
+.auth-form .input-icon-container {
+  position: relative;
+}
+
+.auth-form .input-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+}
+
+/* Botón de mostrar/ocultar contraseña */
+.auth-form .password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-form .password-toggle:hover {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Checkbox personalizado */
+.auth-form .checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.auth-form .custom-checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-form .custom-checkbox.checked {
+  background-color: #8b5cf6;
+  border-color: #8b5cf6;
+}
+
+.auth-form .custom-checkbox.checked::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+/* Enlaces de políticas */
+.auth-form .policy-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.auth-form .policy-link {
+  color: white;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.auth-form .policy-link:hover {
+  color: #93c5fd;
+}
+
+/* Botón de envío */
+.auth-form .submit-button {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(to right, #8b5cf6, #ec4899);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+}
+
+.auth-form .submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.auth-form .submit-button:active {
+  transform: translateY(0);
+}
+
+/* Espaciado entre campos */
+.auth-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+/* Mensajes de error */
+.auth-form .error-message {
+  color: #f87171;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.auth-form .error-message svg {
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Términos y condiciones */
+.auth-form .terms-container {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+
+.auth-form .terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+}
+
+.auth-form .terms-checkbox input {
+  margin-top: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+.auth-form .terms-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}

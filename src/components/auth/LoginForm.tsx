@@ -19,7 +19,6 @@ interface LoginFormProps {
 export const LoginForm: React.FC<LoginFormProps> = ({
   onSuccess,
   onError,
-  showRememberMe = true,
   showForgotPassword = true,
   showRegisterLink = true
 }) => {
@@ -53,7 +52,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="space-y-6 sm:space-y-7 md:space-y-8" 
+      className="space-y-6 sm:space-y-7 md:space-y-8 auth-form" 
       noValidate
       role="form"
       aria-label="Formulario de inicio de sesión"
@@ -126,39 +125,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       />
 
       {/* Opciones adicionales - responsive y accesibilidad mejorada */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4 sm:gap-2">
         {/* Checkbox Recordarme */}
-        {showRememberMe && (
-          <label className="flex items-center cursor-pointer group focus-within:ring-2 focus-within:ring-cyan-400 focus-within:ring-offset-2 focus-within:ring-offset-transparent rounded-md p-1 -m-1">
-            <div className="relative">
-              <input
-                type="checkbox"
-                checked={values.rememberMe}
-                onChange={(e) => handleChange('rememberMe')(e.target.checked)}
-                disabled={isSubmitting}
-                className="sr-only"
-                aria-describedby="remember-me-description"
-              />
-              <div className={`w-5 h-5 sm:w-4 sm:h-4 rounded border-2 transition-all duration-200 ${
-                values.rememberMe 
-                  ? 'bg-purple-500 border-purple-500' 
-                  : 'bg-white/10 border-white/20 group-hover:border-white/40 group-focus-within:border-cyan-400'
-              }`}>
-                {values.rememberMe && (
-                  <svg className="w-4 h-4 sm:w-3 sm:h-3 text-white absolute top-0.5 left-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-              </div>
-            </div>
-            <span className="ml-3 sm:ml-2 text-sm sm:text-sm text-gray-300 group-hover:text-white transition-colors">
-              Mantener sesión iniciada
-            </span>
-            <span id="remember-me-description" className="sr-only">
-              Mantener la sesión activa por 30 días en este dispositivo
-            </span>
-          </label>
-        )}
+  
         
         {/* Link Olvidé mi contraseña */}
         {showForgotPassword && (

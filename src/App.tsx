@@ -9,6 +9,8 @@ import { Dashboard } from './pages/Dashboard';
 import { LoadingScreen } from './components/ui/LoadingScreen';
 import { ROUTES } from './utils/constants';
 import { authService } from './services';
+import { ThemeManager } from './core/providers/ThemeProvider';
+import { DEFAULT_THEME } from './config/theme';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Componente para manejar la autenticación
@@ -48,26 +50,28 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = React.memo(({ ch
 function App() {
   return (
     <Provider store={store}>
-      <Router>
-        <AuthWrapper>
-          <AppRoutes />
-        </AuthWrapper>
-        
-        {/* Toast notifications */}
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-          toastClassName="bg-white/10 backdrop-blur-md border border-white/20"
-        />
-      </Router>
+      <ThemeManager initialTheme={DEFAULT_THEME}>
+        <Router>
+          <AuthWrapper>
+            <AppRoutes />
+          </AuthWrapper>
+          
+          {/* Toast notifications */}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+            toastClassName="bg-white/10 backdrop-blur-md border border-white/20"
+          />
+        </Router>
+      </ThemeManager>
     </Provider>
   );
 }
