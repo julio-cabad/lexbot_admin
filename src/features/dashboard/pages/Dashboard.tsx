@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useAuth } from "../hooks/auth";
-import { Button } from "../components/ui/Button";
-import { AuthFlowDemo } from "../components/auth/AuthFlowDemo";
-import { useTexts } from "../core/hooks/useTexts";
+import { useAuth } from "../../../hooks/auth";
+import { Button } from "../../../components/ui/Button";
+import { AuthFlowDemo } from "../../auth/components/AuthFlowDemo";
+import { useTexts } from "../../../core/hooks/useTexts";
 
 /**
  * Página temporal del dashboard para testing

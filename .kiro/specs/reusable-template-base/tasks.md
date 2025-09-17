@@ -80,35 +80,35 @@
   - _Requisitos: 4.2, 10.1, 10.3_
 
 ## Prioridad Media (Migración de Componentes)
-- [ ] 4.1 Refactorizar componente de Dashboard
+- [X] 4.1 Refactorizar componente de Dashboard
   - Actualizar src/pages/Dashboard.tsx para importar y usar el hook useTexts
   - Reemplazar todas las cadenas de texto codificadas en español con referencias de texto centralizadas
   - Implementar interpolación de variables para contenido dinámico como saludos de usuario
   - Asegurarse de que toda la funcionalidad y estilo existentes permanezcan sin cambios
   - _Requisitos: 7.1, 7.4, 10.1, 10.2_
 
-- [ ] 5.1 Migrar componente LoginForm
+- [X] 5.1 Migrar componente LoginForm
   - Actualizar src/components/auth/LoginForm.tsx para usar el hook useTexts
   - Reemplazar etiquetas, placeholders y textos de botones codificados con referencias de texto centralizadas
   - Mantener toda la validación y funcionalidad existentes
   - Asegurarse de que la experiencia del usuario y la accesibilidad del formulario permanezcan sin cambios
   - _Requisitos: 7.2, 7.4, 10.1, 10.2_
 
-- [ ] 5.2 Migrar páginas de autenticación
+- [X] 5.2 Migrar páginas de autenticación
   - Actualizar LoginPage, RegisterPage, ForgotPasswordPage y ResetPasswordPage
   - Reemplazar títulos y subtítulos codificados con referencias de texto centralizadas
   - Actualizar el uso de AuthLayout para trabajar con el nuevo sistema de textos
   - Mantener toda la funcionalidad y enrutamiento existentes
   - _Requisitos: 7.3, 7.4, 10.1, 10.2_
 
-- [ ] 6.1 Crear estructura de funcionalidad de autenticación
+- [X] 6.1 Crear estructura de funcionalidad de autenticación
   - Crear directorio src/features/auth/ con subdirectorios components/, hooks/, pages/ y types/
   - Mover componentes de autenticación de src/components/auth/ a src/features/auth/components/
   - Mover páginas de autenticación de src/pages/auth/ a src/features/auth/pages/
   - Actualizar todas las declaraciones de importación para reflejar la nueva estructura
   - _Requisitos: 4.4, 7.2, 10.3_
 
-- [ ] 6.2 Crear estructura de funcionalidad de dashboard
+- [X] 6.2 Crear estructura de funcionalidad de dashboard
   - Crear directorio src/features/dashboard/ con subdirectorios apropiados
   - Mover componente de Dashboard a src/features/dashboard/pages/
   - Mover componentes relacionados con el dashboard a src/features/dashboard/components/

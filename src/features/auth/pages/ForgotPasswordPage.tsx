@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthLayout } from '../../components/auth/AuthLayout';
-import { ForgotPasswordForm } from '../../components/auth/ForgotPasswordForm';
-import { useAuth } from '../../hooks/auth';
-import { ROUTES } from '../../utils/constants';
-import { useTexts } from '../../core/hooks/useTexts';
+import { AuthLayout } from '../components/AuthLayout';
+import { ForgotPasswordForm } from '../components/ForgotPasswordForm';
+import { useAuth } from '../../../hooks/auth';
+import { ROUTES } from '../../../utils/constants';
+import { useTexts } from '../../../core/hooks/useTexts';
 
 /**
  * Página de recuperación de contraseña

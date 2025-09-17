@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthLayout } from "../../components/auth/AuthLayout";
-import { LoginForm } from "../../components/auth/LoginForm";
-import { useAuth } from "../../hooks/auth";
-import { useAuthFeedback } from "../../hooks/auth/useAuthFeedback";
-import { ROUTES } from "../../utils/constants";
-import { useTexts } from "../../core/hooks/useTexts";
+import { AuthLayout } from "../components/AuthLayout";
+import { LoginForm } from "../components/LoginForm";
+import { useAuth } from "../../../hooks/auth";
+import { useAuthFeedback } from "../../../hooks/auth/useAuthFeedback";
+import { ROUTES } from "../../../utils/constants";
+import { useTexts } from "../../../core/hooks/useTexts";
 
 /**
  * Página de inicio de sesión

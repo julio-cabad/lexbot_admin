@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthLayout } from "../../components/auth/AuthLayout";
-import { RegisterForm } from "../../components/auth/RegisterForm";
-import { useAuth } from "../../hooks/auth";
-import { useToast } from "../../hooks/ui";
-import { ROUTES } from "../../utils/constants";
-import { useTexts } from "../../core/hooks/useTexts";
+import { AuthLayout } from "../components/AuthLayout";
+import { RegisterForm } from "../components/RegisterForm";
+import { useAuth } from "../../../hooks/auth";
+import { useToast } from "../../../hooks/ui";
+import { ROUTES } from "../../../utils/constants";
+import { useTexts } from "../../../core/hooks/useTexts";
 
 /**
  * Página de registro de nuevos usuarios

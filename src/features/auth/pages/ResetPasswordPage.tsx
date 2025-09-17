@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { AuthLayout } from '../../components/auth/AuthLayout';
-import { ResetPasswordForm } from '../../components/auth/ResetPasswordForm';
-import { useAuth } from '../../hooks/auth';
-import { ROUTES } from '../../utils/constants';
-import { useTexts } from '../../core/hooks/useTexts';
+import { AuthLayout } from '../components/AuthLayout';
+import { ResetPasswordForm } from '../components/ResetPasswordForm';
+import { useAuth } from '../../../hooks/auth';
+import { ROUTES } from '../../../utils/constants';
+import { useTexts } from '../../../core/hooks/useTexts';
 
 /**
  * Página para establecer nueva contraseña
