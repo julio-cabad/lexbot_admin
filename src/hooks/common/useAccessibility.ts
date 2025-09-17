@@ -1,11 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
-import { 
-  announceToScreenReader, 
-  manageFocus, 
-  prefersReducedMotion, 
-  prefersHighContrast,
-  getPreferredColorScheme 
-} from '../../utils/accessibility';
+import { announceToScreenReader, manageFocus, prefersReducedMotion, prefersHighContrast, getPreferredColorScheme } from '../../core/utils';
+
 
 interface UseAccessibilityOptions {
   announcePageChanges?: boolean;

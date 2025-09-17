@@ -1,5 +1,6 @@
 import React from 'react';
-import { cn } from '../../utils/classNames';
+import { cn } from '../../../core/utils';
+
 
 interface LoginFormStatusProps {
   isValid: boolean;
@@ -15,7 +16,6 @@ interface LoginFormStatusProps {
  * Componente para mostrar el estado del formulario de login
  */
 export const LoginFormStatus: React.FC<LoginFormStatusProps> = ({
-  isValid,
   isSubmitting,
   loginAttempts = 0,
   maxAttempts = 5,

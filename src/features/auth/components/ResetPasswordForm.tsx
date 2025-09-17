@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
-import { PasswordStrengthMeter } from '../ui/PasswordStrengthMeter';
-import { useResetPasswordForm } from '../../hooks/auth';
-import { usePasswordStrength } from '../../hooks/auth';
-import { useToast } from '../../hooks/ui';
-import { ROUTES } from '../../utils/constants';
+import { Button } from '../../../components/ui/Button';
+import { Input } from '../../../components/ui/Input';
+import { PasswordStrengthMeter } from '../../../components/ui/PasswordStrengthMeter';
+import { useResetPasswordForm, usePasswordStrength } from '../hooks';
+import { useToast } from '../../../hooks/ui';
+import { PATHS } from '../../../config/routes';
 
 interface ResetPasswordFormProps {
   code: string;
@@ -32,14 +31,13 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
     touched,
     handleChange,
     handleBlur,
-    handleSubmit,
   } = useResetPasswordForm(code);
 
   // Hook para evaluar la fuerza de la contraseña
   const passwordStrength = usePasswordStrength(values.newPassword);
 
   // Manejar envío del formulario
-  const onSubmit = async (formValues: typeof values) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     setError(null);
 
@@ -57,7 +55,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
 
       // Redirigir al login después de 3 segundos
       setTimeout(() => {
-        navigate(ROUTES.LOGIN);
+        navigate(PATHS.public.login);
       }, 3000);
       
     } catch (err) {
@@ -94,7 +92,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
         </div>
 
         {/* Botón para ir al login */}
-        <Link to={ROUTES.LOGIN}>
+        <Link to={PATHS.public.login}>
           <Button variant="primary" size="lg" fullWidth>
             Ir al Login
           </Button>
@@ -103,8 +101,15 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
     );
   }
 
+  // Nota: En la implementación original, handleSubmit devuelve una función que maneja el evento submit
+  // Pero en esta versión simplificada, lo manejamos directamente
+  const submitForm = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit();
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={submitForm} className="space-y-6">
       {/* Descripción */}
       <div className="text-center space-y-2 mb-6">
         <p className="text-gray-300 text-sm">
@@ -198,7 +203,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
       <div className="text-center pt-4 border-t border-white/10">
         <span className="text-gray-400 text-sm">¿Recordaste tu contraseña? </span>
         <Link
-          to={ROUTES.LOGIN}
+          to={PATHS.public.login}
           className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium"
         >
           Volver al login

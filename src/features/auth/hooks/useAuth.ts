@@ -1,35 +1,17 @@
 import { useCallback } from 'react';
-import { useAppDispatch, useAppSelector } from '../common/useRedux';
+
+
+
+import { useAppSelector, useAppDispatch } from '../../../hooks';
+import { LoginCredentials, NewPasswordData, PasswordResetData, RegisterData } from '../../../types';
 import {
-  selectUser,
-  selectIsAuthenticated,
-  selectIsInitialized,
-  selectAuthStatus,
-  selectIsLoginLoading,
-  selectIsRegisterLoading,
-  selectIsLogoutLoading,
-  selectLoginError,
-  selectRegisterError,
-  selectLogoutError,
-  selectLoginSuccess,
-  selectRegisterSuccess,
-  selectLogoutSuccess,
-  selectSessionInfo,
-  selectIsEmailVerified,
-  loginUser,
-  registerUser,
-  logoutUser,
-  sendPasswordResetEmail,
-  confirmPasswordReset,
-  updateUserProfile,
-  sendEmailVerification,
-  refreshUserData,
-  checkAuthStatus,
-  clearError,
-  clearSuccess,
-  setRedirectAfterLogin
-} from '../../store';
-import { LoginCredentials, RegisterData, PasswordResetData, NewPasswordData } from '../../types';
+  selectUser, selectIsAuthenticated, selectIsInitialized, selectAuthStatus, selectIsLoginLoading,
+  selectIsRegisterLoading, selectIsLogoutLoading, selectLoginError, selectRegisterError, selectLogoutError,
+  selectLoginSuccess, selectRegisterSuccess, selectLogoutSuccess, selectSessionInfo, selectIsEmailVerified,
+  clearError, clearSuccess, setRedirectAfterLogin,
+  checkAuthStatus,loginUser, registerUser, logoutUser, sendPasswordResetEmail, confirmPasswordReset,
+  updateUserProfile, sendEmailVerification, refreshUserData
+} from '../../../core/store/slices/auth';
 
 /**
  * Hook principal para manejo de autenticación

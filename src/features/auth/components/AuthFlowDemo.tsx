@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '../ui/Button';
+import { Button } from '../../../components/ui/Button';
 import { StyleVerification } from './StyleVerification';
-import { ROUTES } from '../../utils/constants';
-import { useAuth } from '../../hooks/auth';
+import { PATHS } from '../../../config/routes';
+import { useAuth } from '../hooks';
 
 interface FlowTestResult {
   name: string;
@@ -174,17 +174,17 @@ export const AuthFlowDemo: React.FC = () => {
       <div className="mb-8">
         <h3 className="text-lg font-semibold text-white mb-4">🔗 Navegación de Prueba</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <Link to={ROUTES.LOGIN}>
+          <Link to={PATHS.public.login}>
             <Button variant="secondary" size="sm" fullWidth>
               Login
             </Button>
           </Link>
-          <Link to={ROUTES.REGISTER}>
+          <Link to={PATHS.public.register}>
             <Button variant="secondary" size="sm" fullWidth>
               Registro
             </Button>
           </Link>
-          <Link to={ROUTES.FORGOT_PASSWORD}>
+          <Link to={PATHS.public.forgotPassword}>
             <Button variant="secondary" size="sm" fullWidth>
               Recuperar
             </Button>

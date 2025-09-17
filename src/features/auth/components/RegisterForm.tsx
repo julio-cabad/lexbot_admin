@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
-import { PasswordStrengthMeter } from '../ui/PasswordStrengthMeter';
-import { useRegisterForm } from '../../hooks/auth';
-import { usePasswordStrength } from '../../hooks/auth';
-import { ROUTES } from '../../utils/constants';
+import { Button } from '../../../components/ui/Button';
+import { Input } from '../../../components/ui/Input';
+import { PasswordStrengthMeter } from '../../../components/ui/PasswordStrengthMeter';
+import { useRegisterForm, usePasswordStrength } from '../hooks';
+import { PATHS } from '../../../config/routes';
+import { useTexts } from '../../../core/hooks/useTexts';
 
 interface RegisterFormProps {
   onSuccess?: () => void;
@@ -19,6 +19,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   onSuccess,
   showLoginLink = true
 }) => {
+  // Usar textos centralizados directamente
+  const { auth } = useTexts();
   const {
     values,
     errors,
@@ -43,48 +45,24 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   };
 
   return (
-    <form 
-      onSubmit={handleSubmit} 
+    <form
+      onSubmit={handleSubmit}
       className="space-y-6 sm:space-y-7 md:space-y-8 auth-form"
       role="form"
-      aria-label="Formulario de registro de nueva cuenta"
+      aria-label={auth.registerTitle}
     >
-      {/* Error general del formulario - accesibilidad mejorada */}
-      {formError && (
-        <div 
-          className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 sm:p-5 md:p-6 animate-fade-in"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
-          <div className="flex items-start gap-3">
-            <svg 
-              className="w-5 h-5 sm:w-6 sm:h-6 text-red-400 flex-shrink-0 mt-0.5" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <div>
-              <p className="text-red-400 text-sm sm:text-base font-medium">Error en el registro</p>
-              <p className="text-red-300 text-sm sm:text-base mt-1">{formError}</p>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Campo Nombre Completo - accesibilidad mejorada */}
       <Input
-        label="Nombre completo"
+        label={auth.displayNamePlaceholder}
         inputType="text"
-        placeholder="Ingresa tu nombre y apellidos"
+        placeholder={auth.displayNamePlaceholder}
         value={values.displayName}
         onChange={(e) => handleInputChange('displayName')(e.target.value)}
         onBlur={handleBlur('displayName')}
         error={touched.displayName ? errors.displayName : undefined}
-        disabled={isSubmitting}
+        disabled={!!isSubmitting}
         required
         autoComplete="name"
         aria-describedby={touched.displayName && errors.displayName ? "displayName-error" : undefined}
@@ -97,14 +75,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 
       {/* Campo Email - accesibilidad mejorada */}
       <Input
-        label="Dirección de correo electrónico"
+        label={auth.emailPlaceholder}
         inputType="email"
-        placeholder="ejemplo@correo.com"
+        placeholder={auth.emailPlaceholder}
         value={values.email}
         onChange={(e) => handleInputChange('email')(e.target.value)}
         onBlur={handleBlur('email')}
         error={touched.email ? errors.email : undefined}
-        disabled={isSubmitting}
+        disabled={!!isSubmitting}
         required
         autoComplete="email"
         aria-describedby={touched.email && errors.email ? "email-error" : undefined}
@@ -118,14 +96,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       {/* Campo Contraseña */}
       <div className="space-y-2">
         <Input
-          label="Contraseña"
+          label={auth.passwordPlaceholder}
           inputType="password"
-          placeholder="••••••••"
+          placeholder={auth.passwordPlaceholder}
           value={values.password}
           onChange={(e) => handleInputChange('password')(e.target.value)}
           onBlur={handleBlur('password')}
           error={touched.password ? errors.password : undefined}
-          disabled={isSubmitting}
+          disabled={!!isSubmitting}
           showPasswordToggle
           leftIcon={
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,14 +118,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 
       {/* Campo Confirmar Contraseña */}
       <Input
-        label="Confirmar Contraseña"
+        label={auth.confirmPasswordPlaceholder}
         inputType="password"
-        placeholder="••••••••"
+        placeholder={auth.confirmPasswordPlaceholder}
         value={values.confirmPassword}
         onChange={(e) => handleInputChange('confirmPassword')(e.target.value)}
         onBlur={handleBlur('confirmPassword')}
         error={touched.confirmPassword ? errors.confirmPassword : undefined}
-        disabled={isSubmitting}
+        disabled={!!isSubmitting}
         showPasswordToggle
         leftIcon={
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -170,16 +148,15 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                   type="checkbox"
                   checked={values.acceptTerms}
                   onChange={(e) => handleChange('acceptTerms')(e.target.checked)}
-                  disabled={isSubmitting}
+                  disabled={!!isSubmitting}
                   required
                   className="sr-only"
                   aria-describedby="terms-description terms-error"
                 />
-                <div className={`w-5 h-5 rounded border transition-all duration-200 ${
-                  values.acceptTerms 
-                    ? 'bg-purple-500 border-purple-500' 
+                <div className={`w-5 h-5 rounded border transition-all duration-200 ${values.acceptTerms
+                    ? 'bg-purple-500 border-purple-500'
                     : 'bg-white/10 border-white/20 hover:border-white/40'
-                }`}>
+                  }`}>
                   {values.acceptTerms && (
                     <svg className="w-3 h-3 text-white absolute top-1 left-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -188,7 +165,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 </div>
               </label>
             </div>
-            
+
             {/* Texto en su propio contenedor */}
             <div className="ml-2">
               <span id="terms-description" className="text-base text-white">
@@ -210,7 +187,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 </button>
               </span>
             </div>
-            
+
             {/* Mensaje de error */}
             {touched.acceptTerms && errors.acceptTerms && (
               <p id="terms-error" className="text-red-400 text-xs text-center mt-1" role="alert">
@@ -227,21 +204,21 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         variant="primary"
         size="lg"
         fullWidth
-        loading={isSubmitting}
-        disabled={isSubmitting || !passwordStrength.isValid}
+        loading={!!isSubmitting}
+        disabled={!!isSubmitting || !passwordStrength.isValid}
       >
-        {isSubmitting ? 'Creando cuenta...' : 'Crear Cuenta'}
+        {isSubmitting ? 'Creando cuenta...' : auth.registerButton}
       </Button>
 
       {/* Link para login */}
       {showLoginLink && (
         <div className="text-center pt-4 border-t border-white/10">
-          <span className="text-gray-400 text-sm">¿Ya tienes cuenta? </span>
+          <span className="text-gray-400 text-sm">{auth.alreadyHaveAccount} </span>
           <Link
-            to={ROUTES.LOGIN}
+            to={PATHS.public.login}
             className="text-cyan-400 hover:text-cyan-300 transition-colors text-sm font-medium"
           >
-            Iniciar sesión
+            {auth.loginButton}
           </Link>
         </div>
       )}

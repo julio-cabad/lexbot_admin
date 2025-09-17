@@ -1,60 +1,41 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { Provider, useDispatch } from 'react-redux';
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { store, setAuth } from './store';
-import { useAuth } from './hooks/auth';
-import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from './pages/auth';
-import { Dashboard } from './pages/Dashboard';
-import { LoadingScreen } from './components/ui/LoadingScreen';
-import { ROUTES } from './utils/constants';
-import { authService } from './services';
+import { store } from './core/store';
+import { AppRoutes } from './routes';
 import { ThemeManager } from './core/providers/ThemeProvider';
 import { DEFAULT_THEME } from './config/theme';
+import { sessionService } from './core/services';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Componente para manejar la autenticación
-const AuthWrapper: React.FC<{ children: React.ReactNode }> = React.memo(({ children }) => {
-  const { isInitialized } = useAuth();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const unsubscribe = authService.onAuthStateChange((user) => {
-      dispatch(setAuth(user));
-    });
-
-    return () => unsubscribe();
-  }, [dispatch]);
-
-  // Mostrar loading mientras se verifica la autenticación
-  if (!isInitialized) {
-    return <LoadingScreen message="Verificando autenticación..." />;
-  }
-
-  return <>{children}</>;
-});
-
-// Componente para rutas protegidas
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = React.memo(({ children }) => {
-  const { isAuthenticated, isInitialized } = useAuth();
-  
-  // Esperar a que se inicialice antes de redirigir
-  if (!isInitialized) {
-    return null;
-  }
-  
-  return isAuthenticated ? <>{children}</> : <Navigate to={ROUTES.LOGIN} replace />;
-});
-
-// Componente principal de la aplicación
+/**
+ * Componente principal de la aplicación
+ * Configurado con:
+ * - Redux para gestión de estado
+ * - React Router para navegación
+ * - Sistema de temas
+ * - Notificaciones toast
+ * - Verificación de sesión
+ */
 function App() {
+  // Configurar el manejo de sesiones
+  React.useEffect(() => {
+    // Configurar el cierre automático de sesión por inactividad
+    const cleanup = sessionService.setupAutoLogout(() => {
+      console.info('Sesión expirada por inactividad');
+      sessionService.clearUserSession();
+      window.location.href = '/auth/login';
+    });
+    
+    return cleanup;
+  }, []);
+
   return (
     <Provider store={store}>
       <ThemeManager initialTheme={DEFAULT_THEME}>
         <Router>
-          <AuthWrapper>
-            <AppRoutes />
-          </AuthWrapper>
+          <AppRoutes />
           
           {/* Toast notifications */}
           <ToastContainer
@@ -75,78 +56,5 @@ function App() {
     </Provider>
   );
 }
-
-// Componente para manejar redirección inicial
-const AuthRedirect: React.FC = React.memo(() => {
-  const { isAuthenticated, isInitialized } = useAuth();
-  
-  // Esperar a que se inicialice antes de redirigir
-  if (!isInitialized) {
-    return null;
-  }
-  
-  return (
-    <Navigate 
-      to={isAuthenticated ? "/dashboard" : ROUTES.LOGIN} 
-      replace 
-    />
-  );
-});
-
-// Componente de rutas optimizado
-const AppRoutes: React.FC = React.memo(() => {
-  const location = useLocation();
-  const [displayLocation, setDisplayLocation] = React.useState(location);
-  const [transitionStage, setTransitionStage] = React.useState<'fadeIn' | 'fadeOut'>('fadeIn');
-
-  React.useEffect(() => {
-    if (location.pathname !== displayLocation.pathname) {
-      setTransitionStage('fadeOut');
-    }
-  }, [location.pathname, displayLocation.pathname]);
-
-  React.useEffect(() => {
-    if (transitionStage === 'fadeOut') {
-      const timer = setTimeout(() => {
-        setDisplayLocation(location);
-        setTransitionStage('fadeIn');
-      }, 100); // Transición muy rápida
-
-      return () => clearTimeout(timer);
-    }
-  }, [transitionStage, location]);
-
-  return (
-    <div
-      className={`transition-opacity duration-200 ${
-        transitionStage === 'fadeOut' ? 'opacity-0' : 'opacity-100'
-      }`}
-    >
-      <Routes location={displayLocation}>
-        {/* Ruta raíz - redirige según autenticación */}
-        <Route path="/" element={<AuthRedirect />} />
-        
-        {/* Rutas de autenticación */}
-        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-        <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
-        <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
-        <Route path={ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
-        
-        {/* Rutas protegidas */}
-        <Route 
-          path="/dashboard" 
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
-        
-        {/* Ruta por defecto */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </div>
-  );
-});
 
 export default App;

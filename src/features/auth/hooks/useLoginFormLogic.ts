@@ -1,8 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth, useToast } from '../index';
-import { ROUTES, STORAGE_KEYS } from '../../utils/constants';
-import { storage } from '../../utils/helpers';
+import { useAuth } from '../index';
+import { useToast } from '../../../hooks/ui';
+import { PATHS } from '../../../config/routes';
+import { storage } from '../../../core/utils/helpers';
+
+// Constantes para claves de almacenamiento
+const STORAGE_KEYS = {
+  LAST_EMAIL: 'auth.lastEmail',
+  REMEMBER_ME: 'auth.rememberMe',
+  AUTH_TOKEN: 'auth.token',
+  USER_DATA: 'auth.userData',
+  THEME: 'app.theme',
+  LANGUAGE: 'app.language'
+};
 
 interface UseLoginFormLogicOptions {
   redirectAfterLogin?: string;
@@ -77,7 +88,7 @@ export const useLoginFormLogic = ({
   // Redirigir si ya está autenticado
   useEffect(() => {
     if (isAuthenticated) {
-      const from = (location.state as any)?.from?.pathname || redirectAfterLogin || ROUTES.DASHBOARD;
+      const from = (location.state as any)?.from?.pathname || redirectAfterLogin || PATHS.private.dashboard;
       navigate(from, { replace: true });
     }
   }, [isAuthenticated, navigate, location.state, redirectAfterLogin]);

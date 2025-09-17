@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
-import { cn } from "../../utils/classNames";
 import { ButtonVariant, ButtonSize } from "../../types";
+import { cn } from "../../core/utils";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;

@@ -1,9 +1,66 @@
 import { useMemo } from 'react';
-import { 
-  checkPasswordStrength, 
-  getPasswordRequirements 
-} from '../../utils';
-import { PasswordStrength, PasswordRequirements } from '../../types';
+
+// Enums para la fuerza de la contraseña
+enum PasswordStrength {
+  WEAK = 'weak',
+  FAIR = 'fair',
+  GOOD = 'good',
+  STRONG = 'strong'
+}
+
+// Interfaz para los requisitos de la contraseña
+interface PasswordRequirements {
+  minLength: boolean;
+  hasUppercase: boolean;
+  hasLowercase: boolean;
+  hasNumber: boolean;
+  hasSpecialChar: boolean;
+}
+
+/**
+ * Verifica los requisitos de una contraseña
+ */
+const getPasswordRequirements = (password: string): PasswordRequirements => {
+  return {
+    minLength: password.length >= 8,
+    hasUppercase: /[A-Z]/.test(password),
+    hasLowercase: /[a-z]/.test(password),
+    hasNumber: /[0-9]/.test(password),
+    hasSpecialChar: /[^A-Za-z0-9]/.test(password)
+  };
+};
+
+/**
+ * Evalua la fuerza de una contraseña
+ */
+const checkPasswordStrength = (password: string): PasswordStrength => {
+  if (!password) return PasswordStrength.WEAK;
+  
+  const requirements = getPasswordRequirements(password);
+  const { minLength, hasUppercase, hasLowercase, hasNumber, hasSpecialChar } = requirements;
+  
+  // Contraseña débil: No cumple con los requisitos mínimos
+  if (!minLength || (!hasUppercase && !hasLowercase) || !hasNumber) {
+    return PasswordStrength.WEAK;
+  }
+  
+  // Contraseña regular: Cumple con los requisitos mínimos
+  if (minLength && (hasUppercase || hasLowercase) && hasNumber) {
+    if (!hasUppercase || !hasLowercase || !hasSpecialChar) {
+      return PasswordStrength.FAIR;
+    }
+  }
+  
+  // Contraseña buena: Cumple con todos los requisitos básicos
+  if (minLength && hasUppercase && hasLowercase && hasNumber) {
+    if (!hasSpecialChar || password.length < 10) {
+      return PasswordStrength.GOOD;
+    }
+  }
+  
+  // Contraseña fuerte: Cumple con todos los requisitos y es larga
+  return PasswordStrength.STRONG;
+};
 
 /**
  * Hook para evaluar la fuerza de una contraseña

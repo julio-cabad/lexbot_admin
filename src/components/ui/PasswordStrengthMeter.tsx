@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePasswordStrength } from '../../hooks/auth';
+import { usePasswordStrength } from '../../features/auth/hooks';
 
 interface PasswordStrengthMeterProps {
   password: string;

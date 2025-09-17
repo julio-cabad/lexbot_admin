@@ -1,6 +1,7 @@
 import React, { forwardRef, useState } from "react";
-import { cn } from "../../utils/classNames";
+
 import { InputType } from "../../types";
+import { cn } from "../../core/utils";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;

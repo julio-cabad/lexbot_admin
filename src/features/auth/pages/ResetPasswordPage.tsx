@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthLayout } from '../components/AuthLayout';
 import { ResetPasswordForm } from '../components/ResetPasswordForm';
-import { useAuth } from '../../../hooks/auth';
-import { ROUTES } from '../../../utils/constants';
+import { useAuth } from '../hooks';
+import { PATHS } from '../../../config/routes';
 import { useTexts } from '../../../core/hooks/useTexts';
 
 /**
@@ -36,7 +36,7 @@ export const ResetPasswordPage: React.FC = () => {
   // Redirigir si ya está autenticado
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(ROUTES.HOME, { replace: true });
+      navigate(PATHS.private.dashboard, { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
@@ -90,14 +90,14 @@ export const ResetPasswordPage: React.FC = () => {
           {/* Botones de acción */}
           <div className="space-y-3">
             <button
-              onClick={() => navigate(ROUTES.FORGOT_PASSWORD)}
+              onClick={() => navigate(PATHS.public.forgotPassword)}
               className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg transform transition-all hover:scale-105 active:scale-95"
             >
               Solicitar Nuevo Enlace
             </button>
             
             <button
-              onClick={() => navigate(ROUTES.LOGIN)}
+              onClick={() => navigate(PATHS.public.login)}
               className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all py-3 px-8 rounded-full"
             >
               Volver al Login

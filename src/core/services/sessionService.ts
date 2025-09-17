@@ -69,6 +69,13 @@ class SessionService {
     // Verificar sessionStorage (solo sesión)
     return sessionStorage.get(STORAGE_KEYS.AUTH_TOKEN);
   }
+  
+  /**
+   * Verifica si existe una sesión (para uso directo sin validación completa)
+   */
+  hasSession(): boolean {
+    return !!storage.get(STORAGE_KEYS.AUTH_TOKEN) || !!sessionStorage.get(STORAGE_KEYS.AUTH_TOKEN);
+  }
 
   /**
    * Limpia los datos de sesión del usuario
@@ -133,6 +140,19 @@ class SessionService {
       }
     }
 
+    // Verificar tiempo de inactividad
+    if (session.lastActivity) {
+      const lastActivityTime = new Date(session.lastActivity).getTime();
+      const inactivityTime = Date.now() - lastActivityTime;
+      
+      // Si ha pasado más tiempo que el SESSION_TIMEOUT, la sesión ha expirado
+      if (inactivityTime > this.SESSION_TIMEOUT) {
+        console.log(`Sesión expirada por inactividad: ${inactivityTime / 1000 / 60} minutos`);
+        this.clearUserSession();
+        return false;
+      }
+    }
+
     return true;
   }
 
@@ -173,27 +193,52 @@ class SessionService {
   trackActivity(): void {
     const session = this.getSavedUserSession();
     if (session) {
+      // Actualizar el tiempo de última actividad
       session.lastActivity = new Date().toISOString();
       
+      // Guardar la sesión actualizada
       if (this.isRememberMeEnabled()) {
         storage.set(STORAGE_KEYS.AUTH_TOKEN, session);
+        
+        // Extender el tiempo de expiración si es una sesión persistente
+        const currentTime = Date.now();
+        const newExpirationTime = currentTime + this.REMEMBER_ME_DURATION;
+        storage.set('auth_expiration', newExpirationTime);
       } else {
         sessionStorage.set(STORAGE_KEYS.AUTH_TOKEN, session);
+      }
+      
+      // Registrar actividad para depuración en desarrollo
+      if (APP_CONFIG.env.isDevelopment) {
+        console.debug('Actividad de usuario registrada:', new Date().toLocaleTimeString());
       }
     }
   }
 
   /**
    * Configura el cierre automático de sesión después de inactividad
+   * @param callback Función a ejecutar cuando expire la sesión
+   * @param timeoutOverride Tiempo de espera personalizado (en minutos)
    */
-  setupAutoLogout(callback: () => void, timeoutMinutes: number = 30): () => void {
+  setupAutoLogout(callback: () => void, timeoutOverride?: number): () => void {
     let timeoutId: NodeJS.Timeout;
+    
+    // Usar el tiempo de sesión de la configuración o el valor personalizado
+    const timeoutMs = timeoutOverride ? timeoutOverride * 60 * 1000 : this.SESSION_TIMEOUT;
+    const timeoutMinutes = timeoutMs / (60 * 1000);
+    
+    if (APP_CONFIG.env.isDevelopment) {
+      console.info(`Configurando cierre automático de sesión: ${timeoutMinutes} minutos`);
+    }
 
     const resetTimeout = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
+        if (APP_CONFIG.env.isDevelopment) {
+          console.warn('Sesión expirada por inactividad');
+        }
         callback();
-      }, timeoutMinutes * 60 * 1000);
+      }, timeoutMs);
     };
 
     const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];

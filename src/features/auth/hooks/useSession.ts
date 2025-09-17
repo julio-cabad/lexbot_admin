@@ -1,14 +1,10 @@
 import { useEffect, useCallback, useMemo } from "react";
-import { useAppSelector, useAppDispatch } from "../common";
-import {
-  selectSessionInfo,
-  selectIsAuthenticated,
-  selectSessionTimeRemaining,
-  selectIsSessionExpired,
-  extendSession,
-  logoutUser,
-} from "../../store";
-import { sessionService } from "../../services";
+
+
+
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { selectSessionInfo, selectIsAuthenticated, selectSessionTimeRemaining, selectIsSessionExpired, extendSession, logoutUser } from "../../../core/store/slices/auth";
+import { sessionService } from "../../../core/services";
 
 /**
  * Hook para manejo de sesiones de usuario

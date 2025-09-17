@@ -161,8 +161,8 @@ export const APP_CONFIG: AppConfig = {
   
   // Configuración de autenticación
   auth: {
-    sessionTimeout: 24 * 60 * 60 * 1000, // 24 horas en milisegundos
-    rememberMeDuration: 30 * 24 * 60 * 60 * 1000, // 30 días en milisegundos
+    sessionTimeout: 15 * 60 * 1000, // 15 minutos en milisegundos
+    rememberMeDuration: 7 * 24 * 60 * 60 * 1000, // 7 días en milisegundos
     passwordMinLength: 8,
     passwordMaxLength: 128,
     maxLoginAttempts: 5,

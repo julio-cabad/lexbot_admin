@@ -1,20 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
 import { useAuth } from "./useAuth";
-import { useForm } from "../forms";
-import {
-  LoginCredentials,
-  RegisterData,
-  PasswordResetData,
-  NewPasswordData,
-  AuthFormType,
-} from "../../types";
-import {
-  validateLoginForm,
-  validateRegisterForm,
-  validatePasswordResetForm,
-  validateNewPasswordForm,
-  validationErrorsToFormErrors,
-} from "../../utils";
+import { LoginCredentials, RegisterData, PasswordResetData, NewPasswordData, AuthFormType } from "../../../types";
+import { validateLoginForm, validateRegisterForm, validatePasswordResetForm, validateNewPasswordForm, validationErrorsToFormErrors } from "../../../core/utils";
+import { useForm } from "../../../hooks";
+
 
 /**
  * Hook especializado para formularios de autenticación

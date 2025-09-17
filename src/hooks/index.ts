@@ -1,7 +1,7 @@
 // Export hooks organized by category
 
-// Auth hooks
-export * from './auth';
+// Auth hooks (ahora en features/auth/hooks)
+export * from '../features/auth/hooks';
 
 // Form hooks  
 export * from './forms';

@@ -46,14 +46,14 @@ export type RouteWithParams<P extends RouteParams = {}> = RouteConfig<P>;
 
 /**
  * Importación de componentes de página
- * Importamos desde las ubicaciones actuales, pero en el futuro se moverán a features/
+ * Importamos desde las nuevas ubicaciones en features/
  */
 // Importación de componentes (lazy loading)
-const LoginPage = React.lazy(() => import('../pages/auth/LoginPage').then(module => ({ default: module.LoginPage })));
-const RegisterPage = React.lazy(() => import('../pages/auth/RegisterPage').then(module => ({ default: module.RegisterPage })));
-const ForgotPasswordPage = React.lazy(() => import('../pages/auth/ForgotPasswordPage').then(module => ({ default: module.ForgotPasswordPage })));
-const ResetPasswordPage = React.lazy(() => import('../pages/auth/ResetPasswordPage').then(module => ({ default: module.ResetPasswordPage })));
-const DashboardPage = React.lazy(() => import('../pages/Dashboard').then(module => ({ default: module.Dashboard })));
+const LoginPage = React.lazy(() => import('../features/auth/pages/LoginPage').then(module => ({ default: module.LoginPage })));
+const RegisterPage = React.lazy(() => import('../features/auth/pages/RegisterPage').then(module => ({ default: module.RegisterPage })));
+const ForgotPasswordPage = React.lazy(() => import('../features/auth/pages/ForgotPasswordPage').then(module => ({ default: module.ForgotPasswordPage })));
+const ResetPasswordPage = React.lazy(() => import('../features/auth/pages/ResetPasswordPage').then(module => ({ default: module.ResetPasswordPage })));
+const DashboardPage = React.lazy(() => import('../features/dashboard/pages/Dashboard').then(module => ({ default: module.Dashboard })));
 
 // Componentes temporales para rutas que aún no existen
 const ProfilePage: React.FC = () => React.createElement('div', null, 'Página de Perfil (Placeholder)');

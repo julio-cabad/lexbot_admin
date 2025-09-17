@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../ui/Button";
-import { Input } from "../ui/Input";
-import { useForgotPasswordForm } from "../../hooks/auth";
-import { useToast } from "../../hooks/ui";
-import { ROUTES } from "../../utils/constants";
+import { Button } from "../../../components/ui/Button";
+import { Input } from "../../../components/ui/Input";
+import { useToast } from "../../../hooks/ui";
+import { PATHS } from "../../../config/routes";
+import { useForgotPasswordForm } from "../hooks";
 
 interface ForgotPasswordFormProps {
   onSuccess?: () => void;
@@ -135,7 +135,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
           </Button>
 
           {showBackToLogin && (
-            <Link to={ROUTES.LOGIN}>
+            <Link to={PATHS.public.login}>
               <Button variant="ghost" size="lg" fullWidth>
                 Volver al Login
               </Button>
@@ -262,7 +262,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
           <p className="text-gray-400 text-sm sm:text-base">
             ¿Recordaste tu contraseña?{" "}
             <Link
-              to={ROUTES.LOGIN}
+              to={PATHS.public.login}
               className="text-cyan-400 hover:text-cyan-300 focus:text-cyan-300 transition-colors font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1 py-1"
               aria-label="Volver a la página de inicio de sesión"
             >

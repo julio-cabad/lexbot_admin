@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { storage } from '../../utils';
+import { storage } from '../../core/utils';
+
 
 /**
  * Hook para manejo de localStorage con estado reactivo

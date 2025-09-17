@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
-import { useLoginForm } from '../../hooks/auth';
-import { ROUTES } from '../../utils/constants';
-import { useTexts } from '../../core/hooks/useTexts';
+import { Button } from '../../../components/ui/Button';
+import { Input } from '../../../components/ui/Input';
+import { useLoginForm } from '../hooks';
+import { PATHS } from '../../../config/routes';
+import { useTexts } from '../../../core/hooks/useTexts';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -17,14 +17,18 @@ interface LoginFormProps {
 /**
  * Componente de formulario de login con validación y manejo de estado
  */
+
 export const LoginForm: React.FC<LoginFormProps> = ({
   onSuccess,
   onError,
   showForgotPassword = true,
   showRegisterLink = true
 }) => {
+  // Usar textos centralizados con valores por defecto para evitar problemas de tipo
   const { auth, common } = useTexts();
-  
+
+  // Crear objetos seguros con valores por defecto
+
   const {
     values,
     errors,
@@ -40,7 +44,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   // Notificar error al padre (LoginPage) para mostrar toast
   React.useEffect(() => {
     if (typeof onError === 'function') {
-      onError(formError || null);
+      // Asegurarnos de que formError sea string o null
+      const errorMessage = formError ?
+        (typeof formError === 'string' ? formError : JSON.stringify(formError))
+        : null;
+      onError(errorMessage);
     }
   }, [formError, onError]);
 
@@ -53,38 +61,15 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   };
 
   return (
-    <form 
-      onSubmit={handleSubmit} 
-      className="space-y-6 sm:space-y-7 md:space-y-8 auth-form" 
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6 sm:space-y-7 md:space-y-8 auth-form"
       noValidate
       role="form"
       aria-label={auth.loginTitle}
     >
-      {/* Error general del formulario - accesibilidad mejorada */}
-      {formError && (
-        <div 
-          className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 sm:p-5 md:p-6 animate-fade-in"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
-          <div className="flex items-start gap-3">
-            <svg 
-              className="w-5 h-5 sm:w-6 sm:h-6 text-red-400 flex-shrink-0 mt-0.5" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <div>
-              <p className="text-red-400 text-sm sm:text-base font-medium">{common.error}</p>
-              <p className="text-red-300 text-sm sm:text-base mt-1">{formError}</p>
-            </div>
-          </div>
-        </div>
-      )}
+
+      {/* El error se maneja a través de toasts */}
 
       {/* Campo Email - accesibilidad mejorada */}
       <Input
@@ -95,7 +80,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         onChange={(e) => handleInputChange('email')(e.target.value)}
         onBlur={handleBlur('email')}
         error={touched.email ? errors.email : undefined}
-        disabled={isSubmitting}
+        disabled={!!isSubmitting}
         required
         autoComplete="email"
         aria-describedby={touched.email && errors.email ? "email-error" : undefined}
@@ -115,7 +100,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         onChange={(e) => handleInputChange('password')(e.target.value)}
         onBlur={handleBlur('password')}
         error={touched.password ? errors.password : undefined}
-        disabled={isSubmitting}
+        disabled={!!isSubmitting}
         required
         autoComplete="current-password"
         showPasswordToggle
@@ -130,12 +115,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       {/* Opciones adicionales - responsive y accesibilidad mejorada */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4 sm:gap-2">
         {/* Checkbox Recordarme */}
-  
-        
+
+
         {/* Link Olvidé mi contraseña */}
         {showForgotPassword && (
           <Link
-            to={ROUTES.FORGOT_PASSWORD}
+            to={PATHS.public.forgotPassword}
             className="text-sm sm:text-sm text-cyan-400 hover:text-cyan-300 focus:text-cyan-300 transition-colors font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1 py-1"
             aria-label="Ir a la página de recuperación de contraseña"
           >
@@ -150,8 +135,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({
         variant="primary"
         size="lg"
         fullWidth
-        loading={isSubmitting}
-        disabled={isSubmitting}
+        loading={!!isSubmitting}
+        disabled={!!isSubmitting}
       >
         {isSubmitting ? common.loading : auth.loginButton}
       </Button>
@@ -162,7 +147,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
           <p className="text-gray-400 text-sm sm:text-base">
             {auth.noAccount}{' '}
             <Link
-              to={ROUTES.REGISTER}
+              to={PATHS.public.register}
               className="text-cyan-400 hover:text-cyan-300 focus:text-cyan-300 transition-colors font-medium underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-transparent rounded-md px-1 py-1"
               aria-label="Ir a la página de registro para crear una nueva cuenta"
             >
