@@ -58,21 +58,21 @@
   - Mantener compatibilidad con el diseño de glassmorphism existente
   - _Requisitos: 6.1, 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 3.3 Mejorar funciones de utilidad
+- [X] 3.3 Mejorar funciones de utilidad
   - Mover funciones de utilidad existentes de src/utils/ a src/core/utils/
   - Mejorar funciones de utilidad existentes con integración del nuevo sistema de configuración
   - Crear nuevas funciones de utilidad para administrar la configuración y procesar textos
   - Mantener compatibilidad hacia atrás con el uso existente de utilidades
   - _Requisitos: 4.2, 10.1, 10.2, 10.3_
 
-- [ ] 7.1 Reorganizar estructura de tienda
+- [X] 7.1 Reorganizar estructura de tienda
   - Mantener la estructura de tienda existente src/store/ pero mejorarla con la nueva integración de configuración
   - Actualizar la configuración de la tienda para trabajar con la nueva estructura de la aplicación
   - Asegurarse de que todas las rebanadas de Redux y middleware existentes sigan funcionando
   - Actualizar rutas de importación cuando sea necesario
   - _Requisitos: 4.5, 10.1, 10.3_
 
-- [ ] 7.2 Actualizar integración de servicios
+- [X] 7.2 Actualizar integración de servicios
   - Mover servicios existentes a src/core/services/
   - Actualizar importaciones de servicios en toda la aplicación
   - Asegurarse de que la integración de Firebase y los servicios de autenticación funcionen con la nueva estructura
