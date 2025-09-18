@@ -24,7 +24,7 @@ import {
   RegisterData, 
   PasswordResetData, 
   NewPasswordData,
-} from '../../types';
+} from '../../features/auth/types';
 import { formatAuthError, sanitizeInput, formatDisplayName } from '../utils/helpers';
 import { APP_CONFIG } from '../../config/app';
 import { getText } from '../../config/texts';
@@ -104,24 +104,51 @@ class AuthService {
    * Registra un nuevo usuario
    */
   async register(userData: RegisterData): Promise<UserCredential> {
+    console.log('Registrando usuario:', userData);
     try {
       // Sanitizar entradas
       const email = sanitizeInput(userData.email.toLowerCase().trim());
       const password = userData.password;
-      const displayName = formatDisplayName(sanitizeInput(userData.displayName));
-
+      
+      console.log('Creando cuenta con email:', email);
+      
       // Crear cuenta de usuario
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('Usuario creado exitosamente:', userCredential.user.uid);
 
-      // Actualizar perfil de usuario con nombre
-      await updateProfile(userCredential.user, {
-        displayName: displayName
-      });
+      // Actualizar perfil de usuario con nombre si se proporciona
+      if (userData.displayName) {
+        const displayName = formatDisplayName(sanitizeInput(userData.displayName));
+        console.log('Actualizando perfil con displayName:', displayName);
+        await updateProfile(userCredential.user, {
+          displayName: displayName
+        });
+      } else {
+        // Usar el email como nombre por defecto (solo la parte antes del @)
+        const defaultName = email.split('@')[0];
+        console.log('Actualizando perfil con nombre por defecto:', defaultName);
+        await updateProfile(userCredential.user, {
+          displayName: defaultName
+        });
+      }
 
+      console.log('Registro completado exitosamente');
       return userCredential;
     } catch (error) {
-      const authError = error as AuthError;
-      throw new Error(formatAuthError(authError.code));
+      console.error('Error al registrar usuario:', error);
+      // Intentar obtener un mensaje de error más descriptivo
+      let errorMessage = 'Error desconocido al registrar usuario';
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
+      if ((error as AuthError).code) {
+        errorMessage = formatAuthError((error as AuthError).code);
+      }
+      
+      console.error('Mensaje de error formateado:', errorMessage);
+      throw new Error(errorMessage);
     }
   }
 

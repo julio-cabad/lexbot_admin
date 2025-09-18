@@ -2,7 +2,7 @@
  * Tipos para el slice de autenticación
  * Integrados con el sistema de configuración
  */
-import { User } from 'firebase/auth';
+import { User } from '../../../../features/auth/types';
 
 /**
  * Estado del slice de autenticación

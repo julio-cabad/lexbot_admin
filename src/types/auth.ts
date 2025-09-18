@@ -19,8 +19,8 @@ export interface RegisterData {
   email: string;
   password: string;
   confirmPassword: string;
-  displayName: string;
   acceptTerms: boolean;
+  displayName?: string; // Ahora es opcional
 }
 
 // Password reset data

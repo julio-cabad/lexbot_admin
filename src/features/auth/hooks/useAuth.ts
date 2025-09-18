@@ -1,9 +1,6 @@
 import { useCallback } from 'react';
-
-
-
 import { useAppSelector, useAppDispatch } from '../../../hooks';
-import { LoginCredentials, NewPasswordData, PasswordResetData, RegisterData } from '../../../types';
+import { LoginCredentials, NewPasswordData, PasswordResetData, RegisterData } from '../types';
 import {
   selectUser, selectIsAuthenticated, selectIsInitialized, selectAuthStatus, selectIsLoginLoading,
   selectIsRegisterLoading, selectIsLogoutLoading, selectLoginError, selectRegisterError, selectLogoutError,

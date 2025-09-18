@@ -3,13 +3,8 @@
  * Integrado con el sistema de configuración
  */
 import { Middleware, UnknownAction } from "@reduxjs/toolkit";
-import { sessionService } from "../../../services";
-
-// Estas acciones se definirán cuando se implemente el slice de autenticación
-// Por ahora declaramos los tipos para evitar errores
-type AuthAction = { type: string; payload?: any };
-const updateSessionActivity = (): AuthAction => ({ type: 'auth/updateSessionActivity' });
-const extendSession = (): AuthAction => ({ type: 'auth/extendSession' });
+import { sessionService } from "../../services";
+import { updateSessionActivity, extendSession } from "../slices/auth";
 
 /**
  * Middleware para rastrear la actividad del usuario y gestionar la expiración de la sesión

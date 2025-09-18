@@ -39,6 +39,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   // Limpiar errores cuando el usuario empiece a escribir
   const handleInputChange = (field: keyof typeof values) => (value: any) => {
     if (formError) {
+      console.log(formError)
       clearFormError();
     }
     handleChange(field)(value);
@@ -51,27 +52,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       role="form"
       aria-label={auth.registerTitle}
     >
+      {/* Mostrar error del formulario si existe */}
+      {formError && (
+        <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 text-white text-sm">
+          {formError}
+        </div>
+      )}
 
-
-      {/* Campo Nombre Completo - accesibilidad mejorada */}
-      <Input
-        label={auth.displayNamePlaceholder}
-        inputType="text"
-        placeholder={auth.displayNamePlaceholder}
-        value={values.displayName}
-        onChange={(e) => handleInputChange('displayName')(e.target.value)}
-        onBlur={handleBlur('displayName')}
-        error={touched.displayName ? errors.displayName : undefined}
-        disabled={!!isSubmitting}
-        required
-        autoComplete="name"
-        aria-describedby={touched.displayName && errors.displayName ? "displayName-error" : undefined}
-        leftIcon={
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-        }
-      />
 
       {/* Campo Email - accesibilidad mejorada */}
       <Input

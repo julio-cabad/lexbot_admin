@@ -9,9 +9,10 @@ import {
   RegisterData,
   PasswordResetData,
   NewPasswordData,
-} from "../../../../types";
-import { authService, sessionService, errorService } from "../../../../services";
+} from "../../../../features/auth/types";
+
 import { getText } from "../../../../config/texts";
+import { authService, errorService, sessionService } from "../../../services";
 
 /**
  * Thunk para verificar el estado de autenticación al cargar la aplicación
@@ -69,6 +70,7 @@ export const loginUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData: RegisterData, { rejectWithValue }) => {
+    console.log(userData)
     try {
       const userCredential: UserCredential = await authService.register(
         userData

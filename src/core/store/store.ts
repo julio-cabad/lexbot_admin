@@ -7,10 +7,7 @@ import { APP_CONFIG } from '../../config/app';
 
 // Importamos los componentes necesarios
 import { authReducer } from './slices/auth';
-
-// Estos imports se implementarán cuando se completen los middleware
-// Por ahora definimos stubs para evitar errores
-const sessionMiddleware = (_store: any) => (next: any) => (action: any) => next(action);
+import { sessionMiddleware } from './middleware';
 
 /**
  * Configuración de la tienda Redux

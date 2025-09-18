@@ -5,7 +5,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'firebase/auth';
 import { AuthState, initialAuthState } from './types';
-import { sessionService } from '../../../../services';
+
 import {
   checkAuthStatus,
   loginUser,
@@ -18,6 +18,7 @@ import {
   refreshUserData,
   extendSession
 } from './thunks';
+import { sessionService } from '../../../services';
 
 /**
  * Slice de Redux para gestionar la autenticación

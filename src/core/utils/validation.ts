@@ -168,9 +168,12 @@ export const validateRegisterForm = (data: RegisterData): ValidationError[] => {
     errors.push({ field: 'confirmPassword', message: confirmPasswordError });
   }
   
-  const displayNameError = validateDisplayName(data.displayName);
-  if (displayNameError) {
-    errors.push({ field: 'displayName', message: displayNameError, value: data.displayName });
+  // Validar displayName solo si está presente
+  if (data.displayName !== undefined) {
+    const displayNameError = validateDisplayName(data.displayName);
+    if (displayNameError) {
+      errors.push({ field: 'displayName', message: displayNameError, value: data.displayName });
+    }
   }
   
   const termsError = validateTermsAcceptance(data.acceptTerms);
