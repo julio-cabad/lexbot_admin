@@ -88,11 +88,16 @@ export const useAuthForm = <
 
         // Si la operación fue exitosa, llamar callback de éxito
         // Verificar si result tiene la estructura esperada (para thunks reales)
-        if (result?.meta?.requestStatus === "fulfilled" && onSuccess) {
-          onSuccess();
-        } else if (onSuccess) {
-          // Para stubs temporales, asumimos éxito
-          onSuccess();
+        if (result?.meta?.requestStatus === "fulfilled") {
+          // Para thunks reales, verificamos que la operación fue exitosa
+          if (onSuccess) {
+            onSuccess();
+          }
+        } else if (result?.meta?.requestStatus !== "rejected") {
+          // Para stubs temporales o casos donde no hay meta, asumimos éxito si no fue rechazado
+          if (onSuccess) {
+            onSuccess();
+          }
         }
       } catch (error) {
         console.error(`Error en ${formType}:`, error);

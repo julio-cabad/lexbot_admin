@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthLayout } from "../components/AuthLayout";
 import { RegisterForm } from "../components/RegisterForm";
-import { useToast } from "../../../hooks/ui";
 import { PATHS } from "../../../config/routes";
 import { useTexts } from "../../../core/hooks/useTexts";
 import { useAuth } from "../hooks";
@@ -12,8 +11,7 @@ import { useAuth } from "../hooks";
  */
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, registerSuccess } = useAuth();
-  const { authToasts } = useToast();
+  const { isAuthenticated } = useAuth();
   const { auth } = useTexts();
 
   // Redirigir si ya está autenticado
@@ -22,13 +20,6 @@ export const RegisterPage: React.FC = () => {
       navigate(PATHS.private.dashboard, { replace: true });
     }
   }, [isAuthenticated, navigate]);
-
-  // Mostrar toast de éxito cuando el registro sea exitoso
-  useEffect(() => {
-    if (!!registerSuccess) {
-      authToasts.registerSuccess();
-    }
-  }, [registerSuccess, authToasts]);
 
   return (
     <AuthLayout

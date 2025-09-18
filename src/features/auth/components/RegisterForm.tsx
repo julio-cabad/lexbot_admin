@@ -6,6 +6,7 @@ import { PasswordStrengthMeter } from '../../../components/ui/PasswordStrengthMe
 import { useRegisterForm, usePasswordStrength } from '../hooks';
 import { PATHS } from '../../../config/routes';
 import { useTexts } from '../../../core/hooks/useTexts';
+import { useToast } from '../../../hooks';
 
 interface RegisterFormProps {
   onSuccess?: () => void;
@@ -21,6 +22,16 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 }) => {
   // Usar textos centralizados directamente
   const { auth } = useTexts();
+  const { authToasts } = useToast();
+  
+  // Función que maneja el éxito del registro
+  const handleRegisterSuccess = () => {
+    authToasts.registerSuccess();
+    if (onSuccess) {
+      onSuccess();
+    }
+  };
+
   const {
     values,
     errors,
@@ -31,7 +42,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
     handleBlur,
     handleSubmit,
     clearFormError
-  } = useRegisterForm(onSuccess);
+  } = useRegisterForm(handleRegisterSuccess);
 
   // Hook para evaluar la fuerza de la contraseña
   const passwordStrength = usePasswordStrength(values.password);
@@ -39,7 +50,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   // Limpiar errores cuando el usuario empiece a escribir
   const handleInputChange = (field: keyof typeof values) => (value: any) => {
     if (formError) {
-      console.log(formError)
       clearFormError();
     }
     handleChange(field)(value);
