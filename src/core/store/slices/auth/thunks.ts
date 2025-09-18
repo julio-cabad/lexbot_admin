@@ -66,30 +66,65 @@ export const loginUser = createAsyncThunk(
 
 /**
  * Thunk para registro de usuario
- * Registra al usuario pero no mantiene la sesión activa (redirige a login)
+ * ⚔️ Registra al usuario Y crea su perfil en Firestore
+ * Luego cierra sesión para que haga login manualmente
  */
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (userData: RegisterData, { rejectWithValue }) => {
     console.log(userData)
     try {
+      // 1️⃣ Crear cuenta en Firebase Auth
       const userCredential: UserCredential = await authService.register(
         userData
       );
 
-      // NO guardar datos de sesión - el usuario debe hacer login manualmente
-      // sessionService.saveUserSession(userCredential.user, false);
+      const { user } = userCredential;
 
-      // Cerrar la sesión inmediatamente después del registro
-      await authService.logout();
+      try {
+        // 2️⃣ Crear perfil en Firestore usando nuestro servicio épico
+        const { userService } = await import('../../../services');
+        
+        const profileResult = await userService.createUserProfile(
+          user.uid,
+          user.email!,
+          {
+            // Datos adicionales si los hay en el futuro
+            firstName: userData.displayName?.split(' ')[0] || '',
+            lastName: userData.displayName?.split(' ').slice(1).join(' ') || '',
+          }
+        );
 
-      errorService.logInfo(getText("auth.success.registerSuccess"), "registerUser");
+        if (!profileResult.success) {
+          // 💀 Si falla la creación del perfil, eliminar la cuenta Auth
+          await user.delete();
+          throw new Error(`Error creando perfil: ${profileResult.error}`);
+        }
 
-      return {
-        user: null, // No devolver usuario para que no quede autenticado
-        rememberMe: false,
-        registered: true, // Flag para indicar que el registro fue exitoso
-      };
+        // 3️⃣ Cerrar la sesión inmediatamente después del registro
+        await authService.logout();
+
+        errorService.logInfo(getText("auth.success.registerSuccess"), "registerUser");
+
+        return {
+          user: null, // No devolver usuario para que no quede autenticado
+          rememberMe: false,
+          registered: true, // Flag para indicar que el registro fue exitoso
+          profileCreated: true, // Flag para indicar que el perfil fue creado
+        };
+
+      } catch (profileError) {
+        // 🔥 ROLLBACK: Si algo falla después de crear la cuenta Auth
+        try {
+          await user.delete();
+          errorService.logError(new Error('Rollback: Cuenta eliminada debido a error en perfil'), "registerUser");
+        } catch (deleteError) {
+          errorService.logError(deleteError as Error, "registerUser-rollback");
+        }
+        
+        throw profileError;
+      }
+
     } catch (error) {
       errorService.logError(error as Error, "registerUser");
       return rejectWithValue((error as Error).message);

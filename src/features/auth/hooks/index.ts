@@ -14,5 +14,12 @@ export {
   useAuthRedirect, 
   usePublicPageRedirect, 
   usePostLoginRedirect, 
-  useProtectedPageRedirect 
+  useProtectedPageRedirect,
+  useSmartAuthRedirect 
 } from './useAuthRedirect';
+
+// 👑 NUEVOS HOOKS DE PERFIL DE USUARIO
+export { 
+  useUserProfile, 
+  useProfileCompletion 
+} from './useUserProfile';

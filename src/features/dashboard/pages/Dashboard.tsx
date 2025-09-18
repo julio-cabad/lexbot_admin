@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import { Button } from "../../../components/ui/Button";
 import { AuthFlowDemo } from "../../auth/components/AuthFlowDemo";
 import { useTexts } from "../../../core/hooks/useTexts";
-import { useAuth, useProtectedPageRedirect } from "../../auth";
+import { useAuth, useProtectedPageRedirect, useUserProfile } from "../../auth";
 
 /**
- * Página temporal del dashboard para testing
+ * 🏛️ DASHBOARD ÉPICO CON PERFIL DE USUARIO
+ * Página principal del reino para guerreros autenticados
  */
 export const Dashboard: React.FC = () => {
   const { user, logout, userDisplayName } = useAuth();
+  const { profile, fullName, isLoading: profileLoading } = useUserProfile();
   
   // Hook para proteger la página - redirige a login si no está autenticado
   useProtectedPageRedirect();
@@ -23,8 +25,17 @@ export const Dashboard: React.FC = () => {
             <h1 className="text-4xl font-bold text-white mb-4">
               {dashboard.title}
             </h1>
-            <p className="text-gray-300 text-lg">{withUserName('dashboard.welcome', userDisplayName)}</p>
+            <p className="text-gray-300 text-lg">
+              {withUserName('dashboard.welcome', fullName || userDisplayName)}
+            </p>
             <p className="text-gray-400 text-sm mt-2">Email: {user?.email}</p>
+            {profile && (
+              <div className="text-gray-400 text-xs mt-1">
+                <span>Role: {profile.role}</span>
+                {profile.city && <span> • City: {profile.city}</span>}
+                {profile.phone && <span> • Phone: {profile.phone}</span>}
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
