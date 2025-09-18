@@ -149,13 +149,18 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading.register = false;
-        state.user = action.payload.user;
-        state.isAuthenticated = true;
+        // No establecer usuario ni autenticación - el usuario debe hacer login
+        state.user = null;
+        state.isAuthenticated = false;
         state.success.register = true;
-        state.sessionInfo.rememberMe = action.payload.rememberMe;
-        state.sessionInfo.lastActivity = new Date().toISOString();
-        // Mostrar prompt de verificación de correo para nuevos usuarios
-        state.ui.showEmailVerificationPrompt = !action.payload.user.emailVerified;
+        // Limpiar información de sesión
+        state.sessionInfo = {
+          rememberMe: false,
+          lastActivity: null,
+          expiresAt: null,
+        };
+        // No mostrar prompt de verificación ya que no está autenticado
+        state.ui.showEmailVerificationPrompt = false;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading.register = false;

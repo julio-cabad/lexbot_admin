@@ -10,3 +10,9 @@ export {
 export { usePasswordStrength } from './usePasswordStrength';
 export { useSession } from './useSession';
 export { useLoginFormLogic } from './useLoginFormLogic';
+export { 
+  useAuthRedirect, 
+  usePublicPageRedirect, 
+  usePostLoginRedirect, 
+  useProtectedPageRedirect 
+} from './useAuthRedirect';

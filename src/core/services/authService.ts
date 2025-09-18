@@ -19,10 +19,10 @@ import {
   Unsubscribe
 } from 'firebase/auth';
 import { auth } from './firebaseConfig';
-import { 
-  LoginCredentials, 
-  RegisterData, 
-  PasswordResetData, 
+import {
+  LoginCredentials,
+  RegisterData,
+  PasswordResetData,
   NewPasswordData,
 } from '../../features/auth/types';
 import { formatAuthError, sanitizeInput, formatDisplayName } from '../utils/helpers';
@@ -38,8 +38,8 @@ import { getText } from '../../config/texts';
  */
 class AuthService {
   private unsubscribe: Unsubscribe | null = null;
-  private readonly AUTH_REDIRECT_URL = APP_CONFIG.env.isDevelopment 
-    ? 'http://localhost:5173' 
+  private readonly AUTH_REDIRECT_URL = APP_CONFIG.env.isDevelopment
+    ? 'http://localhost:5173'
     : window.location.origin;
 
   /**
@@ -84,15 +84,15 @@ class AuthService {
       const password = credentials.password;
 
       // Establecer persistencia según "recordarme"
-      const persistence = credentials.rememberMe 
-        ? browserLocalPersistence 
+      const persistence = credentials.rememberMe
+        ? browserLocalPersistence
         : browserSessionPersistence;
-      
+
       await setPersistence(auth, persistence);
 
       // Iniciar sesión del usuario
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      
+
       return userCredential;
     } catch (error) {
       const authError = error as AuthError;
@@ -109,44 +109,36 @@ class AuthService {
       // Sanitizar entradas
       const email = sanitizeInput(userData.email.toLowerCase().trim());
       const password = userData.password;
-      
-      console.log('Creando cuenta con email:', email);
-      
+
       // Crear cuenta de usuario
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log('Usuario creado exitosamente:', userCredential.user.uid);
 
       // Actualizar perfil de usuario con nombre si se proporciona
       if (userData.displayName) {
         const displayName = formatDisplayName(sanitizeInput(userData.displayName));
-        console.log('Actualizando perfil con displayName:', displayName);
         await updateProfile(userCredential.user, {
           displayName: displayName
         });
       } else {
         // Usar el email como nombre por defecto (solo la parte antes del @)
         const defaultName = email.split('@')[0];
-        console.log('Actualizando perfil con nombre por defecto:', defaultName);
         await updateProfile(userCredential.user, {
           displayName: defaultName
         });
       }
-
-      console.log('Registro completado exitosamente');
       return userCredential;
     } catch (error) {
-      console.error('Error al registrar usuario:', error);
       // Intentar obtener un mensaje de error más descriptivo
       let errorMessage = 'Error desconocido al registrar usuario';
-      
+
       if (error instanceof Error) {
         errorMessage = error.message;
       }
-      
+
       if ((error as AuthError).code) {
         errorMessage = formatAuthError((error as AuthError).code);
       }
-      
+
       console.error('Mensaje de error formateado:', errorMessage);
       throw new Error(errorMessage);
     }
@@ -158,7 +150,7 @@ class AuthService {
   async sendPasswordResetEmail(data: PasswordResetData): Promise<void> {
     try {
       const email = sanitizeInput(data.email.toLowerCase().trim());
-      
+
       await firebaseSendPasswordResetEmail(auth, email, {
         url: `${this.AUTH_REDIRECT_URL}/login`,
         handleCodeInApp: false
@@ -192,11 +184,11 @@ class AuthService {
       }
 
       const sanitizedUpdates: { displayName?: string; photoURL?: string } = {};
-      
+
       if (updates.displayName) {
         sanitizedUpdates.displayName = formatDisplayName(sanitizeInput(updates.displayName));
       }
-      
+
       if (updates.photoURL) {
         sanitizedUpdates.photoURL = sanitizeInput(updates.photoURL);
       }
@@ -227,7 +219,7 @@ class AuthService {
     try {
       const user = auth.currentUser;
       if (!user) return null;
-      
+
       return await user.getIdToken(forceRefresh);
     } catch (error) {
       console.error('Error getting user token:', error);
@@ -305,13 +297,13 @@ class AuthService {
     try {
       const user = auth.currentUser;
       if (!user) return false;
-      
+
       // Decodificar el token para verificar su expiración
       const token = await user.getIdTokenResult();
       const expirationTime = new Date(token.expirationTime).getTime();
       const now = Date.now();
       const thresholdMs = thresholdMinutes * 60 * 1000;
-      
+
       return expirationTime - now < thresholdMs;
     } catch (error) {
       console.error('Error checking token expiration:', error);
@@ -326,7 +318,7 @@ class AuthService {
     try {
       const user = auth.currentUser;
       if (!user) return null;
-      
+
       // Forzar actualización del token
       return await user.getIdToken(true);
     } catch (error) {

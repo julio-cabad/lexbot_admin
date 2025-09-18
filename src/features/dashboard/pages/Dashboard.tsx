@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { Button } from "../../../components/ui/Button";
 import { AuthFlowDemo } from "../../auth/components/AuthFlowDemo";
 import { useTexts } from "../../../core/hooks/useTexts";
-import { useAuth } from "../../auth";
+import { useAuth, useProtectedPageRedirect } from "../../auth";
 
 /**
  * Página temporal del dashboard para testing
  */
 export const Dashboard: React.FC = () => {
   const { user, logout, userDisplayName } = useAuth();
+  
+  // Hook para proteger la página - redirige a login si no está autenticado
+  useProtectedPageRedirect();
   const { dashboard, withUserName } = useTexts();
   const [showDemo, setShowDemo] = useState(false);
 

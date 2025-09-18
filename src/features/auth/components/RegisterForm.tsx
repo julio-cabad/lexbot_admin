@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
 import { PasswordStrengthMeter } from '../../../components/ui/PasswordStrengthMeter';
@@ -23,10 +23,24 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   // Usar textos centralizados directamente
   const { auth } = useTexts();
   const { authToasts } = useToast();
+  const navigate = useNavigate();
   
   // Función que maneja el éxito del registro
   const handleRegisterSuccess = () => {
     authToasts.registerSuccess();
+    
+    // Redirigir al login después del registro exitoso
+    // Mensaje personalizado para indicar que debe iniciar sesión
+    setTimeout(() => {
+      navigate(PATHS.public.login, { 
+        replace: true,
+        state: { 
+          message: "¡Registro exitoso! Ahora puedes iniciar sesión con tu nueva cuenta.",
+          fromRegister: true 
+        }
+      });
+    }, 1500); // Esperar 1.5 segundos para que el usuario vea el toast
+    
     if (onSuccess) {
       onSuccess();
     }

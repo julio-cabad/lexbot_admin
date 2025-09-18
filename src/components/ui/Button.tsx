@@ -34,7 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     // Estilos base con mejoras de accesibilidad y responsive
     const baseStyles =
-      "inline-flex items-center justify-center rounded-full font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden min-h-[44px] sm:min-h-[48px] md:min-h-[52px] touch-manipulation select-none";
+      "inline-flex items-center justify-center cursor-pointer rounded-full font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden min-h-[44px] sm:min-h-[48px] md:min-h-[52px] touch-manipulation select-none";
 
     // Estilos por variante
     const variantStyles = {

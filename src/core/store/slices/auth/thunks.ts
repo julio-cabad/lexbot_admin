@@ -66,6 +66,7 @@ export const loginUser = createAsyncThunk(
 
 /**
  * Thunk para registro de usuario
+ * Registra al usuario pero no mantiene la sesión activa (redirige a login)
  */
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -76,14 +77,18 @@ export const registerUser = createAsyncThunk(
         userData
       );
 
-      // Guardar datos de sesión (no recordar por defecto para nuevos usuarios)
-      sessionService.saveUserSession(userCredential.user, false);
+      // NO guardar datos de sesión - el usuario debe hacer login manualmente
+      // sessionService.saveUserSession(userCredential.user, false);
+
+      // Cerrar la sesión inmediatamente después del registro
+      await authService.logout();
 
       errorService.logInfo(getText("auth.success.registerSuccess"), "registerUser");
 
       return {
-        user: userCredential.user,
+        user: null, // No devolver usuario para que no quede autenticado
         rememberMe: false,
+        registered: true, // Flag para indicar que el registro fue exitoso
       };
     } catch (error) {
       errorService.logError(error as Error, "registerUser");
