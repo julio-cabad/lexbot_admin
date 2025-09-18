@@ -105,24 +105,7 @@ export const usePublicPageRedirect = (redirectTo?: string) => {
   });
 };
 
-/**
- * Hook para redirigir a una ruta específica después del login exitoso
- * Utiliza el sistema de redirectAfterLogin del store
- */
-export const usePostLoginRedirect = () => {
-  const authState = useAuth();
-  const { user } = authState;
 
-  return useAuthRedirect({
-    redirectTo: PATHS.private.dashboard, // Fallback por defecto
-    replace: true,
-    waitForInitialization: true,
-    shouldRedirect: (auth) => {
-      // Solo redirigir si hay un usuario y está autenticado
-      return auth.isAuthenticated && !!auth.user;
-    },
-  });
-};
 
 /**
  * Hook para páginas que requieren autenticación
@@ -140,48 +123,3 @@ export const useProtectedPageRedirect = () => {
   });
 };
 
-/**
- * 🎯 HOOK INTELIGENTE PARA REDIRECCIÓN BASADA EN COMPLETITUD DEL PERFIL
- * Redirige a completar perfil si no está completo, o al dashboard si está completo
- */
-export const useSmartAuthRedirect = () => {
-  const navigate = useNavigate();
-  const authState = useAuth();
-  const { isAuthenticated, isInitialized, user } = authState;
-
-  useEffect(() => {
-    const handleSmartRedirect = async () => {
-      // Esperar a que esté inicializado
-      if (!isInitialized) return;
-
-      // Si no está autenticado, no hacer nada
-      if (!isAuthenticated || !user) return;
-
-      try {
-        // Importar dinámicamente para evitar dependencias circulares
-        const { userService } = await import('../../../core/services');
-        
-        // Verificar si el perfil está completo
-        const isComplete = await userService.isProfileComplete(user.uid);
-        
-        if (isComplete) {
-          // Perfil completo → Dashboard
-          navigate(PATHS.private.dashboard, { replace: true });
-        } else {
-          // Perfil incompleto → Completar perfil
-          navigate('/complete-profile', { replace: true });
-        }
-      } catch (error) {
-        console.error('❌ Error en redirección inteligente:', error);
-        // En caso de error, redirigir al dashboard por defecto
-        navigate(PATHS.private.dashboard, { replace: true });
-      }
-    };
-
-    handleSmartRedirect();
-  }, [isAuthenticated, isInitialized, user, navigate]);
-
-  return {
-    isRedirecting: isInitialized && isAuthenticated && !!user,
-  };
-};

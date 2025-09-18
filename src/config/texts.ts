@@ -27,6 +27,10 @@ export interface AuthTexts {
   verifyEmailTitle: string;
   verifyEmailMessage: string;
   verifyEmailButton: string;
+  // Nuevos textos para redirección inteligente
+  welcomeCompleteProfile: string;
+  welcomeBack: string;
+  profileLoadError: string;
   errors: {
     invalidCredentials: string;
     emailRequired: string;
@@ -101,6 +105,7 @@ export interface ErrorTexts {
   unexpectedError: string;
   tryAgain: string;
   contactSupport: string;
+  profileLoadError: string;
 }
 
 export interface SuccessTexts {
@@ -177,12 +182,16 @@ export const TEXTS: Texts = {
     forgotPassword: '¿Olvidaste tu contraseña?',
     rememberMe: 'Mantener sesión iniciada',
     noAccount: '¿No tienes cuenta?',
-    createAccount: 'Crear cuenta nueva',
+    createAccount: 'Crear una cuenta',
     alreadyHaveAccount: '¿Ya tienes cuenta?',
-    backToLogin: 'Volver al inicio de sesión',
-    verifyEmailTitle: 'Verifica tu Correo Electrónico',
+    backToLogin: 'Volver al login',
+    verifyEmailTitle: 'Verifica tu correo electrónico',
     verifyEmailMessage: 'Hemos enviado un correo de verificación a tu dirección de email',
-    verifyEmailButton: 'Reenviar Correo de Verificación',
+    verifyEmailButton: 'Reenviar correo de verificación',
+    // Nuevos textos para redirección inteligente
+    welcomeCompleteProfile: '¡Bienvenido! Completa tu perfil para continuar.',
+    welcomeBack: '¡Bienvenido de vuelta, {{userName}}!',
+    profileLoadError: 'Error cargando perfil. Intenta cerrar sesión y volver a entrar.',
     errors: {
       invalidCredentials: 'Credenciales inválidas',
       emailRequired: 'El correo electrónico es obligatorio',
@@ -259,7 +268,8 @@ export const TEXTS: Texts = {
     sessionExpiredMessage: 'Tu sesión ha expirado. Por favor inicia sesión nuevamente',
     unexpectedError: 'Error inesperado',
     tryAgain: 'Intentar nuevamente',
-    contactSupport: 'Contactar soporte'
+    contactSupport: 'Contactar soporte',
+    profileLoadError: 'Error cargando perfil'
   },
   
   // Sección de mensajes de éxito

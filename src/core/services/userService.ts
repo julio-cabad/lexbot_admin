@@ -122,10 +122,6 @@ class UserService {
         updates
       );
 
-      if (result.success) {
-        console.log(`✅ Perfil actualizado para usuario: ${uid}`);
-      }
-
       return result;
     } catch (error) {
       console.error('❌ Error en updateUserProfile:', error);

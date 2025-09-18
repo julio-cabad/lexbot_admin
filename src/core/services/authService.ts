@@ -92,9 +92,11 @@ class AuthService {
 
       // Iniciar sesión del usuario
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Usuario autenticado:', userCredential.user);
 
       return userCredential;
     } catch (error) {
+      console.log(error)
       const authError = error as AuthError;
       throw new Error(formatAuthError(authError.code));
     }

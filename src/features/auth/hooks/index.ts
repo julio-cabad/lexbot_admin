@@ -13,13 +13,14 @@ export { useLoginFormLogic } from './useLoginFormLogic';
 export { 
   useAuthRedirect, 
   usePublicPageRedirect, 
-  usePostLoginRedirect, 
-  useProtectedPageRedirect,
-  useSmartAuthRedirect 
+  useProtectedPageRedirect 
 } from './useAuthRedirect';
 
-// 👑 NUEVOS HOOKS DE PERFIL DE USUARIO
+// 👑 HOOKS DE PERFIL DE USUARIO
 export { 
   useUserProfile, 
   useProfileCompletion 
 } from './useUserProfile';
+
+// 🎯 HOOK DE REDIRECCIÓN POST-LOGIN
+export { usePostLoginRedirect } from './usePostLoginRedirect';

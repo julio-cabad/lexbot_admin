@@ -35,29 +35,71 @@ export const checkAuthStatus = createAsyncThunk(
 );
 
 /**
- * Thunk para iniciar sesión de usuario
+ * ⚔️ THUNK ÉPICO PARA INICIAR SESIÓN
+ * Login + Carga de perfil + Redirección inteligente
  */
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (credentials: LoginCredentials, { rejectWithValue }) => {
+  async (credentials: LoginCredentials, { rejectWithValue, dispatch }) => {
     try {
+      console.log(credentials)
+      // 1️⃣ Autenticar con Firebase Auth
       const userCredential: UserCredential = await authService.login(
         credentials
       );
 
-      // Guardar datos de sesión
+      const { user } = userCredential;
+
+      // 2️⃣ Guardar datos de sesión
       sessionService.saveUserSession(
-        userCredential.user,
+        user,
         credentials.rememberMe || false
       );
 
-      errorService.logInfo(getText("auth.success.loginSuccess"), "loginUser");
+      // 3️⃣ Cargar perfil de usuario desde Firestore
+      try {
+        const profileResult = await dispatch(loadUserProfile(user.uid));
+        
+        if (loadUserProfile.fulfilled.match(profileResult)) {
+          // Perfil cargado exitosamente
+          const profile = profileResult.payload;
+          
+          errorService.logInfo(
+            `Login exitoso para: ${user.email} - Perfil: ${profile.isComplete ? 'Completo' : 'Incompleto'}`, 
+            "loginUser"
+          );
 
-      return {
-        user: userCredential.user,
-        rememberMe: credentials.rememberMe || false,
-      };
+          return {
+            user,
+            userProfile: profile,
+            rememberMe: credentials.rememberMe || false,
+          };
+        } else {
+          // Error cargando perfil - continuar sin perfil
+          errorService.logError(
+            new Error(`Error cargando perfil: ${profileResult.payload}`), 
+            "loginUser"
+          );
+          
+          return {
+            user,
+            userProfile: null,
+            rememberMe: credentials.rememberMe || false,
+          };
+        }
+      } catch (profileError) {
+        // Error cargando perfil - continuar sin perfil
+        errorService.logError(profileError as Error, "loginUser-profile");
+        
+        return {
+          user,
+          userProfile: null,
+          rememberMe: credentials.rememberMe || false,
+        };
+      }
+
     } catch (error) {
+      console.log(error)
       errorService.logError(error as Error, "loginUser");
       return rejectWithValue((error as Error).message);
     }
@@ -284,6 +326,59 @@ export const extendSession = createAsyncThunk(
       };
     } catch (error) {
       errorService.logError(error as Error, "extendSession");
+      return rejectWithValue((error as Error).message);
+    }
+  }
+);
+
+/**
+ * 👑 THUNK ÉPICO PARA CARGAR PERFIL DE USUARIO
+ * Obtiene el perfil completo desde Firestore
+ */
+export const loadUserProfile = createAsyncThunk(
+  "auth/loadUserProfile",
+  async (uid: string, { rejectWithValue }) => {
+    try {
+      const { userService } = await import('../../../services');
+      
+      const result = await userService.getUserProfile(uid);
+      
+      if (result.success && result.data) {
+        errorService.logInfo(`Perfil cargado para usuario: ${uid}`, "loadUserProfile");
+        return result.data;
+      } else {
+        throw new Error(result.error || 'Error desconocido al cargar perfil');
+      }
+    } catch (error) {
+      errorService.logError(error as Error, "loadUserProfile");
+      return rejectWithValue((error as Error).message);
+    }
+  }
+);
+
+/**
+ * ⚡ THUNK ÉPICO PARA ACTUALIZAR PERFIL DE USUARIO
+ * Actualiza el perfil en Firestore y en el estado global
+ */
+export const updateUserProfileThunk = createAsyncThunk(
+  "auth/updateUserProfileFirestore",
+  async (
+    { uid, updates }: { uid: string; updates: any },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { userService } = await import('../../../services');
+      
+      const result = await userService.updateUserProfile(uid, updates);
+      
+      if (result.success && result.data) {
+        errorService.logInfo(`Perfil actualizado para usuario: ${uid}`, "updateUserProfile");
+        return result.data;
+      } else {
+        throw new Error(result.error || 'Error desconocido al actualizar perfil');
+      }
+    } catch (error) {
+      errorService.logError(error as Error, "updateUserProfile");
       return rejectWithValue((error as Error).message);
     }
   }

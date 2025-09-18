@@ -16,7 +16,9 @@ import {
   updateUserProfile,
   sendEmailVerification,
   refreshUserData,
-  extendSession
+  extendSession,
+  loadUserProfile,
+  updateUserProfileThunk
 } from './thunks';
 import { sessionService } from '../../../services';
 
@@ -129,6 +131,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading.login = false;
         state.user = action.payload.user;
+        state.userProfile = action.payload.userProfile; // 👑 NUEVO: Perfil del usuario
         state.isAuthenticated = true;
         state.success.login = true;
         state.sessionInfo.rememberMe = action.payload.rememberMe;
@@ -179,6 +182,7 @@ const authSlice = createSlice({
         const newState = { ...initialAuthState };
         newState.isInitialized = true;
         newState.success.logout = true;
+        newState.userProfile = null; // 👑 LIMPIAR PERFIL
         return newState;
       })
       .addCase(logoutUser.rejected, (state, action) => {
@@ -276,6 +280,41 @@ const authSlice = createSlice({
       .addCase(extendSession.fulfilled, (state, action) => {
         state.sessionInfo.expiresAt = action.payload.expiresAt;
         state.sessionInfo.lastActivity = action.payload.lastActivity;
+      });
+
+    // 👑 CARGAR PERFIL DE USUARIO
+    builder
+      .addCase(loadUserProfile.pending, (state) => {
+        state.loading.loadProfile = true;
+        state.errors.loadProfile = null;
+      })
+      .addCase(loadUserProfile.fulfilled, (state, action) => {
+        state.loading.loadProfile = false;
+        state.userProfile = action.payload;
+        state.errors.loadProfile = null;
+      })
+      .addCase(loadUserProfile.rejected, (state, action) => {
+        state.loading.loadProfile = false;
+        state.errors.loadProfile = action.payload as string;
+        state.userProfile = null;
+      });
+
+    // ⚡ ACTUALIZAR PERFIL DE USUARIO EN FIRESTORE
+    builder
+      .addCase(updateUserProfileThunk.pending, (state) => {
+        state.loading.updateProfileFirestore = true;
+        state.errors.updateProfileFirestore = null;
+      })
+      .addCase(updateUserProfileThunk.fulfilled, (state, action) => {
+        state.loading.updateProfileFirestore = false;
+        state.userProfile = action.payload;
+        state.success.updateProfileFirestore = true;
+        state.errors.updateProfileFirestore = null;
+      })
+      .addCase(updateUserProfileThunk.rejected, (state, action) => {
+        state.loading.updateProfileFirestore = false;
+        state.errors.updateProfileFirestore = action.payload as string;
+        state.success.updateProfileFirestore = false;
       });
   },
 });

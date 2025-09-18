@@ -9,8 +9,15 @@ import { useAuth, useProtectedPageRedirect, useUserProfile } from "../../auth";
  * Página principal del reino para guerreros autenticados
  */
 export const Dashboard: React.FC = () => {
-  const { user, logout, userDisplayName } = useAuth();
-  const { profile, fullName, isLoading: profileLoading } = useUserProfile();
+  const { 
+    user, 
+    logout, 
+    userDisplayName, 
+    userProfile, 
+    userFullName, 
+    completeUserData,
+    canAccessDashboard 
+  } = useAuth();
   
   // Hook para proteger la página - redirige a login si no está autenticado
   useProtectedPageRedirect();
@@ -26,14 +33,18 @@ export const Dashboard: React.FC = () => {
               {dashboard.title}
             </h1>
             <p className="text-gray-300 text-lg">
-              {withUserName('dashboard.welcome', fullName || userDisplayName)}
+              {withUserName('dashboard.welcome', userFullName || userDisplayName)}
             </p>
             <p className="text-gray-400 text-sm mt-2">Email: {user?.email}</p>
-            {profile && (
-              <div className="text-gray-400 text-xs mt-1">
-                <span>Role: {profile.role}</span>
-                {profile.city && <span> • City: {profile.city}</span>}
-                {profile.phone && <span> • Phone: {profile.phone}</span>}
+            {userProfile && (
+              <div className="text-gray-400 text-xs mt-1 space-x-2">
+                <span className="bg-purple-500/20 px-2 py-1 rounded">Rol: {userProfile.rol}</span>
+                {userProfile.ciudad && (
+                  <span className="bg-blue-500/20 px-2 py-1 rounded">📍 {userProfile.ciudad}</span>
+                )}
+                {userProfile.celular && (
+                  <span className="bg-green-500/20 px-2 py-1 rounded">📱 {userProfile.celular}</span>
+                )}
               </div>
             )}
           </div>

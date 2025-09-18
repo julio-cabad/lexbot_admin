@@ -5,9 +5,15 @@ import {
   selectUser, selectIsAuthenticated, selectIsInitialized, selectAuthStatus, selectIsLoginLoading,
   selectIsRegisterLoading, selectIsLogoutLoading, selectLoginError, selectRegisterError, selectLogoutError,
   selectLoginSuccess, selectRegisterSuccess, selectLogoutSuccess, selectSessionInfo, selectIsEmailVerified,
+  // 👑 NUEVOS SELECTORES ÉPICOS
+  selectUserProfile, selectIsProfileLoading, selectProfileError, selectIsProfileComplete,
+  selectUserFullName, selectUserRole, selectUserCity, selectUserPhone, selectCompleteUserData,
+  selectNeedsProfileCompletion, selectRedirectPath,
   clearError, clearSuccess, setRedirectAfterLogin,
-  checkAuthStatus,loginUser, registerUser, logoutUser, sendPasswordResetEmail, confirmPasswordReset,
-  updateUserProfile, sendEmailVerification, refreshUserData
+  checkAuthStatus, loginUser, registerUser, logoutUser, sendPasswordResetEmail, confirmPasswordReset,
+  updateUserProfile, sendEmailVerification, refreshUserData,
+  // 🔥 NUEVOS THUNKS ÉPICOS
+  loadUserProfile, updateUserProfileThunk
 } from '../../../core/store/slices/auth';
 
 /**
@@ -24,6 +30,19 @@ export const useAuth = () => {
   const authStatus = useAppSelector(selectAuthStatus);
   const sessionInfo = useAppSelector(selectSessionInfo);
   const isEmailVerified = useAppSelector(selectIsEmailVerified);
+
+  // 👑 SELECTORES ÉPICOS DE PERFIL
+  const userProfile = useAppSelector(selectUserProfile);
+  const isProfileLoading = useAppSelector(selectIsProfileLoading);
+  const profileError = useAppSelector(selectProfileError);
+  const isProfileComplete = useAppSelector(selectIsProfileComplete);
+  const userFullName = useAppSelector(selectUserFullName);
+  const userRole = useAppSelector(selectUserRole);
+  const userCity = useAppSelector(selectUserCity);
+  const userPhone = useAppSelector(selectUserPhone);
+  const completeUserData = useAppSelector(selectCompleteUserData);
+  const needsProfileCompletion = useAppSelector(selectNeedsProfileCompletion);
+  const redirectPath = useAppSelector(selectRedirectPath);
 
   // Selectores de loading
   const isLoginLoading = useAppSelector(selectIsLoginLoading);
@@ -73,6 +92,18 @@ export const useAuth = () => {
     return await dispatch(refreshUserData());
   }, [dispatch]);
 
+  // 🔥 FUNCIONES DE PERFIL
+  const loadProfile = useCallback(async (uid?: string) => {
+    const targetUid = uid || user?.uid;
+    if (!targetUid) return;
+    return await dispatch(loadUserProfile(targetUid));
+  }, [dispatch, user?.uid]);
+
+  const updateUserProfileData = useCallback(async (updates: any) => {
+    if (!user?.uid) return;
+    return await dispatch(updateUserProfileThunk({ uid: user.uid, updates }));
+  }, [dispatch, user?.uid]);
+
   const checkAuth = useCallback(async () => {
     // Solo ejecutar si no está inicializado
     if (!isInitialized) {
@@ -110,15 +141,10 @@ export const useAuth = () => {
     dispatch(setRedirectAfterLogin(path));
   }, [dispatch]);
 
-  // Datos computados
-  const userDisplayName = user?.displayName || 'Usuario';
+  // Datos computados (mejorados con perfil)
+  const userDisplayName = userFullName || user?.displayName || 'Usuario';
   const userEmail = user?.email || '';
-  const userInitials = userDisplayName
-    .split(' ')
-    .map(word => word.charAt(0))
-    .join('')
-    .toUpperCase()
-    .slice(0, 2);
+  const userInitials = completeUserData.initials;
 
   return {
     // Estado del usuario
@@ -161,6 +187,10 @@ export const useAuth = () => {
     refreshUser,
     checkAuth,
 
+    // 🔥 FUNCIONES ÉPICAS DE PERFIL
+    loadProfile,
+    updateUserProfile: updateUserProfileData,
+
     // Funciones de limpieza
     clearLoginError,
     clearRegisterError,
@@ -171,5 +201,22 @@ export const useAuth = () => {
 
     // Utilidades
     setRedirect,
+
+    // 👑 DATOS ÉPICOS DE PERFIL
+    userProfile,
+    isProfileLoading,
+    profileError,
+    isProfileComplete,
+    userFullName,
+    userRole,
+    userCity,
+    userPhone,
+    completeUserData,
+    needsProfileCompletion,
+    redirectPath,
+
+    // 🎯 UTILIDADES DE PERFIL
+    hasProfile: !!userProfile,
+    canAccessDashboard: isProfileComplete,
   };
 };

@@ -1,8 +1,8 @@
 /**
  * Tipos para el slice de autenticación
- * Integrados con el sistema de configuración
+ * 🏛️ EXPANDIDO PARA INCLUIR PERFIL DE USUARIO
  */
-import { User } from '../../../../features/auth/types';
+import { User, UserProfile } from '../../../../features/auth/types';
 
 /**
  * Estado del slice de autenticación
@@ -10,6 +10,9 @@ import { User } from '../../../../features/auth/types';
 export interface AuthState {
   // Datos del usuario
   user: User | null;
+  
+  // 👑 PERFIL COMPLETO DEL USUARIO EN FIRESTORE
+  userProfile: UserProfile | null;
   
   // Estados de carga para diferentes operaciones
   loading: {
@@ -19,8 +22,10 @@ export interface AuthState {
     forgotPassword: boolean;
     resetPassword: boolean;
     updateProfile: boolean;
+    updateProfileFirestore: boolean; // ⚡ NUEVO: Actualizar perfil en Firestore
     emailVerification: boolean;
     checkAuth: boolean;
+    loadProfile: boolean; // 🔥 NUEVO: Carga del perfil
   };
   
   // Estados de error para diferentes operaciones
@@ -31,8 +36,10 @@ export interface AuthState {
     forgotPassword: string | null;
     resetPassword: string | null;
     updateProfile: string | null;
+    updateProfileFirestore: string | null; // ⚡ NUEVO: Error al actualizar perfil en Firestore
     emailVerification: string | null;
     general: string | null;
+    loadProfile: string | null; // 🔥 NUEVO: Error al cargar perfil
   };
   
   // Estados de éxito para diferentes operaciones
@@ -43,6 +50,7 @@ export interface AuthState {
     forgotPassword: boolean;
     resetPassword: boolean;
     updateProfile: boolean;
+    updateProfileFirestore: boolean; // ⚡ NUEVO: Éxito al actualizar perfil en Firestore
     emailVerification: boolean;
   };
   
@@ -71,6 +79,7 @@ export interface AuthState {
  */
 export const initialAuthState: AuthState = {
   user: null,
+  userProfile: null, // 👑 NUEVO: Perfil inicialmente nulo
   loading: {
     login: false,
     register: false,
@@ -78,8 +87,10 @@ export const initialAuthState: AuthState = {
     forgotPassword: false,
     resetPassword: false,
     updateProfile: false,
+    updateProfileFirestore: false, // ⚡ NUEVO: Estado de carga de actualización de perfil en Firestore
     emailVerification: false,
     checkAuth: true, // Comienza como true ya que verificamos la autenticación al cargar la app
+    loadProfile: false, // 🔥 NUEVO: Estado de carga del perfil
   },
   errors: {
     login: null,
@@ -88,8 +99,10 @@ export const initialAuthState: AuthState = {
     forgotPassword: null,
     resetPassword: null,
     updateProfile: null,
+    updateProfileFirestore: null, // ⚡ NUEVO: Error al actualizar perfil en Firestore
     emailVerification: null,
     general: null,
+    loadProfile: null, // 🔥 NUEVO: Error del perfil
   },
   success: {
     login: false,
@@ -98,6 +111,7 @@ export const initialAuthState: AuthState = {
     forgotPassword: false,
     resetPassword: false,
     updateProfile: false,
+    updateProfileFirestore: false, // ⚡ NUEVO: Éxito al actualizar perfil en Firestore
     emailVerification: false,
   },
   isAuthenticated: false,

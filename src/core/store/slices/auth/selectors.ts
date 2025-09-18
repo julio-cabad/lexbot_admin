@@ -274,3 +274,105 @@ export const selectAuthStatus = createSelector(
     canRender: isInitialized && !isLoading
   })
 );
+
+// 👑 SELECTORES ÉPICOS PARA PERFIL DE USUARIO
+export const selectUserProfile = createSelector(
+  [selectAuth],
+  (auth) => auth.userProfile
+);
+
+export const selectIsProfileLoading = createSelector(
+  [selectAuthLoading],
+  (loading) => loading.loadProfile
+);
+
+export const selectProfileError = createSelector(
+  [selectAuthErrors],
+  (errors) => errors.loadProfile
+);
+
+export const selectIsProfileComplete = createSelector(
+  [selectUserProfile],
+  (profile) => profile?.isComplete || false
+);
+
+export const selectUserFullName = createSelector(
+  [selectUserProfile],
+  (profile) => {
+    if (!profile || !profile.firstName || !profile.lastName) return '';
+    return `${profile.firstName} ${profile.lastName}`.trim();
+  }
+);
+
+export const selectUserInitialsFromProfile = createSelector(
+  [selectUserProfile],
+  (profile) => {
+    if (!profile || !profile.firstName || !profile.lastName) return '';
+    return `${profile.firstName.charAt(0)}${profile.lastName.charAt(0)}`.toUpperCase();
+  }
+);
+
+export const selectUserRole = createSelector(
+  [selectUserProfile],
+  (profile) => profile?.role || 'user'
+);
+
+export const selectUserCity = createSelector(
+  [selectUserProfile],
+  (profile) => profile?.city || ''
+);
+
+export const selectUserPhone = createSelector(
+  [selectUserProfile],
+  (profile) => profile?.phone || ''
+);
+
+// 🎯 SELECTOR ÉPICO PARA REDIRECCIÓN INTELIGENTE
+export const selectRedirectPath = createSelector(
+  [selectIsAuthenticated, selectIsProfileComplete, selectIsInitialized],
+  (isAuthenticated, isProfileComplete, isInitialized) => {
+    if (!isInitialized || !isAuthenticated) {
+      return null; // No redirigir si no está inicializado o autenticado
+    }
+    
+    if (!isProfileComplete) {
+      return '/complete-profile'; // Redirigir a completar perfil
+    }
+    
+    return '/dashboard'; // Redirigir al dashboard
+  }
+);
+
+// 🔥 SELECTOR PARA VERIFICAR SI NECESITA COMPLETAR PERFIL
+export const selectNeedsProfileCompletion = createSelector(
+  [selectIsAuthenticated, selectIsProfileComplete, selectUserProfile],
+  (isAuthenticated, isProfileComplete, profile) => {
+    return isAuthenticated && profile && !isProfileComplete;
+  }
+);
+
+// 📊 SELECTOR PARA DATOS COMPLETOS DEL USUARIO
+export const selectCompleteUserData = createSelector(
+  [selectUser, selectUserProfile, selectUserFullName, selectUserInitialsFromProfile],
+  (user, profile, fullName, initials) => ({
+    // Datos de Firebase Auth
+    uid: user?.uid || '',
+    email: user?.email || '',
+    emailVerified: user?.emailVerified || false,
+    displayName: user?.displayName || '',
+    photoURL: user?.photoURL || null,
+    
+    // Datos del perfil de Firestore
+    nombres: profile?.firstName || '',
+    apellidos: profile?.lastName || '',
+    rol: profile?.role || '',
+    celular: profile?.phone || '',
+    ciudad: profile?.city || '',
+    isComplete: profile?.isComplete || false,
+    
+    // Datos computados
+    fullName,
+    initials: initials || user?.displayName?.charAt(0)?.toUpperCase() || 'U',
+    hasProfile: !!profile,
+  })
+);
