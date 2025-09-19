@@ -21,6 +21,3 @@ export {
   useUserProfile, 
   useProfileCompletion 
 } from './useUserProfile';
-
-// 🎯 HOOK DE REDIRECCIÓN POST-LOGIN
-export { usePostLoginRedirect } from './usePostLoginRedirect';

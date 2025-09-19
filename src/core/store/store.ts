@@ -2,12 +2,13 @@
  * Configuración centralizada de Redux Store
  * Integrada con el sistema de configuración
  */
-import { configureStore } from '@reduxjs/toolkit';
-import { APP_CONFIG } from '../../config/app';
+import { configureStore } from "@reduxjs/toolkit";
+import { APP_CONFIG } from "../../config/app";
 
-// Importamos los componentes necesarios
-import { authReducer } from './slices/auth';
-import { sessionMiddleware } from './middleware';
+// Importamos los reducers necesarios
+import { authReducer } from "./slices/auth";
+import { adminReducer } from "./slices/admin";
+import { sessionMiddleware } from "./middleware";
 
 /**
  * Configuración de la tienda Redux
@@ -18,24 +19,24 @@ import { sessionMiddleware } from './middleware';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    // Aquí se pueden agregar más reducers a medida que se necesiten
+    admin: adminReducer, // 🏛️ NUEVO: Admin state management
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         // Ignorar objetos Firebase User y objetos Date en acciones y estado
         ignoredActions: [
-          'auth/checkAuthStatus/fulfilled',
-          'auth/loginUser/fulfilled',
-          'auth/registerUser/fulfilled',
-          'auth/updateUserProfile/fulfilled',
-          'auth/refreshUserData/fulfilled',
-          'auth/extendSession/fulfilled',
+          "auth/checkAuthStatus/fulfilled",
+          "auth/loginUser/fulfilled",
+          "auth/registerUser/fulfilled",
+          "auth/updateUserProfile/fulfilled",
+          "auth/refreshUserData/fulfilled",
+          "auth/extendSession/fulfilled",
         ],
         ignoredPaths: [
-          'auth.user',
-          'auth.sessionInfo.lastActivity',
-          'auth.sessionInfo.expiresAt',
+          "auth.user",
+          "auth.sessionInfo.lastActivity",
+          "auth.sessionInfo.expiresAt",
         ],
       },
     }).concat(sessionMiddleware),
@@ -51,3 +52,4 @@ export type AppDispatch = typeof store.dispatch;
  * Exportados aquí para facilitar su uso
  */
 export const selectAuth = (state: RootState) => state.auth;
+export const selectAdmin = (state: RootState) => state.admin;

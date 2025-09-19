@@ -1,0 +1,262 @@
+/**
+ * ⚡ ADMIN TRANSITIONS & ANIMATIONS
+ * Smooth transitions for layout changes and interactions
+ */
+
+/* 🎭 SIDEBAR TRANSITIONS */
+.admin-sidebar-transition {
+  transition: 
+    width var(--admin-transition-normal),
+    transform var(--admin-transition-normal),
+    opacity var(--admin-transition-fast);
+}
+
+.admin-sidebar-content-transition {
+  transition: 
+    opacity var(--admin-transition-fast),
+    transform var(--admin-transition-fast);
+}
+
+/* When sidebar is collapsing, hide content quickly */
+.admin-sidebar--collapsing .admin-sidebar-content-transition {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition-delay: 0s;
+}
+
+/* When sidebar is expanding, show content with delay */
+.admin-sidebar--expanding .admin-sidebar-content-transition {
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0.1s;
+}
+
+/* 🏗️ LAYOUT TRANSITIONS */
+.admin-layout-transition {
+  transition: 
+    grid-template-columns var(--admin-transition-normal),
+    margin-left var(--admin-transition-normal),
+    padding var(--admin-transition-normal);
+}
+
+.admin-main-transition {
+  transition: 
+    margin-left var(--admin-transition-normal),
+    width var(--admin-transition-normal),
+    padding var(--admin-transition-normal);
+}
+
+/* 📱 MOBILE OVERLAY TRANSITIONS */
+.admin-mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--admin-bg-overlay);
+  backdrop-filter: blur(4px);
+  z-index: calc(var(--admin-z-sidebar) - 1);
+  opacity: 0;
+  visibility: hidden;
+  transition: 
+    opacity var(--admin-transition-normal),
+    visibility var(--admin-transition-normal),
+    backdrop-filter var(--admin-transition-normal);
+}
+
+.admin-mobile-overlay--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 🎯 INTERACTIVE TRANSITIONS */
+.admin-interactive {
+  transition: 
+    background-color var(--admin-transition-fast),
+    border-color var(--admin-transition-fast),
+    color var(--admin-transition-fast),
+    box-shadow var(--admin-transition-fast),
+    transform var(--admin-transition-fast);
+}
+
+.admin-interactive:hover {
+  transform: translateY(-1px);
+}
+
+.admin-interactive:active {
+  transform: translateY(0);
+}
+
+/* 🎨 GLASSMORPHISM TRANSITIONS */
+.admin-glass-transition {
+  transition: 
+    background var(--admin-transition-fast),
+    backdrop-filter var(--admin-transition-fast),
+    border var(--admin-transition-fast),
+    box-shadow var(--admin-transition-fast);
+}
+
+/* 🔄 LOADING ANIMATIONS */
+.admin-loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--admin-border-color);
+  border-radius: 50%;
+  border-top-color: var(--admin-info);
+  animation: adminSpin 1s ease-in-out infinite;
+}
+
+.admin-loading-pulse {
+  animation: adminPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.admin-loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--admin-bg-secondary) 25%,
+    var(--admin-border-color) 50%,
+    var(--admin-bg-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: adminSkeleton 1.5s ease-in-out infinite;
+}
+
+/* 🎭 KEYFRAME ANIMATIONS */
+@keyframes adminSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes adminPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes adminSkeleton {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes adminSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes adminSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes adminScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes adminFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🎯 ANIMATION UTILITY CLASSES */
+.admin-animate-slide-down {
+  animation: adminSlideDown var(--admin-transition-normal) ease-out;
+}
+
+.admin-animate-slide-up {
+  animation: adminSlideUp var(--admin-transition-normal) ease-out;
+}
+
+.admin-animate-scale-in {
+  animation: adminScaleIn var(--admin-transition-normal) ease-out;
+}
+
+.admin-animate-fade-in-up {
+  animation: adminFadeInUp var(--admin-transition-normal) ease-out;
+}
+
+/* 🎭 STAGGERED ANIMATIONS */
+.admin-stagger-children > * {
+  animation: adminFadeInUp var(--admin-transition-normal) ease-out;
+}
+
+.admin-stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.admin-stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.admin-stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.admin-stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.admin-stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.admin-stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+
+/* 🔧 PERFORMANCE OPTIMIZATIONS */
+.admin-will-change-transform {
+  will-change: transform;
+}
+
+.admin-will-change-opacity {
+  will-change: opacity;
+}
+
+.admin-will-change-auto {
+  will-change: auto;
+}
+
+/* 🎭 REDUCED MOTION SUPPORT */
+@media (prefers-reduced-motion: reduce) {
+  .admin-sidebar-transition,
+  .admin-sidebar-content-transition,
+  .admin-layout-transition,
+  .admin-main-transition,
+  .admin-mobile-overlay,
+  .admin-interactive,
+  .admin-glass-transition {
+    transition: none !important;
+  }
+  
+  .admin-loading-spinner,
+  .admin-loading-pulse,
+  .admin-loading-skeleton,
+  .admin-animate-slide-down,
+  .admin-animate-slide-up,
+  .admin-animate-scale-in,
+  .admin-animate-fade-in-up,
+  .admin-stagger-children > * {
+    animation: none !important;
+  }
+  
+  .admin-interactive:hover {
+    transform: none !important;
+  }
+}

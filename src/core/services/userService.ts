@@ -44,7 +44,7 @@ class UserService {
         email,
         firstName: additionalData.firstName || '',
         lastName: additionalData.lastName || '',
-        role: '',
+        role: additionalData.role || '',
         phone: additionalData.phone || '',
         city: additionalData.city || '',
       };

@@ -1,0 +1,145 @@
+/**
+ * 🏛️ ADMIN STYLES MAIN INDEX
+ * Centralized import for all admin layout styles
+ */
+
+/* 🎯 CORE ADMIN STYLES */
+@import './variables.css';
+@import './layout.css';
+@import './header.css';
+@import './navigation.css';
+@import './main.css';
+@import './dashboard.css';
+@import './responsive.css';
+@import './transitions.css';
+@import './transitions.css';
+
+/* 🎨 FEATURE SPECIFIC STYLES */
+@import '../../features/dashboard/styles/admin-dashboard.css';
+
+/* 🎨 ADMIN THEME INTEGRATION */
+.admin-theme {
+  /* Ensure admin styles take precedence */
+  color-scheme: light dark;
+  
+  /* Apply admin font stack */
+  font-family: 
+    -apple-system, 
+    BlinkMacSystemFont, 
+    'Segoe UI', 
+    'Roboto', 
+    'Oxygen', 
+    'Ubuntu', 
+    'Cantarell', 
+    'Fira Sans', 
+    'Droid Sans', 
+    'Helvetica Neue', 
+    sans-serif;
+  
+  /* Smooth font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Improve text rendering */
+  text-rendering: optimizeLegibility;
+  
+  /* Better box model */
+  box-sizing: border-box;
+}
+
+.admin-theme *,
+.admin-theme *::before,
+.admin-theme *::after {
+  box-sizing: inherit;
+}
+
+/* 🎯 ADMIN FOCUS STYLES */
+.admin-theme :focus {
+  outline: 2px solid var(--admin-info);
+  outline-offset: 2px;
+}
+
+.admin-theme :focus:not(:focus-visible) {
+  outline: none;
+}
+
+.admin-theme :focus-visible {
+  outline: 2px solid var(--admin-info);
+  outline-offset: 2px;
+}
+
+/* 🎨 ADMIN SCROLLBAR STYLES */
+.admin-theme ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.admin-theme ::-webkit-scrollbar-track {
+  background: var(--admin-bg-secondary);
+  border-radius: 4px;
+}
+
+.admin-theme ::-webkit-scrollbar-thumb {
+  background: var(--admin-border-color);
+  border-radius: 4px;
+  transition: background var(--admin-transition-fast);
+}
+
+.admin-theme ::-webkit-scrollbar-thumb:hover {
+  background: var(--admin-text-secondary);
+}
+
+/* 🔧 ADMIN UTILITY CLASSES */
+.admin-theme .admin-text-primary { color: var(--admin-text-primary) !important; }
+.admin-theme .admin-text-secondary { color: var(--admin-text-secondary) !important; }
+.admin-theme .admin-text-success { color: var(--admin-success) !important; }
+.admin-theme .admin-text-warning { color: var(--admin-warning) !important; }
+.admin-theme .admin-text-error { color: var(--admin-error) !important; }
+.admin-theme .admin-text-info { color: var(--admin-info) !important; }
+
+.admin-theme .admin-bg-primary { background-color: var(--admin-bg-primary) !important; }
+.admin-theme .admin-bg-secondary { background-color: var(--admin-bg-secondary) !important; }
+.admin-theme .admin-bg-success { background-color: var(--admin-success-bg) !important; }
+.admin-theme .admin-bg-warning { background-color: var(--admin-warning-bg) !important; }
+.admin-theme .admin-bg-error { background-color: var(--admin-error-bg) !important; }
+.admin-theme .admin-bg-info { background-color: var(--admin-info-bg) !important; }
+
+.admin-theme .admin-border { border: 1px solid var(--admin-border-color) !important; }
+.admin-theme .admin-border-t { border-top: 1px solid var(--admin-border-color) !important; }
+.admin-theme .admin-border-r { border-right: 1px solid var(--admin-border-color) !important; }
+.admin-theme .admin-border-b { border-bottom: 1px solid var(--admin-border-color) !important; }
+.admin-theme .admin-border-l { border-left: 1px solid var(--admin-border-color) !important; }
+
+.admin-theme .admin-rounded { border-radius: 8px !important; }
+.admin-theme .admin-rounded-sm { border-radius: 4px !important; }
+.admin-theme .admin-rounded-md { border-radius: 8px !important; }
+.admin-theme .admin-rounded-lg { border-radius: 12px !important; }
+.admin-theme .admin-rounded-xl { border-radius: 16px !important; }
+.admin-theme .admin-rounded-full { border-radius: 9999px !important; }
+
+.admin-theme .admin-shadow-sm { box-shadow: var(--admin-shadow-sm) !important; }
+.admin-theme .admin-shadow-md { box-shadow: var(--admin-shadow-md) !important; }
+.admin-theme .admin-shadow-lg { box-shadow: var(--admin-shadow-lg) !important; }
+.admin-theme .admin-shadow-xl { box-shadow: var(--admin-shadow-xl) !important; }
+
+/* 🎭 PRINT STYLES */
+@media print {
+  .admin-theme .admin-layout__sidebar,
+  .admin-theme .admin-layout__header {
+    display: none !important;
+  }
+  
+  .admin-theme .admin-layout {
+    grid-template-areas: "main";
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+  
+  .admin-theme .admin-layout__main {
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+    color: black !important;
+  }
+}

@@ -53,7 +53,8 @@ const LoginPage = React.lazy(() => import('../features/auth/pages/LoginPage').th
 const RegisterPage = React.lazy(() => import('../features/auth/pages/RegisterPage').then(module => ({ default: module.RegisterPage })));
 const ForgotPasswordPage = React.lazy(() => import('../features/auth/pages/ForgotPasswordPage').then(module => ({ default: module.ForgotPasswordPage })));
 const ResetPasswordPage = React.lazy(() => import('../features/auth/pages/ResetPasswordPage').then(module => ({ default: module.ResetPasswordPage })));
-const DashboardPage = React.lazy(() => import('../features/dashboard/pages/Dashboard').then(module => ({ default: module.Dashboard })));
+const CompleteProfilePage = React.lazy(() => import('../features/auth/pages/CompleteProfilePage').then(module => ({ default: module.CompleteProfilePage })));
+const DashboardPage = React.lazy(() => import('../features/admin/pages/DashboardPage').then(module => ({ default: module.DashboardPage })));
 
 // Componentes temporales para rutas que aún no existen
 const ProfilePage: React.FC = () => React.createElement('div', null, 'Página de Perfil (Placeholder)');
@@ -127,6 +128,18 @@ export const ROUTES = {
   
   // Rutas privadas (requieren autenticación)
   private: {
+    completeProfile: {
+      path: '/complete-profile',
+      component: CompleteProfilePage,
+      meta: {
+        title: 'Complete Profile',
+        requiresAuth: true,
+        roles: [UserRole.USER, UserRole.ADMIN, UserRole.SUPER_ADMIN],
+        breadcrumb: 'Complete Profile',
+        layout: 'auth',
+        description: 'Complete your profile information'
+      }
+    },
     dashboard: {
       path: '/dashboard',
       component: DashboardPage,

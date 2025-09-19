@@ -1,0 +1,493 @@
+/**
+ * 🏛️ ADMIN HEADER STYLES
+ * Professional header styling with glassmorphism effects
+ */
+
+/* 🎯 MAIN HEADER CONTAINER */
+.admin-header {
+  display: flex;
+  align-items: center;
+  height: var(--admin-header-height);
+  background: var(--admin-bg-header);
+  backdrop-filter: var(--admin-glass-backdrop);
+  border-bottom: 1px solid var(--admin-border-color);
+  box-shadow: var(--admin-shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: var(--admin-z-header);
+  transition: all var(--admin-transition-fast);
+}
+
+.admin-header__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 0 1.5rem;
+  gap: 1rem;
+}
+
+/* 🎯 HEADER SECTIONS */
+.admin-header__left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.admin-header__center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0; /* Allow shrinking */
+}
+
+.admin-header__right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* 🎛️ SIDEBAR TOGGLE STYLES */
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: var(--admin-text-sidebar);
+  cursor: pointer;
+  transition: all var(--admin-transition-fast);
+  position: relative;
+}
+
+.sidebar-toggle:hover {
+  background: var(--admin-hover-bg);
+  color: var(--admin-text-sidebar-active);
+  transform: translateY(-1px);
+}
+
+.sidebar-toggle:active {
+  transform: translateY(0);
+}
+
+.sidebar-toggle:focus {
+  outline: none;
+  box-shadow: var(--admin-focus-ring);
+}
+
+.sidebar-toggle__icon {
+  transition: transform var(--admin-transition-fast);
+}
+
+.sidebar-toggle__icon--collapsed {
+  transform: rotate(180deg);
+}
+
+/* 🏷️ LOGO STYLES */
+.admin-header__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--admin-transition-fast);
+}
+
+.admin-header__logo:hover {
+  transform: translateY(-1px);
+}
+
+.admin-header__logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.admin-header__logo-svg {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.admin-header__logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.admin-header__logo-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin: 0;
+  line-height: 1;
+}
+
+.admin-header__logo-subtitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--admin-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+/* 🔔 NOTIFICATIONS STYLES */
+.admin-header__notifications {
+  display: flex;
+  align-items: center;
+}
+
+.admin-header__notification-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: var(--admin-text-secondary);
+  cursor: pointer;
+  transition: all var(--admin-transition-fast);
+}
+
+.admin-header__notification-btn:hover {
+  background: var(--admin-hover-bg);
+  color: var(--admin-text-primary);
+  transform: translateY(-1px);
+}
+
+.admin-header__notification-btn:focus {
+  outline: none;
+  box-shadow: var(--admin-focus-ring);
+}
+
+.admin-header__notification-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  background: var(--admin-error);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+/* 👤 USER PROFILE DROPDOWN STYLES */
+.user-profile-dropdown {
+  position: relative;
+}
+
+.user-profile-dropdown__trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all var(--admin-transition-fast);
+  color: var(--admin-text-primary);
+  min-width: 0; /* Allow text truncation */
+}
+
+.user-profile-dropdown__trigger:hover {
+  background: var(--admin-hover-bg);
+  transform: translateY(-1px);
+}
+
+.user-profile-dropdown__trigger:focus {
+  outline: none;
+  box-shadow: var(--admin-focus-ring);
+}
+
+.user-profile-dropdown__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--admin-accent-primary), var(--admin-accent-secondary));
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.user-profile-dropdown__avatar--large {
+  width: 48px;
+  height: 48px;
+  font-size: 1.125rem;
+}
+
+.user-profile-dropdown__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  text-align: left;
+}
+
+.user-profile-dropdown__name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-profile-dropdown__name--large {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.user-profile-dropdown__role {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--admin-text-secondary);
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-profile-dropdown__role--badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  background: var(--admin-info-bg);
+  color: var(--admin-info);
+  border-radius: 12px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.user-profile-dropdown__email {
+  font-size: 0.75rem;
+  color: var(--admin-text-secondary);
+  margin: 0.25rem 0;
+  word-break: break-all;
+}
+
+.user-profile-dropdown__arrow {
+  width: 16px;
+  height: 16px;
+  color: var(--admin-text-secondary);
+  transition: transform var(--admin-transition-fast);
+  flex-shrink: 0;
+}
+
+.user-profile-dropdown__arrow--open {
+  transform: rotate(180deg);
+}
+
+/* 📋 DROPDOWN MENU STYLES */
+.user-profile-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 280px;
+  background: var(--admin-glass-bg);
+  backdrop-filter: var(--admin-glass-backdrop);
+  border: 1px solid var(--admin-glass-border);
+  border-radius: 16px;
+  box-shadow: var(--admin-shadow-xl);
+  padding: 1rem;
+  z-index: var(--admin-z-modal);
+  animation: adminSlideDown var(--admin-transition-normal) ease-out;
+}
+
+.user-profile-dropdown__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.user-profile-dropdown__details {
+  flex: 1;
+  min-width: 0;
+}
+
+.user-profile-dropdown__divider {
+  height: 1px;
+  background: var(--admin-border-color);
+  margin: 0.75rem 0;
+}
+
+.user-profile-dropdown__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.user-profile-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: var(--admin-text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--admin-transition-fast);
+}
+
+.user-profile-dropdown__item:hover {
+  background: var(--admin-hover-bg);
+  transform: translateX(4px);
+}
+
+.user-profile-dropdown__item:focus {
+  outline: none;
+  box-shadow: var(--admin-focus-ring);
+}
+
+.user-profile-dropdown__item--danger {
+  color: var(--admin-error);
+}
+
+.user-profile-dropdown__item--danger:hover {
+  background: var(--admin-error-bg);
+  color: var(--admin-error);
+}
+
+.user-profile-dropdown__item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* 📱 RESPONSIVE STYLES */
+@media (max-width: 768px) {
+  .admin-header__container {
+    padding: 0 1rem;
+    gap: 0.75rem;
+  }
+  
+  .admin-header__left {
+    gap: 0.75rem;
+  }
+  
+  .admin-header__right {
+    gap: 0.5rem;
+  }
+  
+  .admin-header__logo-text {
+    display: none;
+  }
+  
+  .user-profile-dropdown__info {
+    display: none;
+  }
+  
+  .user-profile-dropdown__arrow {
+    display: none;
+  }
+  
+  .user-profile-dropdown__menu {
+    min-width: 260px;
+    right: -1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-header__container {
+    padding: 0 0.75rem;
+  }
+  
+  .admin-header__notifications {
+    display: none;
+  }
+  
+  .user-profile-dropdown__menu {
+    left: 0;
+    right: 0;
+    min-width: auto;
+    margin: 0 0.75rem;
+  }
+}
+
+/* 🎭 DARK THEME ADJUSTMENTS */
+@media (prefers-color-scheme: dark) {
+  .admin-header__logo-title {
+    color: var(--admin-text-primary);
+  }
+  
+  .admin-header__notification-btn {
+    color: var(--admin-text-secondary);
+  }
+  
+  .admin-header__notification-btn:hover {
+    color: var(--admin-text-primary);
+  }
+}
+
+/* 🎯 HIGH CONTRAST SUPPORT */
+@media (prefers-contrast: high) {
+  .admin-header {
+    border-bottom: 2px solid var(--admin-border-color);
+  }
+  
+  .sidebar-toggle,
+  .admin-header__notification-btn,
+  .user-profile-dropdown__trigger {
+    border: 1px solid var(--admin-border-color);
+  }
+  
+  .user-profile-dropdown__menu {
+    border: 2px solid var(--admin-border-color);
+  }
+}
+
+/* 🎭 REDUCED MOTION SUPPORT */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-toggle,
+  .admin-header__logo,
+  .admin-header__notification-btn,
+  .user-profile-dropdown__trigger,
+  .user-profile-dropdown__arrow,
+  .user-profile-dropdown__item {
+    transition: none;
+  }
+  
+  .sidebar-toggle:hover,
+  .admin-header__logo:hover,
+  .admin-header__notification-btn:hover,
+  .user-profile-dropdown__trigger:hover {
+    transform: none;
+  }
+  
+  .user-profile-dropdown__menu {
+    animation: none;
+  }
+}

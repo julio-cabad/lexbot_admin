@@ -3,6 +3,7 @@
 @import "./styles/animations.css";
 @import "./styles/accessibility.css";
 @import "./styles/auth-forms.css";
+@import "./styles/admin/index.css";
 
 /* Optimizaciones críticas para evitar parpadeo */
 * {

@@ -1,13 +1,13 @@
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { ToastContainer } from 'react-toastify';
-import { store } from './core/store';
-import { AppRoutes } from './routes';
-import { ThemeManager } from './core/providers/ThemeProvider';
-import { DEFAULT_THEME } from './config/theme';
-import { sessionService } from './core/services';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import { store } from "./core/store";
+import { AppRoutes } from "./routes";
+import { ThemeManager } from "./core/providers/ThemeProvider";
+import { DEFAULT_THEME } from "./config/theme";
+import { sessionService } from "./core/services";
+import "react-toastify/dist/ReactToastify.css";
 
 /**
  * Componente principal de la aplicación
@@ -23,11 +23,11 @@ function App() {
   React.useEffect(() => {
     // Configurar el cierre automático de sesión por inactividad
     const cleanup = sessionService.setupAutoLogout(() => {
-      console.info('Sesión expirada por inactividad');
+      console.info("Sesión expirada por inactividad");
       sessionService.clearUserSession();
-      window.location.href = '/auth/login';
+      window.location.href = "/auth/login";
     });
-    
+
     return cleanup;
   }, []);
 
@@ -36,7 +36,7 @@ function App() {
       <ThemeManager initialTheme={DEFAULT_THEME}>
         <Router>
           <AppRoutes />
-          
+
           {/* Toast notifications */}
           <ToastContainer
             position="top-right"

@@ -2,7 +2,8 @@ import React from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { PATHS } from '../config/routes';
 import { AuthRoutes } from './AuthRoutes';
-import { Dashboard } from '../features/dashboard/pages';
+import { AdminRoutes } from './AdminRoutes';
+import { CompleteProfilePage } from '../features/auth/pages';
 import { ProtectedRoute } from './ProtectedRoute';
 import { sessionService } from '../core/services';
 
@@ -52,12 +53,15 @@ export const AppRoutes: React.FC = () => {
         {/* Rutas de autenticación anidadas */}
         <Route path="/auth/*" element={<AuthRoutes />} />
         
+        {/* Rutas del panel administrativo */}
+        <Route path="/admin/*" element={<AdminRoutes />} />
+        
         {/* Rutas protegidas */}
         <Route 
-          path={PATHS.private.dashboard} 
+          path={PATHS.private.completeProfile} 
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <CompleteProfilePage />
             </ProtectedRoute>
           } 
         />
@@ -80,7 +84,7 @@ const AuthRedirect: React.FC = () => {
   // Redirigir según el estado de autenticación
   return (
     <Navigate 
-      to={isAuthenticated ? PATHS.private.dashboard : '/auth/login'} 
+      to={isAuthenticated ? '/admin/dashboard' : '/auth/login'} 
       replace 
     />
   );

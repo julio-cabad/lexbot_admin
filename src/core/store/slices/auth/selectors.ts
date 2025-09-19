@@ -363,11 +363,11 @@ export const selectCompleteUserData = createSelector(
     photoURL: user?.photoURL || null,
     
     // Datos del perfil de Firestore
-    nombres: profile?.firstName || '',
-    apellidos: profile?.lastName || '',
-    rol: profile?.role || '',
-    celular: profile?.phone || '',
-    ciudad: profile?.city || '',
+    firstName: profile?.firstName || '',
+    lastName: profile?.lastName || '',
+    role: profile?.role || '',
+    phone: profile?.phone || '',
+    city: profile?.city || '',
     isComplete: profile?.isComplete || false,
     
     // Datos computados

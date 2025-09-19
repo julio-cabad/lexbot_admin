@@ -36,6 +36,11 @@ export function useTexts() {
       auth: TEXTS.auth,
 
       /**
+       * Acceso directo a textos del panel administrativo
+       */
+      admin: TEXTS.admin,
+
+      /**
        * Acceso directo a textos comunes
        */
       common: TEXTS.common,

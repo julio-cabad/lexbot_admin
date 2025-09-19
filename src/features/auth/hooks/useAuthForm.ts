@@ -1,9 +1,20 @@
 import { useState, useCallback, useEffect } from "react";
 import { useAuth } from "./useAuth";
-import { LoginCredentials, RegisterData, PasswordResetData, NewPasswordData, AuthFormType } from "../types";
-import { validateLoginForm, validateRegisterForm, validatePasswordResetForm, validateNewPasswordForm, validationErrorsToFormErrors } from "../utils/validation";
+import {
+  LoginCredentials,
+  RegisterData,
+  PasswordResetData,
+  NewPasswordData,
+  AuthFormType,
+} from "../types";
+import {
+  validateLoginForm,
+  validateRegisterForm,
+  validatePasswordResetForm,
+  validateNewPasswordForm,
+  validationErrorsToFormErrors,
+} from "../utils/validation";
 import { useForm } from "../../../hooks";
-
 
 /**
  * Hook especializado para formularios de autenticación
@@ -58,13 +69,12 @@ export const useAuthForm = <
   // Función de envío según el tipo de formulario
   const handleSubmit = useCallback(
     async (values: T) => {
-      
       if (isSubmitting) {
         return;
       }
 
       setIsSubmitting(true);
-      
+
       try {
         let result;
 
@@ -85,7 +95,6 @@ export const useAuthForm = <
             throw new Error(`Tipo de formulario no soportado: ${formType}`);
         }
 
-
         // Si la operación fue exitosa, llamar callback de éxito
         // Verificar si result tiene la estructura esperada (para thunks reales)
         if (result?.meta?.requestStatus === "fulfilled") {
@@ -103,7 +112,7 @@ export const useAuthForm = <
         console.error(`Error en ${formType}:`, error);
         // Intentar mostrar un mensaje de error más descriptivo
         if (error instanceof Error) {
-          console.error('Mensaje de error:', error.message);
+          console.error("Mensaje de error:", error.message);
         }
       } finally {
         setIsSubmitting(false);

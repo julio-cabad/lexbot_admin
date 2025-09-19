@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { useLoginForm } from "../hooks";
-import { usePostLoginRedirect } from "../hooks";
 import { PATHS } from "../../../config/routes";
 import { useTexts } from "../../../core/hooks/useTexts";
 
@@ -27,9 +26,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({
 }) => {
   // Usar textos centralizados con valores por defecto para evitar problemas de tipo
   const { auth, common } = useTexts();
-
-  // Hook for post-login redirection
-  usePostLoginRedirect();
 
   const {
     values,

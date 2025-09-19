@@ -1,0 +1,364 @@
+/**
+ * 🏗️ ADMIN CSS GRID LAYOUT SYSTEM
+ * Professional CSS Grid layout with responsive behavior
+ */
+
+/* 🏛️ MAIN ADMIN LAYOUT CONTAINER */
+.admin-layout {
+  display: grid;
+  grid-template-areas: 
+    "sidebar header"
+    "sidebar main";
+  grid-template-columns: var(--admin-sidebar-width) 1fr;
+  grid-template-rows: var(--admin-header-height) 1fr;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  transition: grid-template-columns var(--admin-transition-normal);
+  background: var(--admin-bg-secondary);
+}
+
+/* 🎯 GRID AREAS */
+.admin-layout__header {
+  grid-area: header;
+  position: sticky;
+  top: 0;
+  z-index: var(--admin-z-header);
+  background: var(--admin-bg-header);
+  backdrop-filter: var(--admin-glass-backdrop);
+  border-bottom: 1px solid var(--admin-border-color);
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.admin-layout__sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: var(--admin-z-sidebar);
+  background: var(--admin-bg-sidebar);
+  backdrop-filter: var(--admin-glass-backdrop);
+  border-right: 1px solid var(--admin-border-sidebar);
+  box-shadow: var(--admin-shadow-md);
+  transition: width var(--admin-transition-normal);
+  overflow: hidden;
+}
+
+.admin-layout__main {
+  grid-area: main;
+  min-height: calc(100vh - var(--admin-header-height));
+  background: var(--admin-bg-primary);
+  padding: var(--admin-content-padding);
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* 🎨 SIDEBAR STATES */
+.admin-layout--sidebar-collapsed {
+  grid-template-columns: var(--admin-sidebar-width-collapsed) 1fr;
+}
+
+.admin-layout--sidebar-collapsed .admin-layout__sidebar {
+  width: var(--admin-sidebar-width-collapsed);
+}
+
+.admin-layout--sidebar-expanded {
+  grid-template-columns: var(--admin-sidebar-width-expanded) 1fr;
+}
+
+.admin-layout--sidebar-expanded .admin-layout__sidebar {
+  width: var(--admin-sidebar-width-expanded);
+}
+
+/* 📱 MOBILE LAYOUT */
+@media (max-width: 768px) {
+  .admin-layout {
+    grid-template-areas: 
+      "header"
+      "main";
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--admin-header-height) 1fr;
+  }
+  
+  .admin-layout__sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--admin-sidebar-width-expanded);
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform var(--admin-transition-normal);
+    z-index: var(--admin-z-sidebar);
+  }
+  
+  .admin-layout__main {
+    min-height: calc(100vh - var(--admin-header-height));
+    margin-left: 0;
+  }
+  
+  /* Mobile sidebar open state */
+  .admin-layout--mobile-sidebar-open .admin-layout__sidebar {
+    transform: translateX(0);
+  }
+  
+  /* Mobile overlay */
+  .admin-layout--mobile-sidebar-open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--admin-bg-overlay);
+    z-index: calc(var(--admin-z-sidebar) - 1);
+    backdrop-filter: blur(4px);
+  }
+}
+
+/* 🖥️ TABLET LAYOUT */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .admin-layout {
+    grid-template-columns: var(--admin-sidebar-width-collapsed) 1fr;
+  }
+  
+  .admin-layout__sidebar {
+    width: var(--admin-sidebar-width-collapsed);
+  }
+  
+  .admin-layout--sidebar-expanded {
+    grid-template-columns: var(--admin-sidebar-width-expanded) 1fr;
+  }
+  
+  .admin-layout--sidebar-expanded .admin-layout__sidebar {
+    width: var(--admin-sidebar-width-expanded);
+  }
+}
+
+/* 🖥️ DESKTOP LAYOUT */
+@media (min-width: 1025px) {
+  .admin-layout {
+    grid-template-columns: var(--admin-sidebar-width) 1fr;
+  }
+}
+
+/* 🎯 CONTENT AREA LAYOUTS */
+.admin-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-section-gap);
+  max-width: 100%;
+  width: 100%;
+}
+
+.admin-content__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--admin-content-gap);
+  margin-bottom: var(--admin-content-gap);
+  flex-wrap: wrap;
+}
+
+.admin-content__title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.admin-content__actions {
+  display: flex;
+  gap: var(--admin-content-gap);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-content__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-content-gap);
+}
+
+/* 📊 GRID UTILITIES */
+.admin-grid {
+  display: grid;
+  gap: var(--admin-content-gap);
+}
+
+.admin-grid--cols-1 { grid-template-columns: 1fr; }
+.admin-grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+.admin-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+.admin-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+.admin-grid--cols-6 { grid-template-columns: repeat(6, 1fr); }
+.admin-grid--cols-12 { grid-template-columns: repeat(12, 1fr); }
+
+/* 📱 RESPONSIVE GRID */
+@media (max-width: 768px) {
+  .admin-grid--cols-2,
+  .admin-grid--cols-3,
+  .admin-grid--cols-4,
+  .admin-grid--cols-6,
+  .admin-grid--cols-12 {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-content__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .admin-content__title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .admin-grid--cols-3,
+  .admin-grid--cols-4,
+  .admin-grid--cols-6,
+  .admin-grid--cols-12 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 🎨 CARD LAYOUTS */
+.admin-card {
+  background: var(--admin-glass-bg);
+  backdrop-filter: var(--admin-glass-backdrop);
+  border: 1px solid var(--admin-glass-border);
+  border-radius: 12px;
+  padding: var(--admin-content-padding);
+  box-shadow: var(--admin-glass-shadow);
+  transition: all var(--admin-transition-fast);
+}
+
+.admin-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--admin-shadow-lg);
+}
+
+.admin-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--admin-content-gap);
+  padding-bottom: var(--admin-content-gap);
+  border-bottom: 1px solid var(--admin-border-color);
+}
+
+.admin-card__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+  margin: 0;
+}
+
+.admin-card__body {
+  color: var(--admin-text-secondary);
+  line-height: 1.6;
+}
+
+/* 🔄 LOADING STATES */
+.admin-layout--loading {
+  pointer-events: none;
+}
+
+.admin-layout--loading .admin-layout__main {
+  opacity: 0.7;
+  transition: opacity var(--admin-transition-normal);
+}
+
+/* 🎭 ANIMATION UTILITIES */
+.admin-fade-in {
+  animation: adminFadeIn var(--admin-transition-normal) ease-out;
+}
+
+.admin-slide-in-left {
+  animation: adminSlideInLeft var(--admin-transition-normal) ease-out;
+}
+
+.admin-slide-in-right {
+  animation: adminSlideInRight var(--admin-transition-normal) ease-out;
+}
+
+@keyframes adminFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes adminSlideInLeft {
+  from { 
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes adminSlideInRight {
+  from { 
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 🎯 FOCUS MANAGEMENT */
+.admin-layout:focus-within .admin-layout__main {
+  outline: none;
+}
+
+.admin-skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--admin-bg-primary);
+  color: var(--admin-text-primary);
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: var(--admin-z-modal);
+  transition: top var(--admin-transition-fast);
+}
+
+.admin-skip-link:focus {
+  top: 6px;
+}
+
+/* 🔧 UTILITY CLASSES */
+.admin-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.admin-full-height {
+  height: 100%;
+}
+
+.admin-full-width {
+  width: 100%;
+}
+
+.admin-scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.admin-no-scroll {
+  overflow: hidden;
+}

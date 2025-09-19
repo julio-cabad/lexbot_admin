@@ -1,3 +1,5 @@
+import { AdminTexts, ADMIN_TEXTS } from './adminTexts';
+
 /**
  * Tipos para el sistema de textos
  */
@@ -146,8 +148,9 @@ export interface AppTexts {
   feedback: string;
 }
 
-export interface Texts {
+export interface TextsType {
   auth: AuthTexts;
+  admin: AdminTexts;
   common: CommonTexts;
   dashboard: DashboardTexts;
   errors: ErrorTexts;
@@ -160,7 +163,7 @@ export interface Texts {
 /**
  * Textos centralizados de la aplicación
  */
-export const TEXTS: Texts = {
+export const TEXTS: TextsType = {
   // Sección de autenticación
   auth: {
     loginTitle: 'Iniciar Sesión',
@@ -311,7 +314,10 @@ export const TEXTS: Texts = {
     support: 'Soporte',
     contactUs: 'Contáctanos',
     feedback: 'Enviar comentarios'
-  }
+  },
+  
+  // Textos del panel administrativo
+  admin: ADMIN_TEXTS
 };
 
 /**

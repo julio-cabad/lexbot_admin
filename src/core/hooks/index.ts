@@ -10,3 +10,6 @@ export * from './useTexts';
 
 // Hook de temas
 export * from './useTheme';
+
+// Hook de Redux tipado
+export * from './useAppDispatch';

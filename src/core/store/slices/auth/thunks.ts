@@ -12,6 +12,7 @@ import {
 } from "../../../../features/auth/types";
 
 import { getText } from "../../../../config/texts";
+import { PATHS } from "../../../../config/routes";
 import { authService, errorService, sessionService } from "../../../services";
 
 /**
@@ -68,6 +69,15 @@ export const loginUser = createAsyncThunk(
             `Login exitoso para: ${user.email} - Perfil: ${profile.isComplete ? 'Completo' : 'Incompleto'}`, 
             "loginUser"
           );
+
+          // 4️⃣ Redirección simple basada en completitud del perfil
+          setTimeout(() => {
+            if (profile.isComplete) {
+              window.location.href = PATHS.private.dashboard;
+            } else {
+              window.location.href = PATHS.private.completeProfile;
+            }
+          }, 100);
 
           return {
             user,
