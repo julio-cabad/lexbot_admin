@@ -8,6 +8,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../auth";
 import { useTexts } from "../../../core/hooks/useTexts";
 import { useAdminLayoutManager } from "../../admin/hooks/useAdminLayoutManager";
+import { useLocation } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import {
   DashboardStats,
@@ -23,8 +24,9 @@ import type { Breadcrumb } from "../../admin/types";
  */
 export const DashboardPage: React.FC = () => {
   const { user, userProfile, userFullName, userDisplayName } = useAuth();
-  const { dashboard} = useTexts();
+  const { dashboard } = useTexts();
   const { actions, responsive, utils } = useAdminLayoutManager();
+  const location = useLocation();
 
   // Extract specific functions to avoid dependency issues
   const { setBreadcrumbs, setActiveRoute, navigateTo } = actions;
@@ -46,8 +48,8 @@ export const DashboardPage: React.FC = () => {
     ];
 
     setBreadcrumbs(breadcrumbs);
-    setActiveRoute("/admin/dashboard");
-  }, [setBreadcrumbs, setActiveRoute]); // Use specific functions as dependencies
+    setActiveRoute(location.pathname);
+  }, [location.pathname]); // Only depend on pathname
 
   /**
    * 🔄 Simulate loading state

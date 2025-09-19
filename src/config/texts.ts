@@ -93,6 +93,42 @@ export interface DashboardTexts {
   noNotifications: string;
 }
 
+export interface MailAuthTexts {
+  title: string;
+  subtitle: string;
+  formTitle: string;
+  formDescription: string;
+  emailLabel: string;
+  emailPlaceholder: string;
+  authorizeButton: string;
+  revokeButton: string;
+  authorizingButton: string;
+  revokingButton: string;
+  authorizedStatus: string;
+  notAuthorizedStatus: string;
+  authorizeInfo: string;
+  revokeInfo: string;
+  howItWorksTitle: string;
+  howItWorks: {
+    step1: string;
+    step2: string;
+    step3: string;
+    step4: string;
+  };
+  success: {
+    authorized: string;
+    revoked: string;
+  };
+  errors: {
+    emailRequired: string;
+    invalidEmail: string;
+    authorizeFailed: string;
+    revokeFailed: string;
+    alreadyAuthorized: string;
+    notFound: string;
+  };
+}
+
 export interface ErrorTexts {
   pageNotFound: string;
   pageNotFoundMessage: string;
@@ -153,6 +189,7 @@ export interface TextsType {
   admin: AdminTexts;
   common: CommonTexts;
   dashboard: DashboardTexts;
+  mailAuth: MailAuthTexts;
   errors: ErrorTexts;
   success: SuccessTexts;
   validation: ValidationTexts;
@@ -255,6 +292,43 @@ export const TEXTS: TextsType = {
     logout: 'Cerrar Sesión',
     notifications: 'Notificaciones',
     noNotifications: 'No tienes notificaciones'
+  },
+
+  // Sección de autorización de correo
+  mailAuth: {
+    title: 'Autorizar Correo Electrónico',
+    subtitle: 'Autoriza tu cuenta de Gmail para enviar correos desde la aplicación',
+    formTitle: 'Configurar Autorización',
+    formDescription: 'Ingresa tu correo de Gmail para autorizar el envío de mensajes',
+    emailLabel: 'Correo Electrónico',
+    emailPlaceholder: 'ejemplo@gmail.com',
+    authorizeButton: 'Autorizar Correo',
+    revokeButton: 'Revocar Autorización',
+    authorizingButton: 'Autorizando...',
+    revokingButton: 'Revocando...',
+    authorizedStatus: 'Correo autorizado',
+    notAuthorizedStatus: 'Correo no autorizado',
+    authorizeInfo: 'Al autorizar, podrás enviar correos desde esta cuenta. Se abrirá una ventana para completar la autorización con Google.',
+    revokeInfo: 'Este correo está autorizado para enviar mensajes. Puedes revocar la autorización en cualquier momento.',
+    howItWorksTitle: '¿Cómo funciona?',
+    howItWorks: {
+      step1: 'Ingresa tu correo de Gmail',
+      step2: 'Autoriza con Google OAuth',
+      step3: 'Envía correos desde la aplicación',
+      step4: 'Revoca cuando quieras'
+    },
+    success: {
+      authorized: 'Correo {{email}} autorizado exitosamente',
+      revoked: 'Autorización revocada para {{email}}'
+    },
+    errors: {
+      emailRequired: 'Por favor ingresa un email',
+      invalidEmail: 'Por favor ingresa un email válido',
+      authorizeFailed: 'Error al autorizar correo',
+      revokeFailed: 'Error al revocar autorización',
+      alreadyAuthorized: 'Este correo ya está autorizado',
+      notFound: 'No se encontró autorización para este correo'
+    }
   },
   
   // Sección de errores

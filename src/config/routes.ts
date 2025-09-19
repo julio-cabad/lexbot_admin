@@ -54,7 +54,8 @@ const RegisterPage = React.lazy(() => import('../features/auth/pages/RegisterPag
 const ForgotPasswordPage = React.lazy(() => import('../features/auth/pages/ForgotPasswordPage').then(module => ({ default: module.ForgotPasswordPage })));
 const ResetPasswordPage = React.lazy(() => import('../features/auth/pages/ResetPasswordPage').then(module => ({ default: module.ResetPasswordPage })));
 const CompleteProfilePage = React.lazy(() => import('../features/auth/pages/CompleteProfilePage').then(module => ({ default: module.CompleteProfilePage })));
-const DashboardPage = React.lazy(() => import('../features/admin/pages/DashboardPage').then(module => ({ default: module.DashboardPage })));
+const DashboardPage = React.lazy(() => import('../features/dashboard/pages/DashboardPage').then(module => ({ default: module.DashboardPage })));
+const MailAuthPage = React.lazy(() => import('../features/mail-auth/pages/MailAuthPage').then(module => ({ default: module.MailAuthPage })));
 
 // Componentes temporales para rutas que aún no existen
 const ProfilePage: React.FC = () => React.createElement('div', null, 'Página de Perfil (Placeholder)');
@@ -168,6 +169,21 @@ export const ROUTES = {
         menuOrder: 2,
         layout: 'default',
         description: 'Gestiona tu perfil de usuario'
+      }
+    },
+    mailAuth: {
+      path: '/admin/mail-auth',
+      component: MailAuthPage,
+      meta: {
+        title: 'Autorizar Correo',
+        requiresAuth: true,
+        roles: [UserRole.ADMIN, UserRole.SUPER_ADMIN],
+        breadcrumb: 'Autorizar Correo',
+        icon: 'mail',
+        showInMenu: true,
+        menuOrder: 3,
+        layout: 'default',
+        description: 'Autoriza tu correo para envío de mensajes'
       }
     }
   },

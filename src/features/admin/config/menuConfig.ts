@@ -26,6 +26,12 @@ export const defaultMenuItems: MenuItem[] = [
     icon: 'users',
     route: '/admin/recipients',
   },
+  {
+    id: 'mail-auth',
+    label: 'Autorizar Correo',
+    icon: 'mail',
+    route: '/admin/mail-auth',
+  },
   
   // Email Authorization Feature (example for future implementation)
   // {

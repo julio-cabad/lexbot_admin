@@ -14,6 +14,7 @@
 
 /* 🎨 FEATURE SPECIFIC STYLES */
 @import '../features/dashboard/styles/dashboard.css';
+@import '../features/mail-auth/styles/mail-auth.css';
 
 /* 🎨 ADMIN THEME INTEGRATION */
 .admin-theme {

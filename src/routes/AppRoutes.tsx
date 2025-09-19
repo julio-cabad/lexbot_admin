@@ -30,7 +30,7 @@ export const AppRoutes: React.FC = () => {
         setDisplayLocation(location);
       }
     }
-  }, [location.pathname, displayLocation.pathname]);
+  }, [location.pathname]); // Solo depender de location.pathname
 
   React.useEffect(() => {
     if (transitionStage === 'fadeOut') {

@@ -7,6 +7,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AdminLayout } from '../features/admin/components/layout/AdminLayout';
 import { DashboardPage } from '../features/dashboard/pages/DashboardPage';
+import { MailAuthPage } from '../features/mail-auth/pages/MailAuthPage';
 import { ProtectedRoute } from './ProtectedRoute';
 
 /**
@@ -23,6 +24,7 @@ export const AdminRoutes: React.FC = () => {
           
           {/* Admin specific routes */}
           <Route path="recipients" element={<div>Recipients Page (Coming Soon)</div>} />
+          <Route path="mail-auth" element={<MailAuthPage />} />
           <Route path="settings" element={<div>Settings Page (Coming Soon)</div>} />
           
           {/* Default redirect to dashboard */}

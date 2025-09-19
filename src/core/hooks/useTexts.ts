@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { TEXTS, getText, interpolateText } from '../../config/texts';
+import { useMemo } from "react";
+import { TEXTS, getText, interpolateText } from "../../config/texts";
 
 /**
  * Hook para acceder al sistema de textos centralizado
@@ -19,7 +19,7 @@ export function useTexts() {
        * @param path Ruta al texto (ej: 'auth.loginTitle', 'common.loading')
        * @param variables Variables para interpolación
        */
-      t: <T extends string>(path: T, variables?: Record<string, any>): string => 
+      t: <T extends string>(path: T, variables?: Record<string, any>): string =>
         getText(path, variables),
 
       /**
@@ -27,8 +27,10 @@ export function useTexts() {
        * @param text Texto base con placeholders {{variable}}
        * @param variables Variables para reemplazar
        */
-      interpolate: (text: string, variables: Record<string, any> = {}): string =>
-        interpolateText(text, variables),
+      interpolate: (
+        text: string,
+        variables: Record<string, any> = {}
+      ): string => interpolateText(text, variables),
 
       /**
        * Acceso directo a textos de autenticación
@@ -44,6 +46,12 @@ export function useTexts() {
        * Acceso directo a textos comunes
        */
       common: TEXTS.common,
+
+      /**
+       * Acceso directo a textos para autorizar el email
+       */
+
+      mailAuth: TEXTS.mailAuth,
 
       /**
        * Acceso directo a textos del dashboard
@@ -86,8 +94,8 @@ export function useTexts() {
        */
       withVersion: (textPath: string, version?: string): string => {
         const text = getText(textPath);
-        return interpolateText(text, { 
-          version: version || TEXTS.app.version 
+        return interpolateText(text, {
+          version: version || TEXTS.app.version,
         });
       },
 
