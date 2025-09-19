@@ -8,21 +8,34 @@ import { MenuItem } from '../types';
 
 /**
  * 🎯 CONFIGURACIÓN POR DEFECTO DEL MENÚ
- * Items principales del menú administrativo
+ * Items principales del menú administrativo organizados por features
  */
 export const defaultMenuItems: MenuItem[] = [
+  // Dashboard Feature
   {
     id: 'dashboard',
     label: 'Dashboard',
     icon: 'dashboard',
     route: '/admin/dashboard',
   },
+  
+  // Recipients Feature (to be implemented)
   {
     id: 'recipients',
     label: 'Gestionar Destinatarios',
     icon: 'users',
     route: '/admin/recipients',
   },
+  
+  // Email Authorization Feature (example for future implementation)
+  // {
+  //   id: 'email-authorization',
+  //   label: 'Autorizar Correo',
+  //   icon: 'mail-check',
+  //   route: '/admin/email-authorization',
+  // },
+  
+  // Settings Feature (to be implemented)
   {
     id: 'settings',
     label: 'Configuración',

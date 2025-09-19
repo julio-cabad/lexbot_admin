@@ -8,12 +8,12 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
-import { DashboardPage } from '../../../pages/DashboardPage';
-import { adminSlice } from '../../../../../core/store/slices/admin/slice';
-import { authSlice } from '../../../../../core/store/slices/auth/slice';
+import { DashboardPage } from '../pages/DashboardPage';
+import { adminSlice } from '../../../core/store/slices/admin/slice';
+import { authSlice } from '../../../core/store/slices/auth/slice';
 
 // Mock hooks
-jest.mock('../../../hooks/useAdminLayoutManager', () => ({
+jest.mock('../../admin/hooks/useAdminLayoutManager', () => ({
   useAdminLayoutManager: () => ({
     actions: {
       setBreadcrumbs: jest.fn(),
@@ -33,7 +33,7 @@ jest.mock('../../../hooks/useAdminLayoutManager', () => ({
   }),
 }));
 
-jest.mock('../../../auth', () => ({
+jest.mock('../../auth', () => ({
   useAuth: () => ({
     user: { email: 'test@example.com' },
     userProfile: { role: 'admin', firstName: 'Test', lastName: 'User' },
@@ -42,7 +42,7 @@ jest.mock('../../../auth', () => ({
   }),
 }));
 
-jest.mock('../../../../core/hooks/useTexts', () => ({
+jest.mock('../../../core/hooks/useTexts', () => ({
   useTexts: () => ({
     dashboard: {
       statistics: 'Statistics',
@@ -65,7 +65,6 @@ const createTestStore = () => {
     preloadedState: {
       admin: {
         ui: {
-          isInitialized: true,
           sidebar: {
             collapsed: false,
             mobileOpen: false,
@@ -76,6 +75,7 @@ const createTestStore = () => {
             height: 64,
             showBreadcrumbs: true,
             showUserProfile: true,
+            showSidebarToggle: true,
           },
           main: {
             padding: '2rem',
@@ -86,8 +86,13 @@ const createTestStore = () => {
             isMobile: false,
             isTablet: false,
             isDesktop: true,
-            screenWidth: 1200,
-            screenHeight: 800,
+            windowWidth: 1200,
+            windowHeight: 800,
+          },
+          animation: {
+            sidebarTransition: true,
+            contentTransition: true,
+            reducedMotion: false,
           },
         },
         navigation: {
@@ -96,6 +101,22 @@ const createTestStore = () => {
           breadcrumbs: [],
           routeHistory: [],
           expandedGroups: [],
+        },
+        isInitialized: true,
+        loading: {
+          layout: false,
+          navigation: false,
+          menu: false,
+        },
+        errors: {
+          layout: null,
+          navigation: null,
+          menu: null,
+        },
+        preferences: {
+          sidebarCollapsed: false,
+          theme: 'dark',
+          animations: true,
         },
       },
       auth: {
@@ -175,7 +196,7 @@ describe('DashboardPage', () => {
   it('applies correct responsive classes', () => {
     renderWithProviders(<DashboardPage />);
     
-    const dashboard = document.querySelector('.admin-dashboard');
-    expect(dashboard).toHaveClass('admin-dashboard--desktop');
+    const dashboard = document.querySelector('.dashboard');
+    expect(dashboard).toHaveClass('dashboard--desktop');
   });
 });

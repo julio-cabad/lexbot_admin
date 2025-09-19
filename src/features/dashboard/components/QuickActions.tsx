@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import { Button } from '../../../../components/ui/Button';
-import type { ButtonVariant } from '../../../../types/common';
+import { Button } from '../../../components/ui/Button';
+import type { ButtonVariant } from '../../../types/common';
 
 interface QuickAction {
   label: string;

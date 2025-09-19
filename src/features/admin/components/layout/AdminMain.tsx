@@ -159,7 +159,9 @@ export const AdminMain: React.FC<AdminMainProps> = ({
           role={scrollable ? "region" : undefined}
           aria-label={scrollable ? "Scrollable content area" : undefined}
         >
-          {loading ? renderLoading() : renderEmptyState()}
+          <div className="admin-main__content-wrapper">
+            {loading ? renderLoading() : renderEmptyState()}
+          </div>
         </div>
 
         {/* Scroll to top button */}

@@ -41,6 +41,27 @@
   height: 100%;
 }
 
+/* 🎭 CONTENT WRAPPER WITH SMOOTH TRANSITIONS */
+.admin-main__content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  animation: adminContentFadeIn 0.2s ease-out;
+  transition: opacity 0.15s ease-out;
+}
+
+/* Smooth content transitions for route changes */
+@keyframes adminContentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Main States */
 .admin-main--loading {
   pointer-events: none;
@@ -353,8 +374,10 @@
 @media (prefers-reduced-motion: reduce) {
   .admin-main,
   .breadcrumb__link,
-  .admin-main__scroll-top {
+  .admin-main__scroll-top,
+  .admin-main__content-wrapper {
     transition: none !important;
+    animation: none !important;
   }
   
   .admin-main__spinner {

@@ -19,7 +19,16 @@ export const AppRoutes: React.FC = () => {
   // Efecto para manejar las transiciones entre páginas
   React.useEffect(() => {
     if (location.pathname !== displayLocation.pathname) {
-      setTransitionStage('fadeOut');
+      // Solo aplicar transición si cambiamos entre secciones principales (auth <-> admin)
+      const currentSection = getRouteSection(displayLocation.pathname);
+      const newSection = getRouteSection(location.pathname);
+      
+      if (currentSection !== newSection) {
+        setTransitionStage('fadeOut');
+      } else {
+        // Si es la misma sección, actualizar inmediatamente sin transición
+        setDisplayLocation(location);
+      }
     }
   }, [location.pathname, displayLocation.pathname]);
 
@@ -34,9 +43,16 @@ export const AppRoutes: React.FC = () => {
     }
   }, [transitionStage, location]);
 
+  // Determinar si debemos aplicar transición
+  const shouldApplyTransition = React.useMemo(() => {
+    const currentSection = getRouteSection(displayLocation.pathname);
+    const newSection = getRouteSection(location.pathname);
+    return currentSection !== newSection;
+  }, [displayLocation.pathname, location.pathname]);
+
   return (
     <div
-      className={`transition-opacity duration-200 ${
+      className={`${shouldApplyTransition ? 'transition-opacity duration-200' : ''} ${
         transitionStage === 'fadeOut' ? 'opacity-0' : 'opacity-100'
       }`}
     >
@@ -71,6 +87,16 @@ export const AppRoutes: React.FC = () => {
       </Routes>
     </div>
   );
+};
+
+/**
+ * Función helper para determinar la sección de una ruta
+ */
+const getRouteSection = (pathname: string): string => {
+  if (pathname.startsWith('/auth')) return 'auth';
+  if (pathname.startsWith('/admin')) return 'admin';
+  if (pathname.startsWith('/complete-profile')) return 'profile';
+  return 'root';
 };
 
 /**

@@ -21,7 +21,6 @@ import {
   onSnapshot,
   serverTimestamp,
   Timestamp,
-  DocumentReference,
   Query,
   Unsubscribe
 } from 'firebase/firestore';

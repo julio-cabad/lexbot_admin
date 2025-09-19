@@ -263,19 +263,20 @@ export const useNavigation = (): UseNavigationReturn => {
 
   /**
    * 🔄 Auto-generate breadcrumbs when route changes
+   * DISABLED: Manual breadcrumb management per page to avoid conflicts
    */
-  useEffect(() => {
-    // Only generate breadcrumbs if we have menu items to avoid empty breadcrumbs
-    if (menuItems.length > 0) {
-      const newBreadcrumbs = generateBreadcrumbsForRoute(location.pathname);
-      dispatch(setBreadcrumbs(newBreadcrumbs));
-    }
-  }, [
-    location.pathname,
-    menuItems.length,
-    generateBreadcrumbsForRoute,
-    dispatch,
-  ]);
+  // useEffect(() => {
+  //   // Only generate breadcrumbs if we have menu items to avoid empty breadcrumbs
+  //   if (menuItems.length > 0) {
+  //     const newBreadcrumbs = generateBreadcrumbsForRoute(location.pathname);
+  //     dispatch(setBreadcrumbs(newBreadcrumbs));
+  //   }
+  // }, [
+  //   location.pathname,
+  //   menuItems.length,
+  //   generateBreadcrumbsForRoute,
+  //   dispatch,
+  // ]);
 
   /**
    * 🍞 Set breadcrumbs manually

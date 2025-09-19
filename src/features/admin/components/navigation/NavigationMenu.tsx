@@ -75,8 +75,24 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({
    * 🎨 Check if item is active
    */
   const isItemActive = (item: MenuItem): boolean => {
-    if (item.route === activeRoute) return true;
-    if (item.route === location.pathname) return true;
+    const currentPath = location.pathname;
+    
+    // Exact match for the route
+    if (item.route === currentPath) return true;
+    
+    // Check for active route from Redux state
+    if (item.route === activeRoute) {
+      // Only consider it active if it's an exact match or we're on a subpage
+      return currentPath === item.route || currentPath.startsWith(`${item.route}/`);
+    }
+    
+    // For dashboard, only be active when exactly on dashboard
+    if (item.id === 'dashboard') {
+      return currentPath === '/admin/dashboard';
+    }
+    
+    // For other items, check if we're on a subpage
+    if (currentPath.startsWith(`${item.route}/`)) return true;
     
     // Check if any child is active
     if (item.children) {

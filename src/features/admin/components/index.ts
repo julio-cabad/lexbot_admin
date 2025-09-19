@@ -19,8 +19,8 @@ export { MenuGroup } from "./navigation/MenuGroup";
 export { Breadcrumb } from './ui/Breadcrumb';
 export { PageHeader } from './ui/PageHeader';
 
-// Dashboard Components (Task 9 - Implemented)
-export * from './dashboard';
+// Dashboard Components moved to separate feature
+// Now available at: src/features/dashboard/
 
 // UI Components (Tasks 5, 6 - To be implemented)
 // export { UserProfileDropdown } from './ui/UserProfileDropdown';

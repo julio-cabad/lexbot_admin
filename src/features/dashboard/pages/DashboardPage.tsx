@@ -1,13 +1,13 @@
 /**
- * 🏛️ ADMIN DASHBOARD PAGE
- * Dashboard adaptado para el nuevo layout administrativo
- * Integrado con AdminMain, breadcrumbs y sistema de navegación
+ * 📊 DASHBOARD PAGE
+ * Dashboard principal del área administrativa
+ * Feature independiente con sus propios componentes y lógica
  */
 
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../auth";
 import { useTexts } from "../../../core/hooks/useTexts";
-import { useAdminLayoutManager } from "../hooks/useAdminLayoutManager";
+import { useAdminLayoutManager } from "../../admin/hooks/useAdminLayoutManager";
 import { Button } from "../../../components/ui/Button";
 import {
   DashboardStats,
@@ -15,16 +15,19 @@ import {
   QuickActions,
   WelcomeCard,
 } from "../components";
-import type { Breadcrumb } from "../types";
+import type { Breadcrumb } from "../../admin/types";
 
 /**
- * 🎯 ADMIN DASHBOARD PAGE
- * Dashboard principal del área administrativa
+ * 🎯 DASHBOARD PAGE COMPONENT
+ * Dashboard principal con estadísticas y acciones rápidas
  */
 export const DashboardPage: React.FC = () => {
   const { user, userProfile, userFullName, userDisplayName } = useAuth();
-  const { dashboard, withUserName } = useTexts();
+  const { dashboard} = useTexts();
   const { actions, responsive, utils } = useAdminLayoutManager();
+
+  // Extract specific functions to avoid dependency issues
+  const { setBreadcrumbs, setActiveRoute, navigateTo } = actions;
 
   // Local state
   const [isLoading, setIsLoading] = useState(true);
@@ -42,10 +45,9 @@ export const DashboardPage: React.FC = () => {
       },
     ];
 
-    actions.setBreadcrumbs(breadcrumbs);
-    actions.setActiveRoute("/admin/dashboard");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run only on mount to avoid infinite loops
+    setBreadcrumbs(breadcrumbs);
+    setActiveRoute("/admin/dashboard");
+  }, [setBreadcrumbs, setActiveRoute]); // Use specific functions as dependencies
 
   /**
    * 🔄 Simulate loading state
@@ -70,14 +72,14 @@ export const DashboardPage: React.FC = () => {
    * 🎯 Handle navigation to recipients
    */
   const handleNavigateToRecipients = () => {
-    actions.navigateTo("/admin/recipients");
+    navigateTo("/admin/recipients");
   };
 
   /**
    * 🎯 Handle navigation to settings
    */
   const handleNavigateToSettings = () => {
-    actions.navigateTo("/admin/settings");
+    navigateTo("/admin/settings");
   };
 
   /**
@@ -96,19 +98,19 @@ export const DashboardPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="admin-dashboard admin-dashboard--loading">
-        <div className="admin-dashboard__loading">
-          <div className="admin-dashboard__spinner" />
-          <p className="admin-dashboard__loading-text">Loading dashboard...</p>
+      <div className="dashboard dashboard--loading">
+        <div className="dashboard__loading">
+          <div className="dashboard__spinner" />
+          <p className="dashboard__loading-text">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`admin-dashboard admin-dashboard--${responsive.breakpoint}`}>
+    <div className={`dashboard dashboard--${responsive.breakpoint}`}>
       {/* Welcome Section */}
-      <div className="admin-dashboard__welcome">
+      <div className="dashboard__welcome">
         <WelcomeCard
           user={user}
           userProfile={userProfile}
@@ -120,7 +122,7 @@ export const DashboardPage: React.FC = () => {
 
       {/* Stats Grid */}
       <div
-        className={`admin-dashboard__stats admin-dashboard__stats--${cardLayout}`}
+        className={`dashboard__stats dashboard__stats--${cardLayout}`}
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${gridColumns}, 1fr)`,
@@ -157,7 +159,7 @@ export const DashboardPage: React.FC = () => {
 
       {/* Content Grid */}
       <div
-        className={`admin-dashboard__content admin-dashboard__content--${responsive.breakpoint}`}
+        className={`dashboard__content dashboard__content--${responsive.breakpoint}`}
         style={{
           display: "grid",
           gridTemplateColumns: responsive.isMobile
@@ -169,16 +171,16 @@ export const DashboardPage: React.FC = () => {
         }}
       >
         {/* Recent Activity */}
-        <div className="admin-dashboard__activity">
+        <div className="dashboard__activity">
           <RecentActivity
             title={dashboard.recentActivity}
             emptyMessage={dashboard.noActivity}
-            onViewAll={() => actions.navigateTo("/admin/activity")}
+            onViewAll={() => navigateTo("/admin/activity")}
           />
         </div>
 
         {/* Quick Actions */}
-        <div className="admin-dashboard__actions">
+        <div className="dashboard__actions">
           <QuickActions
             title={dashboard.quickActions}
             actions={[
@@ -193,14 +195,14 @@ export const DashboardPage: React.FC = () => {
                 label: "Send Message",
                 description: "Send a new message",
                 icon: "📧",
-                onClick: () => actions.navigateTo("/admin/messages/new"),
+                onClick: () => navigateTo("/admin/messages/new"),
                 variant: "secondary",
               },
               {
                 label: "View Reports",
                 description: "Check analytics and reports",
                 icon: "📊",
-                onClick: () => actions.navigateTo("/admin/reports"),
+                onClick: () => navigateTo("/admin/reports"),
                 variant: "ghost",
               },
               {
@@ -217,7 +219,7 @@ export const DashboardPage: React.FC = () => {
 
       {/* Mobile-specific actions */}
       {responsive.isMobile && (
-        <div className="admin-dashboard__mobile-actions">
+        <div className="dashboard__mobile-actions">
           <Button
             variant="primary"
             size="lg"

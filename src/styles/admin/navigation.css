@@ -49,7 +49,7 @@
   padding: 12px 16px;
   background: none;
   border: none;
-  border-radius: 8px;
+  border-radius: 6;
   color: var(--admin-text-sidebar);
   font-size: 0.875rem;
   font-weight: 500;
@@ -61,14 +61,15 @@
 }
 
 .menu-item__button:hover {
-  background: var(--admin-hover-bg);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--admin-text-sidebar-active);
   transform: translateX(2px);
+  border-radius: 6;
 }
 
 .menu-item__button:focus {
-  outline: 2px solid var(--admin-info);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: none;
 }
 
 .menu-item__button:active {
@@ -83,9 +84,11 @@
 
 /* Menu Item States */
 .menu-item--active .menu-item__button {
-  background: var(--admin-active-bg);
+  background: rgba(255, 255, 255, 0.1);
   color: var(--admin-text-sidebar-active);
   font-weight: 600;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .menu-item--active .menu-item__button::before {
@@ -95,8 +98,8 @@
   top: 50%;
   transform: translateY(-50%);
   width: 3px;
-  height: 20px;
-  background: var(--admin-info);
+  height: 70%;
+  background: var(--admin-text-sidebar-active);
   border-radius: 0 2px 2px 0;
 }
 
@@ -241,7 +244,7 @@
   padding: 12px 16px;
   background: none;
   border: none;
-  border-radius: 8px;
+  border-radius: 0;
   color: var(--admin-text-sidebar);
   font-size: 0.875rem;
   font-weight: 500;
@@ -253,13 +256,13 @@
 }
 
 .menu-group__header:hover {
-  background: var(--admin-hover-bg);
+  background: rgba(255, 255, 255, 0.08);
   color: var(--admin-text-sidebar-active);
 }
 
 .menu-group__header:focus {
-  outline: 2px solid var(--admin-info);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: none;
 }
 
 .menu-group--collapsed .menu-group__header {
@@ -438,11 +441,12 @@
 }
 
 .admin-sidebar__brand-text {
-  color: var(--admin-text-sidebar-active);
+  color: white;
   font-size: 1.125rem;
   font-weight: 700;
   margin: 0;
   white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .admin-sidebar__mobile-close {

@@ -6,7 +6,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AdminLayout } from '../features/admin/components/layout/AdminLayout';
-import { DashboardPage } from '../features/admin/pages/DashboardPage';
+import { DashboardPage } from '../features/dashboard/pages/DashboardPage';
 import { ProtectedRoute } from './ProtectedRoute';
 
 /**

@@ -1,10 +1,10 @@
 /**
- * 📊 ADMIN DASHBOARD STYLES
+ * 📊 DASHBOARD STYLES
  * Styles for dashboard components and layout
  */
 
 /* 🏛️ MAIN DASHBOARD CONTAINER */
-.admin-dashboard {
+.dashboard {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -12,14 +12,14 @@
   max-width: 100%;
 }
 
-.admin-dashboard--loading {
+.dashboard--loading {
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 400px;
 }
 
-.admin-dashboard__loading {
+.dashboard__loading {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,7 +27,7 @@
   color: var(--admin-text-secondary);
 }
 
-.admin-dashboard__spinner {
+.dashboard__spinner {
   width: 2rem;
   height: 2rem;
   border: 2px solid var(--admin-border-color);
@@ -36,7 +36,7 @@
   animation: spin 1s linear infinite;
 }
 
-.admin-dashboard__loading-text {
+.dashboard__loading-text {
   font-size: 0.875rem;
   margin: 0;
 }
@@ -373,45 +373,45 @@
 }
 
 /* 🎨 RESPONSIVE LAYOUT VARIANTS */
-.admin-dashboard--mobile {
+.dashboard--mobile {
   gap: 1.5rem;
 }
 
-.admin-dashboard--tablet {
+.dashboard--tablet {
   gap: 1.75rem;
 }
 
-.admin-dashboard--desktop {
+.dashboard--desktop {
   gap: 2rem;
 }
 
-.admin-dashboard__stats--single {
+.dashboard__stats--single {
   grid-template-columns: 1fr !important;
 }
 
-.admin-dashboard__stats--double {
+.dashboard__stats--double {
   grid-template-columns: repeat(2, 1fr) !important;
 }
 
-.admin-dashboard__stats--triple {
+.dashboard__stats--triple {
   grid-template-columns: repeat(3, 1fr) !important;
 }
 
-.admin-dashboard__content--mobile {
+.dashboard__content--mobile {
   grid-template-columns: 1fr !important;
 }
 
-.admin-dashboard__content--tablet {
+.dashboard__content--tablet {
   grid-template-columns: 1fr 1fr !important;
 }
 
-.admin-dashboard__content--desktop {
+.dashboard__content--desktop {
   grid-template-columns: 2fr 1fr !important;
 }
 
 /* 📱 MOBILE RESPONSIVE */
 @media (max-width: 768px) {
-  .admin-dashboard {
+  .dashboard {
     gap: 1.5rem;
   }
   
@@ -438,7 +438,7 @@
     padding: 1.25rem;
   }
   
-  .admin-dashboard__mobile-actions {
+  .dashboard__mobile-actions {
     padding: 1rem;
     background: var(--admin-glass-bg);
     backdrop-filter: var(--admin-glass-backdrop);
@@ -450,7 +450,7 @@
 
 /* 💻 TABLET RESPONSIVE */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .admin-dashboard {
+  .dashboard {
     gap: 1.75rem;
   }
   
@@ -479,7 +479,7 @@
   .dashboard-stats,
   .recent-activity__item,
   .quick-actions__button,
-  .admin-dashboard__spinner {
+  .dashboard__spinner {
     transition: none !important;
     animation: none !important;
   }

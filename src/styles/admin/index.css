@@ -9,13 +9,11 @@
 @import './header.css';
 @import './navigation.css';
 @import './main.css';
-@import './dashboard.css';
 @import './responsive.css';
-@import './transitions.css';
 @import './transitions.css';
 
 /* 🎨 FEATURE SPECIFIC STYLES */
-@import '../../features/dashboard/styles/admin-dashboard.css';
+@import '../features/dashboard/styles/dashboard.css';
 
 /* 🎨 ADMIN THEME INTEGRATION */
 .admin-theme {

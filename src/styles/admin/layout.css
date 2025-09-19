@@ -16,6 +16,9 @@
   position: relative;
   transition: grid-template-columns var(--admin-transition-normal);
   background: var(--admin-bg-secondary);
+  /* Ensure admin layout always has proper background */
+  isolation: isolate;
+  z-index: 1;
 }
 
 /* 🎯 GRID AREAS */
@@ -331,6 +334,20 @@
 
 .admin-skip-link:focus {
   top: 6px;
+}
+
+/* 🚫 PREVENT GLOBAL TRANSITIONS ON ADMIN ROUTES */
+.admin-layout,
+.admin-layout * {
+  /* Override any global page transitions */
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, width, height, margin, padding !important;
+}
+
+/* Ensure admin layout is always visible and stable */
+.admin-layout {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
 }
 
 /* 🔧 UTILITY CLASSES */
